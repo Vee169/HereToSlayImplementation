@@ -31,7 +31,7 @@
             components = new System.ComponentModel.Container();
             PlayerListBox = new ListBox();
             StartButton = new Button();
-            CountDownLabel = new Label();
+            CountdownLabel = new Label();
             GameIDLabel = new Label();
             ReadyTimer = new System.Windows.Forms.Timer(components);
             CountdownTimer = new System.Windows.Forms.Timer(components);
@@ -62,17 +62,18 @@
             StartButton.TabIndex = 1;
             StartButton.Text = "Start";
             StartButton.UseVisualStyleBackColor = false;
+            StartButton.Click += StartButton_Click;
             // 
-            // CountDownLabel
+            // CountdownLabel
             // 
-            CountDownLabel.AutoSize = true;
-            CountDownLabel.Font = new Font("Segoe UI", 30F);
-            CountDownLabel.ForeColor = SystemColors.ButtonHighlight;
-            CountDownLabel.Location = new Point(235, 506);
-            CountDownLabel.Name = "CountDownLabel";
-            CountDownLabel.Size = new Size(45, 54);
-            CountDownLabel.TabIndex = 2;
-            CountDownLabel.Text = "5";
+            CountdownLabel.AutoSize = true;
+            CountdownLabel.Font = new Font("Segoe UI", 30F);
+            CountdownLabel.ForeColor = SystemColors.ButtonHighlight;
+            CountdownLabel.Location = new Point(235, 506);
+            CountdownLabel.Name = "CountdownLabel";
+            CountdownLabel.Size = new Size(45, 54);
+            CountdownLabel.TabIndex = 2;
+            CountdownLabel.Text = "5";
             // 
             // GameIDLabel
             // 
@@ -89,14 +90,17 @@
             // 
             ReadyTimer.Enabled = true;
             ReadyTimer.Interval = 5000;
+            ReadyTimer.Tick += ReadyTimer_Tick;
             // 
             // CountdownTimer
             // 
             CountdownTimer.Interval = 5000;
+            CountdownTimer.Tick += CountdownTimer_Tick;
             // 
             // SecondTimer
             // 
             SecondTimer.Interval = 1000;
+            SecondTimer.Tick += SecondTimer_Tick;
             // 
             // Form2
             // 
@@ -105,7 +109,7 @@
             BackColor = Color.Gray;
             ClientSize = new Size(1472, 650);
             Controls.Add(GameIDLabel);
-            Controls.Add(CountDownLabel);
+            Controls.Add(CountdownLabel);
             Controls.Add(StartButton);
             Controls.Add(PlayerListBox);
             Name = "Form2";
@@ -119,7 +123,7 @@
 
         private ListBox PlayerListBox;
         private Button StartButton;
-        private Label CountDownLabel;
+        private Label CountdownLabel;
         private Label GameIDLabel;
         private System.Windows.Forms.Timer ReadyTimer;
         private System.Windows.Forms.Timer CountdownTimer;
