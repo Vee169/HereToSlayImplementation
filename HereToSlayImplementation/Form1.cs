@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using Microsoft.Data.SqlClient;
+//using Microsoft.Data.SqlClient;
 using Microsoft.Identity.Client;
 using Azure.Core;
 using System.Security.Cryptography.Xml;
+using Microsoft.EntityFrameworkCore;
 namespace HereToSlayImplementation
 
 {
@@ -30,6 +31,8 @@ namespace HereToSlayImplementation
             private int GameID;
             private Button[] party;
             private bool player1;
+
+
 
             public Player(string u, int p, int g = -1, bool player1 = false)
             {
