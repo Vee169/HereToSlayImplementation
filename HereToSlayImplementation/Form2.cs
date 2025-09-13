@@ -28,8 +28,8 @@ namespace HereToSlayImplementation
             ReadyTimer.Start();
             ReadyTimer.Tick += ReadyTimer_Tick;
             sqlConnection = new SqlConnection(CONNECT);
-            //Updateplayers();
-            //GameIDLabel.Text += Form2.instance.player.GetGameID();
+            Updateplayers();
+            GameIDLabel.Text += Form1.instance.player.GetGameID();
             StartButton.Hide();
             Seconds = 5;
             StartButtonClicked = false;
@@ -88,7 +88,7 @@ namespace HereToSlayImplementation
                     sqlConnection.Close();
                 }
             }
-            //Updateplayers();
+            Updateplayers();
             StartButton.Show();
         }
 
