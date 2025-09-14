@@ -47,20 +47,20 @@
             MonsterButton1 = new Button();
             DiscardButton = new Button();
             ItemEffectButton1 = new Button();
-            this.CardButton6 = new Button();
-            ItemEffectButton6 = new Button();
-            this.CardButton5 = new Button();
             ItemEffectButton5 = new Button();
             CardButton3 = new Button();
-            this.ItemEffectButton3 = new Button();
             CardButton4 = new Button();
-            this.ItemEffectButton4 = new Button();
             CardButton2 = new Button();
             ItemEffectButton2 = new Button();
             PartyLabelTextBox = new TextBox();
             HandLabelTextBox = new TextBox();
             PartySelectorLabelTextBox = new TextBox();
             PartySelectorListBox = new ListBox();
+            ItemEffectButton6 = new Button();
+            ItemEffectButton4 = new Button();
+            ItemEffectButton3 = new Button();
+            CardButton5 = new Button();
+            CardButton6 = new Button();
             SuspendLayout();
             // 
             // PartyLeaderButton
@@ -262,51 +262,18 @@
             // 
             ItemEffectButton1.BackColor = Color.DarkGray;
             ItemEffectButton1.ForeColor = SystemColors.ButtonHighlight;
-            ItemEffectButton1.Location = new Point(283, 583);
+            ItemEffectButton1.Location = new Point(281, 583);
             ItemEffectButton1.Name = "ItemEffectButton1";
             ItemEffectButton1.Size = new Size(196, 48);
             ItemEffectButton1.TabIndex = 22;
             ItemEffectButton1.Text = "ItemEffect";
             ItemEffectButton1.UseVisualStyleBackColor = false;
             // 
-            // CardButton6
-            // 
-            this.CardButton6.BackColor = Color.DarkGray;
-            this.CardButton6.ForeColor = SystemColors.ButtonHighlight;
-            this.CardButton6.Location = new Point(1296, 339);
-            this.CardButton6.Name = "CardButton6";
-            this.CardButton6.Size = new Size(197, 253);
-            this.CardButton6.TabIndex = 23;
-            this.CardButton6.Text = "Card";
-            this.CardButton6.UseVisualStyleBackColor = false;
-            // 
-            // ItemEffectButton6
-            // 
-            ItemEffectButton6.BackColor = Color.DarkGray;
-            ItemEffectButton6.ForeColor = SystemColors.ButtonHighlight;
-            ItemEffectButton6.Location = new Point(1298, 583);
-            ItemEffectButton6.Name = "ItemEffectButton6";
-            ItemEffectButton6.Size = new Size(196, 48);
-            ItemEffectButton6.TabIndex = 24;
-            ItemEffectButton6.Text = "ItemEffect";
-            ItemEffectButton6.UseVisualStyleBackColor = false;
-            // 
-            // CardButton5
-            // 
-            this.CardButton5.BackColor = Color.DarkGray;
-            this.CardButton5.ForeColor = SystemColors.ButtonHighlight;
-            this.CardButton5.Location = new Point(1093, 339);
-            this.CardButton5.Name = "CardButton5";
-            this.CardButton5.Size = new Size(197, 253);
-            this.CardButton5.TabIndex = 27;
-            this.CardButton5.Text = "Card";
-            this.CardButton5.UseVisualStyleBackColor = false;
-            // 
             // ItemEffectButton5
             // 
             ItemEffectButton5.BackColor = Color.DarkGray;
             ItemEffectButton5.ForeColor = SystemColors.ButtonHighlight;
-            ItemEffectButton5.Location = new Point(1093, 582);
+            ItemEffectButton5.Location = new Point(1092, 582);
             ItemEffectButton5.Name = "ItemEffectButton5";
             ItemEffectButton5.Size = new Size(196, 48);
             ItemEffectButton5.TabIndex = 28;
@@ -324,38 +291,16 @@
             CardButton3.Text = "Card";
             CardButton3.UseVisualStyleBackColor = false;
             // 
-            // ItemEffectButton3
-            // 
-            this.ItemEffectButton3.BackColor = Color.DarkGray;
-            this.ItemEffectButton3.ForeColor = SystemColors.ButtonHighlight;
-            this.ItemEffectButton3.Location = new Point(688, 583);
-            this.ItemEffectButton3.Name = "ItemEffectButton3";
-            this.ItemEffectButton3.Size = new Size(196, 48);
-            this.ItemEffectButton3.TabIndex = 30;
-            this.ItemEffectButton3.Text = "ItemEffect";
-            this.ItemEffectButton3.UseVisualStyleBackColor = false;
-            // 
             // CardButton4
             // 
             CardButton4.BackColor = Color.DarkGray;
             CardButton4.ForeColor = SystemColors.ButtonHighlight;
-            CardButton4.Location = new Point(890, 339);
+            CardButton4.Location = new Point(889, 339);
             CardButton4.Name = "CardButton4";
             CardButton4.Size = new Size(197, 253);
             CardButton4.TabIndex = 31;
             CardButton4.Text = "Card";
             CardButton4.UseVisualStyleBackColor = false;
-            // 
-            // ItemEffectButton4
-            // 
-            this.ItemEffectButton4.BackColor = Color.DarkGray;
-            this.ItemEffectButton4.ForeColor = SystemColors.ButtonHighlight;
-            this.ItemEffectButton4.Location = new Point(891, 583);
-            this.ItemEffectButton4.Name = "ItemEffectButton4";
-            this.ItemEffectButton4.Size = new Size(196, 48);
-            this.ItemEffectButton4.TabIndex = 32;
-            this.ItemEffectButton4.Text = "ItemEffect";
-            this.ItemEffectButton4.UseVisualStyleBackColor = false;
             // 
             // CardButton2
             // 
@@ -367,12 +312,13 @@
             CardButton2.TabIndex = 33;
             CardButton2.Text = "Card";
             CardButton2.UseVisualStyleBackColor = false;
+            CardButton2.Click += CardButton2_Click;
             // 
             // ItemEffectButton2
             // 
             ItemEffectButton2.BackColor = Color.DarkGray;
             ItemEffectButton2.ForeColor = SystemColors.ButtonHighlight;
-            ItemEffectButton2.Location = new Point(485, 583);
+            ItemEffectButton2.Location = new Point(483, 583);
             ItemEffectButton2.Name = "ItemEffectButton2";
             ItemEffectButton2.Size = new Size(196, 48);
             ItemEffectButton2.TabIndex = 34;
@@ -424,12 +370,70 @@
             PartySelectorListBox.Size = new Size(153, 75);
             PartySelectorListBox.TabIndex = 38;
             // 
+            // ItemEffectButton6
+            // 
+            ItemEffectButton6.BackColor = Color.DarkGray;
+            ItemEffectButton6.ForeColor = SystemColors.ButtonHighlight;
+            ItemEffectButton6.Location = new Point(1295, 583);
+            ItemEffectButton6.Name = "ItemEffectButton6";
+            ItemEffectButton6.Size = new Size(196, 48);
+            ItemEffectButton6.TabIndex = 39;
+            ItemEffectButton6.Text = "ItemEffect";
+            ItemEffectButton6.UseVisualStyleBackColor = false;
+            // 
+            // ItemEffectButton4
+            // 
+            ItemEffectButton4.BackColor = Color.DarkGray;
+            ItemEffectButton4.ForeColor = SystemColors.ButtonHighlight;
+            ItemEffectButton4.Location = new Point(889, 582);
+            ItemEffectButton4.Name = "ItemEffectButton4";
+            ItemEffectButton4.Size = new Size(196, 48);
+            ItemEffectButton4.TabIndex = 40;
+            ItemEffectButton4.Text = "ItemEffect";
+            ItemEffectButton4.UseVisualStyleBackColor = false;
+            // 
+            // ItemEffectButton3
+            // 
+            ItemEffectButton3.BackColor = Color.DarkGray;
+            ItemEffectButton3.ForeColor = SystemColors.ButtonHighlight;
+            ItemEffectButton3.Location = new Point(686, 583);
+            ItemEffectButton3.Name = "ItemEffectButton3";
+            ItemEffectButton3.Size = new Size(196, 48);
+            ItemEffectButton3.TabIndex = 41;
+            ItemEffectButton3.Text = "ItemEffect";
+            ItemEffectButton3.UseVisualStyleBackColor = false;
+            // 
+            // CardButton5
+            // 
+            CardButton5.BackColor = Color.DarkGray;
+            CardButton5.ForeColor = SystemColors.ButtonHighlight;
+            CardButton5.Location = new Point(1092, 339);
+            CardButton5.Name = "CardButton5";
+            CardButton5.Size = new Size(197, 253);
+            CardButton5.TabIndex = 42;
+            CardButton5.Text = "Card";
+            CardButton5.UseVisualStyleBackColor = false;
+            // 
+            // CardButton6
+            // 
+            CardButton6.BackColor = Color.DarkGray;
+            CardButton6.ForeColor = SystemColors.ButtonHighlight;
+            CardButton6.Location = new Point(1295, 339);
+            CardButton6.Name = "CardButton6";
+            CardButton6.Size = new Size(197, 253);
+            CardButton6.TabIndex = 43;
+            CardButton6.Text = "Card";
+            CardButton6.UseVisualStyleBackColor = false;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1778, 861);
+            Controls.Add(CardButton6);
+            Controls.Add(CardButton5);
+            Controls.Add(ItemEffectButton6);
             Controls.Add(PartySelectorListBox);
             Controls.Add(PartySelectorLabelTextBox);
             Controls.Add(HandLabelTextBox);
@@ -437,13 +441,8 @@
             Controls.Add(CardButton2);
             Controls.Add(ItemEffectButton2);
             Controls.Add(CardButton4);
-            Controls.Add(this.ItemEffectButton4);
             Controls.Add(CardButton3);
-            Controls.Add(this.ItemEffectButton3);
-            Controls.Add(this.CardButton5);
             Controls.Add(ItemEffectButton5);
-            Controls.Add(this.CardButton6);
-            Controls.Add(ItemEffectButton6);
             Controls.Add(CardButton1);
             Controls.Add(ItemEffectButton1);
             Controls.Add(DiscardButton);
@@ -463,6 +462,8 @@
             Controls.Add(SlainMonster1Button);
             Controls.Add(SlainMonster2Button);
             Controls.Add(SlainMonster3Button);
+            Controls.Add(ItemEffectButton3);
+            Controls.Add(ItemEffectButton4);
             Name = "Form3";
             Text = "Form3";
             ResumeLayout(false);
@@ -491,7 +492,6 @@
         private Button DiscardButton;
         private Button ItemEffectButton1;
         private Button button1;
-        private Button ItemEffectButton6;
         private Button button3;
         private Button button4;
         private Button button5;
@@ -506,5 +506,10 @@
         private TextBox HandLabelTextBox;
         private TextBox PartySelectorLabelTextBox;
         private ListBox PartySelectorListBox;
+        private Button ItemEffectButton6;
+        private Button ItemEffectButton4;
+        private Button ItemEffectButton3;
+        private Button CardButton5;
+        private Button CardButton6;
     }
 }

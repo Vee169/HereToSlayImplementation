@@ -237,12 +237,34 @@ namespace HereToSlayImplementation
                         }
                     }
                 }
-
-                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID2 = {player.GetplayerID()} WHERE GameID = {player.GetGameID()} \nUPDATE Player SET GameIDfkp = {player.GetGameID()} WHERE playerID = {player.GetplayerID()}", sqlConnection);
-                command2.ExecuteNonQuery();
-                sqlConnection.Close();
-                this.Close();
-                new Form2().ShowDialog();
+                
+                SqlCommand command3 = new SqlCommand($"SELECT * FROM Games WHERE GameID = {value}", sqlConnection);
+                using(SqlDataReader reader = command3.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        for (int i = 1; i < 6; i++)
+                        {
+                            if (reader.IsDBNull(i))
+                            {
+                                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {player.GetplayerID()} WHERE GameID = {player.GetGameID()} \nUPDATE Player SET GameIDfkp = {player.GetGameID()} WHERE playerID = {player.GetplayerID()}", sqlConnection);
+                                command2.ExecuteNonQuery();
+                                NotInAGame = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (NotInAGame)
+                {
+                    JoinWarningTextBox.Text = "The game you have tried to join is already full";
+                }
+                else
+                {
+                    sqlConnection.Close();
+                    this.Close();
+                    new Form2().ShowDialog();
+                }
             }
         }
     }
