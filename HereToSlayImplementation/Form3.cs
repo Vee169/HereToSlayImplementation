@@ -144,6 +144,7 @@ namespace HereToSlayImplementation
             {
                 effect = e;
                 HeroClass = hc;
+                Size = new Size(379, 707);
             }
         }
 
