@@ -85,7 +85,7 @@ namespace HereToSlayImplementation
                 return player1;
             }
 
-            public void setPlayer1(bool x)
+            public void SetPlayer1(bool x)
             {
                 player1 = x;
             }
@@ -150,7 +150,7 @@ namespace HereToSlayImplementation
             EncryptedPassword = PasswordTextBox.Text;
             if (!loggedin)
             {
-                if (!(UsernameTextBox.Text.Contains(" ") || PasswordTextBox.Text.Contains(" ")))
+                if (!(UsernameTextBox.Text.Contains(' ') || PasswordTextBox.Text.Contains(' ')))
                 {
 
 
@@ -218,7 +218,7 @@ namespace HereToSlayImplementation
             SqlCommand command3 = new SqlCommand($"UPDATE Player SET GameIDfkp = {player.GetGameID()} WHERE playerID = {player.GetplayerID()}", sqlConnection);
             command3.ExecuteNonQuery();
             sqlConnection.Close();
-            player.setPlayer1(true);
+            player.SetPlayer1(true);
 
             this.Close();
             new Form2().ShowDialog();
@@ -226,7 +226,7 @@ namespace HereToSlayImplementation
 
         private void JoinButton_Click(object sender, EventArgs e)
         {
-            JoinTextBox.Text.Trim();
+            JoinTextBox.Text = JoinTextBox.Text.Trim();
             JoinWarningTextBox.Text = null;
             bool NotInAGame = true;
             if (JoinTextBox.Text == null)

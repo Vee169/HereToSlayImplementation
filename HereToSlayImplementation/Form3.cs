@@ -32,7 +32,7 @@ namespace HereToSlayImplementation
             bard
         }
 
-        public int RollDie()
+        public static int RollDie()
         {
             Random rand = new Random();
 

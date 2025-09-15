@@ -96,6 +96,7 @@ namespace HereToSlayImplementation
         {
             sqlConnection.Open();
             SqlCommand cmd = new SqlCommand($"UPDATE Games SET GameStart = 1 WHERE GameID = {Form1.instance1.player.GetGameID()}", sqlConnection);
+            cmd.ExecuteNonQuery();
             sqlConnection.Close();
             StartButtonClicked = true;
             CountdownTimer.Enabled = true;
