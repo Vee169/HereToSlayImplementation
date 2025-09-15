@@ -18,28 +18,45 @@ namespace HereToSlayImplementation
 {
     public partial class Form1 : Form
     {
-        static public Form1 instance;
+        static public Form1 instance1;
         static public SqlConnection sqlConnection;
         public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
         public Player player;
         public string EncryptedPassword;
+
+        public class Card : Button
+        {
+            protected string cardName;
+            public Card(string cardName)
+            {
+                this.cardName = cardName;
+                Size = new Size(281, 422);
+            }
+
+            public string GetCardName()
+            {
+                return cardName;
+            }
+        }
+
         public class Player
         {
             private string Username;
             private int playerID;
             private int GameID;
-            private Button[] party;
+            private Card[] party;
             private bool player1;
 
 
+            
 
             public Player(string u, int p, int g = -1, bool player1 = false)
             {
                 Username = u;
                 playerID = p;
                 GameID = g;
-                party = new Button[3];
+                party = new Card[6];
                 this.player1 = player1;
             }
 

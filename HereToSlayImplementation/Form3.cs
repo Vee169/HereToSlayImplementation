@@ -13,8 +13,10 @@ namespace HereToSlayImplementation
 {
     public partial class Form3 : Form
     {
+        static public Form3 instance;
         public Form3()
         {
+            instance = this;
             InitializeComponent();
         }
 
@@ -28,27 +30,14 @@ namespace HereToSlayImplementation
             bard
         }
 
-        public class Card
-        {
-            protected string cardName;
-            public Card(string cardName)
-            {
-                this.cardName = cardName;
-            }
-
-            public string GetCardName()
-            {
-                return cardName;
-            }
-        }
-
-        public class HeroCard : Card
+        
+        public class HeroCard : Form1.Card
         {
             private HeroClass Class;
             private int _requiredroll;
             private int RequiredRoll
             {
-                get { return _requiredroll; } 
+                get { return _requiredroll; }
                 set
                 {
                     if (value > 12)
@@ -85,9 +74,14 @@ namespace HereToSlayImplementation
             }
 
         }
-        
-        
+
+
         private void CardButton2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form3_Load(object sender, EventArgs e)
         {
 
         }
