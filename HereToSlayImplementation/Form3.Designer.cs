@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             PartyLeaderButton = new Button();
             SlainMonster1Button = new Button();
             SlainMonster2Button = new Button();
@@ -61,6 +62,8 @@
             ItemEffectButton3 = new Button();
             CardButton5 = new Button();
             CardButton6 = new Button();
+            DieTimer = new System.Windows.Forms.Timer(components);
+            FullDieTimer = new System.Windows.Forms.Timer(components);
             SuspendLayout();
             // 
             // PartyLeaderButton
@@ -458,6 +461,11 @@
             CardButton6.Text = "Card";
             CardButton6.UseVisualStyleBackColor = false;
             // 
+            // FullDieTimer
+            // 
+            FullDieTimer.Interval = 3000;
+            FullDieTimer.Tick += FullDieTimer_Tick;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -546,5 +554,7 @@
         private Button ItemEffectButton3;
         private Button CardButton5;
         private Button CardButton6;
+        private System.Windows.Forms.Timer DieTimer;
+        private System.Windows.Forms.Timer FullDieTimer;
     }
 }

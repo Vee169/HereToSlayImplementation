@@ -28,7 +28,7 @@ namespace HereToSlayImplementation
         public class Card : Button
         {
             protected string cardName;
-            public Card(string cardName)
+            public Card(string cardName = "")
             {
                 this.cardName = cardName;
                 Size = new Size(281, 422);
@@ -95,7 +95,7 @@ namespace HereToSlayImplementation
                 return party;
             }
 
-            public void SetParty(Button[] x)
+            public void SetParty(Card[] x)
             {
                 party = x;
             }
@@ -104,7 +104,7 @@ namespace HereToSlayImplementation
         {
             InitializeComponent();
             sqlConnection = new SqlConnection(CONNECT);
-            instance = this;
+            instance1 = this;
         }
 
         private void LoginButton_Click(object sender, EventArgs e)
