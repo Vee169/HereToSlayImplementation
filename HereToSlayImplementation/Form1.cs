@@ -46,18 +46,18 @@ namespace HereToSlayImplementation
             private int playerID;
             private int GameID;
             private Card[] party;
-            private bool player1;
+            private int playerNumber;
 
 
             
 
-            public Player(string u, int p, int g = -1, bool player1 = false)
+            public Player(string u, int p, int g = -1, int pn = 0)
             {
                 Username = u;
                 playerID = p;
                 GameID = g;
                 party = new Card[6];
-                this.player1 = player1;
+                this.playerNumber = pn;
             }
 
             public string GetUsername()
@@ -80,14 +80,14 @@ namespace HereToSlayImplementation
                 GameID = x;
             }
 
-            public bool IsPlayer1()
+            public int GetPlayerNumber()
             {
-                return player1;
+                return playerNumber;
             }
 
-            public void SetPlayer1(bool x)
+            public void SetPlayerNumber(int x)
             {
-                player1 = x;
+                playerNumber = x;
             }
 
             public Button[] GetParty()

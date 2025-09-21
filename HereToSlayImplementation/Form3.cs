@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -39,6 +40,29 @@ namespace HereToSlayImplementation
             return rand.Next(1, 7) + rand.Next(1, 7);
         }
 
+        public class Game
+        {
+            private Form1.Player player1;
+            private Form1.Player player2;
+            private Form1.Player player3;
+            private Form1.Player player4;
+            private Form1.Player player5;
+            private Form1.Player player6;
+            private List<Form1.Card> Discard;
+            private List<Form1.Card> Deck;
+
+            public Game(Form1.Player player1, Form1.Player player2, List<Form1.Card> discard, List<Form1.Card> deck,  Form1.Player player3 = null, Form1.Player player4 = null, Form1.Player player5 = null, Form1.Player player6 = null)
+            {
+                this.player1 = player1;
+                this.player2 = player2;
+                this.player3 = player3;
+                this.player4 = player4;
+                this.player5 = player5;
+                this.player6 = player6;
+                Discard = discard;
+                Deck = deck;
+            }
+        }
 
         public class HeroCard : Form1.Card
         {
