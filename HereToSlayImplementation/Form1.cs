@@ -218,7 +218,7 @@ namespace HereToSlayImplementation
             SqlCommand command3 = new SqlCommand($"UPDATE Player SET GameIDfkp = {player.GetGameID()} WHERE playerID = {player.GetplayerID()}", sqlConnection);
             command3.ExecuteNonQuery();
             sqlConnection.Close();
-            player.SetPlayer1(true);
+            player.SetPlayerNumber(1);
 
             this.Close();
             new Form2().ShowDialog();
@@ -267,6 +267,7 @@ namespace HereToSlayImplementation
                                 SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {player.GetplayerID()} WHERE GameID = {player.GetGameID()} \nUPDATE Player SET GameIDfkp = {player.GetGameID()} WHERE playerID = {player.GetplayerID()}", sqlConnection);
                                 command2.ExecuteNonQuery();
                                 NotInAGame = false;
+                                Form1.instance1.player.SetPlayerNumber(i);
                                 break;
                             }
                         }

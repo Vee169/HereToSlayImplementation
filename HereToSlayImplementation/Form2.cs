@@ -63,7 +63,7 @@ namespace HereToSlayImplementation
             {
                 ReadyTimer.Enabled = false;
                 ReadyTimer.Stop();
-                if (Form1.instance1.player.IsPlayer1())
+                if (Form1.instance1.player.GetPlayerNumber() == 1)
                 {
                     StartButton.Show();
                 }
