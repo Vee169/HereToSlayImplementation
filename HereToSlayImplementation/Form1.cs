@@ -20,9 +20,10 @@ namespace HereToSlayImplementation
     {
         static public Form1 instance1;
         static public SqlConnection sqlConnection;
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
-        public Player player;
+        public Player thisPlayer;
         public string EncryptedPassword;
 
         public class Card : Button
@@ -47,9 +48,31 @@ namespace HereToSlayImplementation
             private int GameID;
             private Card[] party;
             private int playerNumber;
+            private List<Card> Hand;
+            private int _actionpoints;
+            private int actionPoints
+            {
+                get { return _actionpoints; }
+                set
+                {
+                    if (value > 3)
+                    {
+                        _actionpoints = 3;
+                    }
+                    else if (value < 0)
+                    {
+                        _actionpoints = 0;
+                    }
+                    else
+                    {
+                        _actionpoints = value;
+                    }
+                }
+            }
 
 
-            
+
+
 
             public Player(string u, int p, int g = -1, int pn = 0)
             {
@@ -58,6 +81,8 @@ namespace HereToSlayImplementation
                 GameID = g;
                 party = new Card[6];
                 this.playerNumber = pn;
+                Hand = new List<Card>();
+                actionPoints = 3;
             }
 
             public string GetUsername()
@@ -99,6 +124,24 @@ namespace HereToSlayImplementation
             {
                 party = x;
             }
+
+            public int GetActionPoints()
+            {
+                return actionPoints;
+            }
+
+            public void LoseActionsPoints(int x)
+            {
+                actionPoints -= x;
+            }
+            public void ResetActionsPoints()
+            {
+                actionPoints = 3;
+            }
+            public void AddCardToHand(Card card)
+            {
+                Hand.Add(card);
+            }
         }
         public Form1()
         {
@@ -126,7 +169,7 @@ namespace HereToSlayImplementation
                         HostButton.Show();
                         JoinButton.Show();
                         JoinTextBox.Show();
-                        player = new Player(UsernameTextBox.Text, reader.GetInt32(1));
+                        thisPlayer = new Player(UsernameTextBox.Text, reader.GetInt32(1));
                         UsernameTextBox.Text = PasswordTextBox.Text = "";
 
                     }
@@ -185,7 +228,7 @@ namespace HereToSlayImplementation
                         {
                             if (reader.Read())
                             {
-                                player = new Player(UsernameTextBox.Text, reader.GetInt32(1));
+                                thisPlayer = new Player(UsernameTextBox.Text, reader.GetInt32(1));
                             }
                         }
                     }
@@ -203,22 +246,22 @@ namespace HereToSlayImplementation
         private void HostButton_Click(object sender, EventArgs e)
         {
             sqlConnection.Open();
-            SqlCommand command = new SqlCommand($"INSERT INTO Games (PlayerID1) VALUES ({player.GetplayerID()})", sqlConnection);
+            SqlCommand command = new SqlCommand($"INSERT INTO Games (PlayerID1) VALUES ({thisPlayer.GetplayerID()})", sqlConnection);
             command.ExecuteNonQuery();
 
-            SqlCommand command2 = new SqlCommand($"SELECT GameID FROM Games WHERE PlayerID1 = {player.GetplayerID()}", sqlConnection);
+            SqlCommand command2 = new SqlCommand($"SELECT GameID FROM Games WHERE PlayerID1 = {thisPlayer.GetplayerID()}", sqlConnection);
             using (SqlDataReader reader = command2.ExecuteReader())
             {
                 if (reader.Read())
                 {
-                    player.SetGameID(reader.GetInt32(0));
+                    thisPlayer.SetGameID(reader.GetInt32(0));
                 }
             }
 
-            SqlCommand command3 = new SqlCommand($"UPDATE Player SET GameIDfkp = {player.GetGameID()} WHERE playerID = {player.GetplayerID()}", sqlConnection);
+            SqlCommand command3 = new SqlCommand($"UPDATE Player SET GameIDfkp = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
             command3.ExecuteNonQuery();
             sqlConnection.Close();
-            player.SetPlayerNumber(1);
+            thisPlayer.SetPlayerNumber(1);
 
             this.Close();
             new Form2().ShowDialog();
@@ -242,14 +285,14 @@ namespace HereToSlayImplementation
                 {
                     if (reader.Read())
                     {
-                        if (reader.GetInt32(1) != player.GetplayerID())
+                        if (reader.GetInt32(1) != thisPlayer.GetplayerID())
                         {
-                            player.SetGameID(value);
+                            thisPlayer.SetGameID(value);
                         }
                         else
                         {
                             NotInAGame = false;
-                            SqlCommand command = new SqlCommand($"DELETE Games WHERE PlayerID1 = {player.GetplayerID()}", sqlConnection);
+                            SqlCommand command = new SqlCommand($"DELETE Games WHERE PlayerID1 = {thisPlayer.GetplayerID()}", sqlConnection);
                             JoinWarningTextBox.Text = "Youre account was hosting a game, That game has been terminated please try again";
                         }
                     }
@@ -264,10 +307,10 @@ namespace HereToSlayImplementation
                         {
                             if (reader.IsDBNull(i))
                             {
-                                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {player.GetplayerID()} WHERE GameID = {player.GetGameID()} \nUPDATE Player SET GameIDfkp = {player.GetGameID()} WHERE playerID = {player.GetplayerID()}", sqlConnection);
+                                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {thisPlayer   .GetplayerID()} WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfkp = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
                                 command2.ExecuteNonQuery();
                                 NotInAGame = false;
-                                Form1.instance1.player.SetPlayerNumber(i);
+                                Form1.instance1.thisPlayer.SetPlayerNumber(i);
                                 break;
                             }
                         }

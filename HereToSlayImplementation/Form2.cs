@@ -14,7 +14,8 @@ namespace HereToSlayImplementation
     public partial class Form2 : Form
     {
         static public SqlConnection sqlConnection;
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlay.mdf\";Integrated Security=True;Connect Timeout=30";
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlayDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase\"; Integrated Security=True;Connect Timeout=30";
         Form2 instance;
         public System.Windows.Forms.Timer timer;
         int Seconds;
@@ -29,7 +30,7 @@ namespace HereToSlayImplementation
             ReadyTimer.Tick += ReadyTimer_Tick;
             sqlConnection = new SqlConnection(CONNECT);
             Updateplayers();
-            GameIDLabel.Text += Form1.instance1.player.GetGameID();
+            GameIDLabel.Text += Form1.instance1.thisPlayer.GetGameID();
             StartButton.Hide();
             Seconds = 5;
             StartButtonClicked = false;
@@ -38,7 +39,7 @@ namespace HereToSlayImplementation
         public void Updateplayers()
         {
             sqlConnection.Open();
-            SqlCommand command = new SqlCommand($"SELECT Username FROM Games, Player WHERE Games.GameID = {Form1.instance1.player.GetGameID()} AND Games.GameID = Player.GameIDfkp", sqlConnection);
+            SqlCommand command = new SqlCommand($"SELECT Username FROM Games, Player WHERE Games.GameID = {Form1.instance1.thisPlayer.GetGameID()} AND Games.GameID = Player.GameIDfkp", sqlConnection);
             using (SqlDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
@@ -63,14 +64,14 @@ namespace HereToSlayImplementation
             {
                 ReadyTimer.Enabled = false;
                 ReadyTimer.Stop();
-                if (Form1.instance1.player.GetPlayerNumber() == 1)
+                if (Form1.instance1.thisPlayer.GetPlayerNumber() == 1)
                 {
                     StartButton.Show();
                 }
                 else
                 {
                     sqlConnection.Open();
-                    SqlCommand cmd = new SqlCommand($"SELECT GameStart FROM Games WHERE GameID = {Form1.instance1.player.GetGameID()}", sqlConnection);
+                    SqlCommand cmd = new SqlCommand($"SELECT GameStart FROM Games WHERE GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
@@ -95,7 +96,7 @@ namespace HereToSlayImplementation
         private void StartButton_Click(object sender, EventArgs e)
         {
             sqlConnection.Open();
-            SqlCommand cmd = new SqlCommand($"UPDATE Games SET GameStart = 1 WHERE GameID = {Form1.instance1.player.GetGameID()}", sqlConnection);
+            SqlCommand cmd = new SqlCommand($"UPDATE Games SET GameStart = 1 WHERE GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
             StartButtonClicked = true;

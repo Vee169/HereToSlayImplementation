@@ -9,6 +9,7 @@ using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace HereToSlayImplementation
 {
@@ -16,11 +17,44 @@ namespace HereToSlayImplementation
     {
         static public Form3 instance;
         public System.Windows.Forms.Timer timer;
+        static public SqlConnection sqlConnection;
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlayDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase\"; Integrated Security=True;Connect Timeout=30";
+        Game game;
         public Form3()
         {
             instance = this;
 
             InitializeComponent();
+            sqlConnection = new SqlConnection(CONNECT);
+            sqlConnection.Open();
+            Form1.Player[] players = new Form1.Player[6];
+            
+            for (int i = 0; i < 6; i++)
+            {
+                
+                if (i != Form1.instance1.thisPlayer.GetPlayerNumber())
+                {
+                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.Player{i} = Player.playerID", sqlConnection);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.GetString(1) != null)
+                        {
+                            players[i] = new Form1.Player(reader.GetString(1), reader.GetInt32(0));
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    players[i] = Form1.instance1.thisPlayer;
+                }
+            }
+            sqlConnection.Close();
+            game = new Game(players);
         }
 
         public enum HeroClass
@@ -33,34 +67,24 @@ namespace HereToSlayImplementation
             bard
         }
 
-        public static int RollDie()
-        {
-            Random rand = new Random();
-
-            return rand.Next(1, 7) + rand.Next(1, 7);
-        }
-
         public class Game
         {
-            private Form1.Player player1;
-            private Form1.Player player2;
-            private Form1.Player player3;
-            private Form1.Player player4;
-            private Form1.Player player5;
-            private Form1.Player player6;
+            private Form1.Player[] players;
             private List<Form1.Card> Discard;
             private List<Form1.Card> Deck;
 
-            public Game(Form1.Player player1, Form1.Player player2, List<Form1.Card> discard, List<Form1.Card> deck,  Form1.Player player3 = null, Form1.Player player4 = null, Form1.Player player5 = null, Form1.Player player6 = null)
+            public Game(Form1.Player[] p)
             {
-                this.player1 = player1;
-                this.player2 = player2;
-                this.player3 = player3;
-                this.player4 = player4;
-                this.player5 = player5;
-                this.player6 = player6;
-                Discard = discard;
-                Deck = deck;
+                players = p;
+                Discard = new List<Form1.Card>();
+                Deck = new List<Form1.Card>();
+            }
+
+            public void DrawACard(int x)
+            {
+                Random rnd = new Random();
+                players[x].AddCardToHand(Deck[rnd.Next(Deck.Count - 1)]);
+                players[x].LoseActionsPoints(1);
             }
         }
 
