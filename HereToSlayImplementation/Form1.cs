@@ -13,6 +13,7 @@ using Microsoft.Identity.Client;
 using Azure.Core;
 using System.Security.Cryptography.Xml;
 using Microsoft.EntityFrameworkCore;
+using System.CodeDom;
 namespace HereToSlayImplementation
 
 {
@@ -149,6 +150,10 @@ namespace HereToSlayImplementation
             InitializeComponent();
             sqlConnection = new SqlConnection(CONNECT);
             instance1 = this;
+            HostButton.Hide();
+            JoinButton.Hide();
+            JoinTextBox.Hide();
+            
         }
 
         private void LoginButton_Click(object sender, EventArgs e)
@@ -172,6 +177,12 @@ namespace HereToSlayImplementation
                         JoinTextBox.Show();
                         thisPlayer = new Player(UsernameTextBox.Text, reader.GetInt32(1));
                         UsernameTextBox.Text = PasswordTextBox.Text = "";
+                        UsernameLabel.Hide();
+                        UsernameTextBox.Hide();
+                        LoginButton.Hide();
+                        PasswordLabel.Hide();
+                        PasswordTextBox.Hide();
+                        SignUpButton.Hide();
 
                     }
                     else
@@ -211,6 +222,12 @@ namespace HereToSlayImplementation
                             HostButton.Show();
                             JoinButton.Show();
                             JoinTextBox.Show();
+                            UsernameLabel.Hide();
+                            UsernameLabel.Hide();
+                            LoginButton.Hide();
+                            PasswordLabel.Hide();
+                            PasswordTextBox.Hide();
+                            SignUpButton.Hide();
                         }
                         else
                         {
@@ -264,7 +281,7 @@ namespace HereToSlayImplementation
             sqlConnection.Close();
             thisPlayer.SetPlayerNumber(1);
 
-            this.Close();
+            this.Hide();
             new Form2().ShowDialog();
         }
 
@@ -324,8 +341,8 @@ namespace HereToSlayImplementation
                 else
                 {
                     sqlConnection.Close();
-                    this.Close();
-                    new Form2().ShowDialog();
+                    new Form2().Show();
+                    this.Hide();
                 }
             }
         }

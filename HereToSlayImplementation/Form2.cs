@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,14 +17,14 @@ namespace HereToSlayImplementation
         static public SqlConnection sqlConnection;
         //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlayDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
         public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
-        Form2 instance;
+        Form2 instance2;
         public System.Windows.Forms.Timer timer;
         int Seconds;
         bool StartButtonClicked;
         public Form2()
         {
             InitializeComponent();
-            instance = this;
+            instance2 = this;
 
             GameIDLabel.Text = "Game code is:";
             ReadyTimer.Start();
@@ -35,6 +36,7 @@ namespace HereToSlayImplementation
             Seconds = 5;
             StartButtonClicked = false;
             CountdownLabel.Hide();
+
         }
         public void Updateplayers()
         {
@@ -90,7 +92,7 @@ namespace HereToSlayImplementation
                 }
             }
             Updateplayers();
-            StartButton.Show();
+            
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -130,7 +132,11 @@ namespace HereToSlayImplementation
 
         private void PlayerListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+        }
 
+        private void Form2_Disposed(object? sender, EventArgs e)
+        {
+            Form1.instance1.Dispose();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace HereToSlayImplementation
 {
     public partial class Form3 : Form
     {
-        static public Form3 instance;
+        static public Form3 instance3;
         public System.Windows.Forms.Timer timer;
         static public SqlConnection sqlConnection;
         //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlayDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
@@ -23,7 +23,7 @@ namespace HereToSlayImplementation
         Game game;
         public Form3()
         {
-            instance = this;
+            instance3 = this;
 
             InitializeComponent();
             sqlConnection = new SqlConnection(CONNECT);
