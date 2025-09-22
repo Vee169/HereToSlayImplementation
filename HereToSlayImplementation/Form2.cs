@@ -15,7 +15,7 @@ namespace HereToSlayImplementation
     {
         static public SqlConnection sqlConnection;
         //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlayDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         Form2 instance;
         public System.Windows.Forms.Timer timer;
         int Seconds;
@@ -39,7 +39,7 @@ namespace HereToSlayImplementation
         public void Updateplayers()
         {
             sqlConnection.Open();
-            SqlCommand command = new SqlCommand($"SELECT Username FROM Games, Player WHERE Games.GameID = {Form1.instance1.thisPlayer.GetGameID()} AND Games.GameID = Player.GameIDfkp", sqlConnection);
+            SqlCommand command = new SqlCommand($"SELECT Username FROM Games, Player WHERE Games.GameID = {Form1.instance1.thisPlayer.GetGameID()} AND Games.GameID = Player.GameIDfk", sqlConnection);
             using (SqlDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())

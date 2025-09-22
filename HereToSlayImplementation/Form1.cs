@@ -21,7 +21,7 @@ namespace HereToSlayImplementation
         static public Form1 instance1;
         static public SqlConnection sqlConnection;
         //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
         public Player thisPlayer;
         public string EncryptedPassword;
@@ -141,6 +141,7 @@ namespace HereToSlayImplementation
             public void AddCardToHand(Card card)
             {
                 Hand.Add(card);
+                card.Location = new Point(547, 816 + (Hand.Count*30));
             }
         }
         public Form1()
@@ -258,7 +259,7 @@ namespace HereToSlayImplementation
                 }
             }
 
-            SqlCommand command3 = new SqlCommand($"UPDATE Player SET GameIDfkp = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
+            SqlCommand command3 = new SqlCommand($"UPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
             command3.ExecuteNonQuery();
             sqlConnection.Close();
             thisPlayer.SetPlayerNumber(1);
@@ -307,7 +308,7 @@ namespace HereToSlayImplementation
                         {
                             if (reader.IsDBNull(i))
                             {
-                                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {thisPlayer   .GetplayerID()} WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfkp = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
+                                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {thisPlayer   .GetplayerID()} WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
                                 command2.ExecuteNonQuery();
                                 NotInAGame = false;
                                 Form1.instance1.thisPlayer.SetPlayerNumber(i);

@@ -19,7 +19,7 @@ namespace HereToSlayImplementation
         public System.Windows.Forms.Timer timer;
         static public SqlConnection sqlConnection;
         //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlayDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         Game game;
         public Form3()
         {
@@ -86,6 +86,8 @@ namespace HereToSlayImplementation
                 players[x].AddCardToHand(Deck[rnd.Next(Deck.Count - 1)]);
                 players[x].LoseActionsPoints(1);
             }
+
+
         }
 
         public class HeroCard : Form1.Card
