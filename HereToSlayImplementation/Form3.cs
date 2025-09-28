@@ -21,6 +21,7 @@ namespace HereToSlayImplementation
         //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlayDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
         public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         Game game;
+        int thisPlayer;
         public Form3()
         {
             instance3 = this;
@@ -29,6 +30,7 @@ namespace HereToSlayImplementation
             sqlConnection = new SqlConnection(CONNECT);
             sqlConnection.Open();
             Form1.Player[] players = new Form1.Player[6];
+            
             
             for (int i = 0; i < 6; i++)
             {
@@ -51,10 +53,13 @@ namespace HereToSlayImplementation
                 else
                 {
                     players[i] = Form1.instance1.thisPlayer;
+                    thisPlayer = i;
                 }
             }
             sqlConnection.Close();
             game = new Game(players);
+            game
+
         }
 
         public enum HeroClass
@@ -80,14 +85,27 @@ namespace HereToSlayImplementation
                 Deck = new List<Form1.Card>();
             }
 
-            public void DrawACard(int x)
+            public void DrawACard(int x, bool y = true)
             {
                 Random rnd = new Random();
                 players[x].AddCardToHand(Deck[rnd.Next(Deck.Count - 1)]);
-                players[x].LoseActionsPoints(1);
+                if (y)
+                {
+                    players[x].LoseActionsPoints(1);
+                }
             }
 
-
+            public void DealHand(int x, bool y = false)
+            {
+                for (int i = 0; i > 5; i++)
+                {
+                    DrawACard(x, y);
+                }
+                if (!y)
+                {
+                    players[x].LoseActionsPoints(3);
+                }
+            }
         }
 
         public class HeroCard : Form1.Card
