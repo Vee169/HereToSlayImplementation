@@ -22,6 +22,8 @@ namespace HereToSlayImplementation
         public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         Game game;
         int thisPlayer;
+        Button selectedButton;
+        public Button discard = Form3.instance3.DiscardButton;
         public Form3()
         {
             instance3 = this;
@@ -58,7 +60,7 @@ namespace HereToSlayImplementation
             }
             sqlConnection.Close();
             game = new Game(players);
-            game
+            game.DealHand(thisPlayer);
 
         }
 
@@ -85,6 +87,11 @@ namespace HereToSlayImplementation
                 Deck = new List<Form1.Card>();
             }
 
+            public void discardAcard(Form1.Card card)
+            {
+                Discard.Add(card);
+            }
+
             public void DrawACard(int x, bool y = true)
             {
                 Random rnd = new Random();
@@ -105,6 +112,12 @@ namespace HereToSlayImplementation
                 {
                     players[x].LoseActionsPoints(3);
                 }
+            }
+
+            public int rollDice()
+            {
+                Random rnd = new Random();
+                return rnd.Next(1,6) + rnd.Next(1,6);
             }
         }
 
@@ -138,7 +151,7 @@ namespace HereToSlayImplementation
             private int affectedNumber;
             private string otherEffect;
 
-            public HeroCard(string Name, HeroClass heroClass, int r, bool ap, bool s, bool ac, bool ad, int an, string oe) : base(Name)
+            public HeroCard(string Name,Game g, HeroClass heroClass, int r, bool ap, bool s, bool ac, bool ad, int an, string oe) : base(Name, g)
             {
                 Class = heroClass;
                 RequiredRoll = r;
@@ -148,9 +161,18 @@ namespace HereToSlayImplementation
                 affectsDice = ad;
                 affectedNumber = an;
                 otherEffect = oe;
+                game = g;
             }
 
+            public override void playCard()
+            {
+                this.Location = Form3.instance3.selectedButton.Location;
+                int diceroll = game.rollDice();
+                if(diceroll >= RequiredRoll)
+                {
 
+                }
+            }
         }
 
         public class ItemCard : Form1.Card
@@ -171,6 +193,11 @@ namespace HereToSlayImplementation
                 hero = h;
                 item = i;
                 Name = h.GetCardName() + " with " + i.GetCardName();
+            }
+
+            public override void playCard()
+            {
+                hero.playCard();
             }
         }
 

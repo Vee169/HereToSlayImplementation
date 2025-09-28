@@ -30,15 +30,29 @@ namespace HereToSlayImplementation
         public class Card : Button
         {
             protected string cardName;
-            public Card(string cardName = "")
+            protected Form3.Game game;
+            public Card(string cardName = "", Form3.Game game = null)
             {
                 this.cardName = cardName;
                 Size = new Size(281, 422);
+                this.game = game;
             }
 
             public string GetCardName()
             {
                 return cardName;
+            }
+
+            public virtual void playCard()
+            {
+
+            }
+
+            public void DestroyCard(Card c)
+            {
+                c.Location = Form3.instance3.discard.Location;
+                game.discardAcard(c);
+                c.Hide();
             }
         }
 
