@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-//using Microsoft.Data.SqlClient;
+//using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Microsoft.Identity.Client;
 using Azure.Core;
 using System.Security.Cryptography.Xml;
@@ -64,6 +64,7 @@ namespace HereToSlayImplementation
             private Card[] party;
             private int playerNumber;
             private List<Card> Hand;
+            private Form3.MonsterCard[] SlainMonsters;
             private int _actionpoints;
             private int actionPoints
             {
@@ -98,6 +99,26 @@ namespace HereToSlayImplementation
                 this.playerNumber = pn;
                 Hand = new List<Card>();
                 actionPoints = 3;
+                SlainMonsters = new Form3.MonsterCard[3];
+            }
+
+            public Form3.MonsterCard GetMonster(int x)
+            {
+                return SlainMonsters[x];
+            }
+
+            public void KilledMonster(Form3.MonsterCard mc)
+            {
+                int count = 0;
+                foreach(Card c in SlainMonsters)
+                {
+                    if (c != null)
+                    {
+                        SlainMonsters[count] = mc;
+                        break;
+                    }
+                    count++;
+                }
             }
 
             public string GetUsername()
@@ -156,7 +177,7 @@ namespace HereToSlayImplementation
             public void AddCardToHand(Card card)
             {
                 Hand.Add(card);
-                card.Location = new Point(547, 816 + (Hand.Count*30));
+                card.Location = new Point(547, 816 + (Hand.Count * 30));
             }
         }
         public Form1()
@@ -167,7 +188,7 @@ namespace HereToSlayImplementation
             HostButton.Hide();
             JoinButton.Hide();
             JoinTextBox.Hide();
-            
+
         }
 
         private void LoginButton_Click(object sender, EventArgs e)
@@ -329,9 +350,9 @@ namespace HereToSlayImplementation
                         }
                     }
                 }
-                
+
                 SqlCommand command3 = new SqlCommand($"SELECT * FROM Games WHERE GameID = {value}", sqlConnection);
-                using(SqlDataReader reader = command3.ExecuteReader())
+                using (SqlDataReader reader = command3.ExecuteReader())
                 {
                     if (reader.Read())
                     {
@@ -339,7 +360,7 @@ namespace HereToSlayImplementation
                         {
                             if (reader.IsDBNull(i))
                             {
-                                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {thisPlayer   .GetplayerID()} WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
+                                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {thisPlayer.GetplayerID()} WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
                                 command2.ExecuteNonQuery();
                                 NotInAGame = false;
                                 Form1.instance1.thisPlayer.SetPlayerNumber(i);
@@ -359,6 +380,12 @@ namespace HereToSlayImplementation
                     this.Hide();
                 }
             }
+        }
+
+        private void TestButton_Click(object sender, EventArgs e)
+        {
+            new Form3().Show();
+            this.Hide();
         }
     }
 }
