@@ -278,6 +278,7 @@
             DiscardButton.TabIndex = 21;
             DiscardButton.Text = "Discard";
             DiscardButton.UseVisualStyleBackColor = false;
+            DiscardButton.Click += DiscardButton_Click;
             // 
             // ItemEffectButton1
             // 

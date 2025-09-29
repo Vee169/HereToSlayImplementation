@@ -31,11 +31,14 @@ namespace HereToSlayImplementation
         {
             protected string cardName;
             protected Form3.Game game;
-            public Card(string cardName = "", Form3.Game game = null)
+            private int CardID;
+            public Card(int c, string cardName = "", Form3.Game game = null)
             {
                 this.cardName = cardName;
                 Size = new Size(281, 422);
                 this.game = game;
+                CardID = c;
+
             }
 
             public string GetCardName()
@@ -50,7 +53,7 @@ namespace HereToSlayImplementation
 
             public void DestroyCard(Card c)
             {
-                c.Location = Form3.instance3.discard.Location;
+                //c.Location = Form3.instance3.discard;
                 game.discardAcard(c);
                 c.Hide();
             }

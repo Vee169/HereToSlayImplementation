@@ -20,26 +20,27 @@ namespace HereToSlayImplementation
         static public SqlConnection sqlConnection;
         //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlayDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
         public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
-        Game game;
-        int thisPlayer;
+        public Game game;
+        public int thisPlayer;
         Button selectedButton;
-        public Button discard = Form3.instance3.DiscardButton;
+        //public Point discard = Form3.instance3.DiscardButton.Location;
         public Form3()
         {
             instance3 = this;
 
             InitializeComponent();
+            new Form4().Show();
             sqlConnection = new SqlConnection(CONNECT);
             sqlConnection.Open();
             Form1.Player[] players = new Form1.Player[6];
-            
-            
-            for (int i = 0; i < 6; i++)
+
+
+            for (int i = 1; i < 7; i++)
             {
-                
+
                 if (i != Form1.instance1.thisPlayer.GetPlayerNumber())
                 {
-                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.Player{i} = Player.playerID", sqlConnection);
+                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.PlayerID{i} = Player.playerID", sqlConnection);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.GetString(1) != null)
@@ -70,9 +71,9 @@ namespace HereToSlayImplementation
             if (mc.GetClassRequirment() == HeroClass.no)
             {
                 int count = 0;
-                foreach(Form1.Card c in player.GetParty())
+                foreach (Form1.Card c in player.GetParty())
                 {
-                    if(c != null)
+                    if (c != null)
                     {
                         count++;
                     }
@@ -115,9 +116,9 @@ namespace HereToSlayImplementation
                 MonsterDeck = new List<MonsterCard>();
             }
 
-            public Form1.Player GetPlayer(int x) 
-            { 
-                return players[x]; 
+            public Form1.Player GetPlayer(int x)
+            {
+                return players[x];
             }
 
             public MonsterCard GetMonsterCard()
@@ -158,7 +159,7 @@ namespace HereToSlayImplementation
             public int rollDice()
             {
                 Random rnd = new Random();
-                return rnd.Next(1,6) + rnd.Next(1,6);
+                return rnd.Next(1, 6) + rnd.Next(1, 6);
             }
         }
 
@@ -192,7 +193,7 @@ namespace HereToSlayImplementation
             private int affectedNumber;
             private string otherEffect;
 
-            public HeroCard(string Name,Game g, HeroClass heroClass, int r, bool ap, bool s, bool ac, bool ad, int an, string oe) : base(Name, g)
+            public HeroCard(string Name, Game g, HeroClass heroClass, int r, bool ap, bool s, bool ac, bool ad, int an, string oe, int c) : base(c, Name, g)
             {
                 Class = heroClass;
                 RequiredRoll = r;
@@ -209,7 +210,7 @@ namespace HereToSlayImplementation
             {
                 this.Location = Form3.instance3.selectedButton.Location;
                 int diceroll = game.rollDice();
-                if(diceroll >= RequiredRoll)
+                if (diceroll >= RequiredRoll)
                 {
 
                 }
@@ -219,7 +220,7 @@ namespace HereToSlayImplementation
         public class ItemCard : Form1.Card
         {
             private string effect;
-            public ItemCard(string Name, string e) : base(Name)
+            public ItemCard(string Name, string e, int c) : base(c, Name)
             {
                 effect = e;
             }
@@ -229,7 +230,7 @@ namespace HereToSlayImplementation
         {
             private HeroCard hero;
             private ItemCard item;
-            public ItemHeroPair(HeroCard h, ItemCard i)
+            public ItemHeroPair(HeroCard h, ItemCard i, int c) : base(c)
             {
                 hero = h;
                 item = i;
@@ -245,7 +246,7 @@ namespace HereToSlayImplementation
         public class MagicCard : Form1.Card
         {
             private string effect;
-            public MagicCard(string Name, string e) : base(Name)
+            public MagicCard(string Name, string e, int c) : base(c, Name)
             {
                 effect = e;
             }
@@ -253,7 +254,7 @@ namespace HereToSlayImplementation
 
         public class ReactionCard : Form1.Card
         {
-            public ReactionCard(string Name) : base(Name)
+            public ReactionCard(string Name, int c) : base(c, Name)
             {
             }
         }
@@ -266,7 +267,7 @@ namespace HereToSlayImplementation
             private int ConsequenceRequirement;
             private int KillRequirement;
 
-            public MonsterCard(string Name, string e, int cr, int kr, int psr, HeroClass clr = HeroClass.no) : base(Name)
+            public MonsterCard(string Name, string e, int cr, int kr, int psr, int c, HeroClass clr = HeroClass.no) : base(c, Name)
             {
                 effect = e;
                 ConsequenceRequirement = cr;
@@ -292,8 +293,8 @@ namespace HereToSlayImplementation
         {
             private string effect;
             private HeroClass HeroClass;
-            
-            public PartyLeader(string Name, string e, HeroClass hc) : base(Name)
+
+            public PartyLeader(string Name, string e, HeroClass hc, int c) : base(c, Name)
             {
                 effect = e;
                 HeroClass = hc;
@@ -316,6 +317,11 @@ namespace HereToSlayImplementation
         {
             DieTimer.Stop();
             DieTimer.Enabled = false;
+        }
+
+        private void DiscardButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
