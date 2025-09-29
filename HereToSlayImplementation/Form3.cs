@@ -33,7 +33,10 @@ namespace HereToSlayImplementation
             sqlConnection = new SqlConnection(CONNECT);
             sqlConnection.Open();
             Form1.Player[] players = new Form1.Player[6];
-
+            if(Form1.instance1.thisPlayer.GetPlayerNumber() == 0)
+            {
+                Form1.instance1.thisPlayer.SetPlayerNumber(1);
+            }
 
             for (int i = 1; i < 7; i++)
             {
