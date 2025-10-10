@@ -61,7 +61,6 @@ namespace HereToSlayImplementation
             private string Username;
             private int playerID;
             private int GameID;
-            private Card[] party;
             private int playerNumber;
             private List<Card> Hand;
             private int _actionpoints;
@@ -94,7 +93,6 @@ namespace HereToSlayImplementation
                 Username = u;
                 playerID = p;
                 GameID = g;
-                party = new Card[6];
                 this.playerNumber = pn;
                 Hand = new List<Card>();
                 actionPoints = 3;
@@ -128,16 +126,6 @@ namespace HereToSlayImplementation
             public void SetPlayerNumber(int x)
             {
                 playerNumber = x;
-            }
-
-            public Button[] GetParty()
-            {
-                return party;
-            }
-
-            public void SetParty(Card[] x)
-            {
-                party = x;
             }
 
             public int GetActionPoints()
