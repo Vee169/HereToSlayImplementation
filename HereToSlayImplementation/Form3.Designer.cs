@@ -134,6 +134,7 @@
             PlayerDiscardButton.TabIndex = 20;
             PlayerDiscardButton.Text = "Player Discard";
             PlayerDiscardButton.UseVisualStyleBackColor = false;
+            PlayerDiscardButton.Click += PlayerDiscardButton_Click;
             // 
             // OpponentDeckButton
             // 

@@ -39,6 +39,7 @@
             JoinTextBox = new TextBox();
             JoinButton = new Button();
             JoinWarningTextBox = new TextBox();
+            Testbutton = new Button();
             SuspendLayout();
             // 
             // LoginButton
@@ -161,12 +162,23 @@
             JoinWarningTextBox.Size = new Size(186, 16);
             JoinWarningTextBox.TabIndex = 10;
             // 
+            // Testbutton
+            // 
+            Testbutton.Location = new Point(1163, 162);
+            Testbutton.Name = "Testbutton";
+            Testbutton.Size = new Size(75, 23);
+            Testbutton.TabIndex = 11;
+            Testbutton.Text = "Test";
+            Testbutton.UseVisualStyleBackColor = true;
+            Testbutton.Click += Testbutton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1472, 650);
+            Controls.Add(Testbutton);
             Controls.Add(JoinWarningTextBox);
             Controls.Add(JoinButton);
             Controls.Add(JoinTextBox);
@@ -197,5 +209,6 @@
         private TextBox JoinTextBox;
         private Button JoinButton;
         private TextBox JoinWarningTextBox;
+        private Button Testbutton;
     }
 }

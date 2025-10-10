@@ -6,6 +6,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Media;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,27 +20,29 @@ namespace HereToSlayImplementation
         public System.Windows.Forms.Timer timer;
         static public SqlConnection sqlConnection;
         //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlayDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         Game game;
         int thisPlayer;
         Button selectedButton;
-        public Button discard = Form3.instance3.PlayerDiscardButton;
+        public Button discard = new Button();
+        
         public Form3()
         {
             instance3 = this;
 
             InitializeComponent();
-            sqlConnection = new SqlConnection(CONNECT);
+            sqlConnection = new SqlConnection(Form1.CONNECT);
             sqlConnection.Open();
             Form1.Player[] players = new Form1.Player[6];
-            
-            
+            discard = Form3.instance3.PlayerDiscardButton;
+
+
             for (int i = 0; i < 6; i++)
             {
-                
+
                 if (i != Form1.instance1.thisPlayer.GetPlayerNumber())
                 {
-                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.Player{i} = Player.playerID", sqlConnection);
+                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.PlayerID{i} = Player.playerID", sqlConnection);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.GetString(1) != null)
@@ -121,6 +124,9 @@ namespace HereToSlayImplementation
 
         }
 
+        private void PlayerDiscardButton_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }

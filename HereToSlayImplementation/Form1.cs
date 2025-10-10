@@ -21,8 +21,8 @@ namespace HereToSlayImplementation
     {
         static public Form1 instance1;
         static public SqlConnection sqlConnection;
-        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
         public Player thisPlayer;
         public string EncryptedPassword;
@@ -144,7 +144,7 @@ namespace HereToSlayImplementation
             public void AddCardToHand(Card card)
             {
                 Hand.Add(card);
-                card.Location = new Point(547, 816 + (Hand.Count*30));
+                card.Location = new Point(547, 816 + (Hand.Count * 30));
             }
         }
         public Form1()
@@ -155,7 +155,7 @@ namespace HereToSlayImplementation
             HostButton.Hide();
             JoinButton.Hide();
             JoinTextBox.Hide();
-            
+
         }
 
         private void LoginButton_Click(object sender, EventArgs e)
@@ -225,7 +225,7 @@ namespace HereToSlayImplementation
                             JoinButton.Show();
                             JoinTextBox.Show();
                             UsernameLabel.Hide();
-                            UsernameLabel.Hide();
+                            UsernameTextBox.Hide();
                             LoginButton.Hide();
                             PasswordLabel.Hide();
                             PasswordTextBox.Hide();
@@ -317,9 +317,9 @@ namespace HereToSlayImplementation
                         }
                     }
                 }
-                
+
                 SqlCommand command3 = new SqlCommand($"SELECT * FROM Games WHERE GameID = {value}", sqlConnection);
-                using(SqlDataReader reader = command3.ExecuteReader())
+                using (SqlDataReader reader = command3.ExecuteReader())
                 {
                     if (reader.Read())
                     {
@@ -327,7 +327,7 @@ namespace HereToSlayImplementation
                         {
                             if (reader.IsDBNull(i))
                             {
-                                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {thisPlayer   .GetplayerID()} WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
+                                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {thisPlayer.GetplayerID()} WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
                                 command2.ExecuteNonQuery();
                                 NotInAGame = false;
                                 Form1.instance1.thisPlayer.SetPlayerNumber(i);
@@ -347,6 +347,12 @@ namespace HereToSlayImplementation
                     this.Hide();
                 }
             }
+        }
+
+        private void Testbutton_Click(object sender, EventArgs e)
+        {
+            new Form3().Show();
+            this.Hide();
         }
     }
 }
