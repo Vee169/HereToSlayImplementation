@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            SlainMonster1Button = new Button();
-            SlainMonster2Button = new Button();
-            SlainMonster3Button = new Button();
             HandLabel = new Label();
             OpponentHealthPictureBox = new PictureBox();
             OpponentInfoPictureBox = new PictureBox();
@@ -47,42 +44,6 @@
             ((System.ComponentModel.ISupportInitialize)PlayerHealthPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayerInfoPictureBox).BeginInit();
             SuspendLayout();
-            // 
-            // SlainMonster1Button
-            // 
-            SlainMonster1Button.BackColor = Color.DarkGray;
-            SlainMonster1Button.ForeColor = SystemColors.ButtonHighlight;
-            SlainMonster1Button.Location = new Point(17, 1217);
-            SlainMonster1Button.Margin = new Padding(4, 5, 4, 5);
-            SlainMonster1Button.Name = "SlainMonster1Button";
-            SlainMonster1Button.Size = new Size(379, 67);
-            SlainMonster1Button.TabIndex = 1;
-            SlainMonster1Button.Text = "Slain Monster 1 ";
-            SlainMonster1Button.UseVisualStyleBackColor = false;
-            // 
-            // SlainMonster2Button
-            // 
-            SlainMonster2Button.BackColor = Color.DarkGray;
-            SlainMonster2Button.ForeColor = SystemColors.ButtonHighlight;
-            SlainMonster2Button.Location = new Point(17, 1273);
-            SlainMonster2Button.Margin = new Padding(4, 5, 4, 5);
-            SlainMonster2Button.Name = "SlainMonster2Button";
-            SlainMonster2Button.Size = new Size(379, 67);
-            SlainMonster2Button.TabIndex = 2;
-            SlainMonster2Button.Text = "Slain Monster 2";
-            SlainMonster2Button.UseVisualStyleBackColor = false;
-            // 
-            // SlainMonster3Button
-            // 
-            SlainMonster3Button.BackColor = Color.DarkGray;
-            SlainMonster3Button.ForeColor = SystemColors.ButtonHighlight;
-            SlainMonster3Button.Location = new Point(17, 1328);
-            SlainMonster3Button.Margin = new Padding(4, 5, 4, 5);
-            SlainMonster3Button.Name = "SlainMonster3Button";
-            SlainMonster3Button.Size = new Size(379, 67);
-            SlainMonster3Button.TabIndex = 3;
-            SlainMonster3Button.Text = "Slain Monster 3 ";
-            SlainMonster3Button.UseVisualStyleBackColor = false;
             // 
             // HandLabel
             // 
@@ -207,9 +168,6 @@
             Controls.Add(PlayerDiscardButton);
             Controls.Add(OpponentDeckButton);
             Controls.Add(PlayerDeckButton);
-            Controls.Add(SlainMonster1Button);
-            Controls.Add(SlainMonster2Button);
-            Controls.Add(SlainMonster3Button);
             Margin = new Padding(4, 5, 4, 5);
             Name = "Form3";
             Text = "Form3";
@@ -223,9 +181,6 @@
         }
 
         #endregion
-        private Button SlainMonster1Button;
-        private Button SlainMonster2Button;
-        private Button SlainMonster3Button;
         private Button button1;
         private Button button3;
         private Button button4;

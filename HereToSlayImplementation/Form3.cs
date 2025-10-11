@@ -27,6 +27,8 @@ namespace HereToSlayImplementation
         Button selectedButton;
         public Button discard = new Button();
         static public bool IsYourTurn;
+        static public bool beenMade;
+        static public bool CardSelected;
 
         public Form3()
         {
@@ -41,6 +43,8 @@ namespace HereToSlayImplementation
             thisPlayer = 0;
             MoveRetrievalTimer.Tick += MoveRetrievalTimer_Tick;
             MoveRetrievalTimer.Start();
+            beenMade = true;
+            CardSelected = false;
 
 
             for (int i = 1; i < 2; i++)
@@ -77,7 +81,15 @@ namespace HereToSlayImplementation
             }
                 game = new Game(players);
             game.DealHand(thisPlayer);
+            FocusScreen();
+        }
 
+        public void FocusScreen()
+        {
+            foreach (Card card in game.GetPlayer(0).GetHand())
+            {
+                card.BringToFront();
+            }
         }
 
         public class Card : Button
@@ -93,6 +105,7 @@ namespace HereToSlayImplementation
             private int Lightning;
             public Card(int c, Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
             {
+                beenMade = true;
                 this.cardName = cardName;
                 Size = new Size(281, 422);
                 BackColor = Color.DimGray;
@@ -105,10 +118,22 @@ namespace HereToSlayImplementation
                 AnalyseSymbols();
                 CardID = c;
                 Click += Card_Click;
+                BringToFront();
+                this.PerformClick();
+                beenMade = false;
             }
             private void Card_Click(object sender, EventArgs e)
             {
-                this.Location = new Point(400, 400);
+                if (!CardSelected)
+                {
+                    this.Top -= 50;
+                    CardSelected = true;
+                    game.SelectCard(this);
+                }
+                else
+                {
+                    game.playCard();
+                }
             }
             private void AnalyseSymbols()
             {
@@ -317,7 +342,6 @@ namespace HereToSlayImplementation
 
         private void PlayerDiscardButton_Click(object sender, EventArgs e)
         {
-            game.GetPlayer(0).GetHand()[0].PerformClick();
         }
 
 
