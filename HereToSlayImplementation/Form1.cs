@@ -21,8 +21,8 @@ namespace HereToSlayImplementation
     {
         static public Form1 instance1;
         static public SqlConnection sqlConnection;
-        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
         public Player thisPlayer;
         public string EncryptedPassword;
@@ -64,7 +64,6 @@ namespace HereToSlayImplementation
             private string Username;
             private int playerID;
             private int GameID;
-            private Card[] party;
             private int playerNumber;
             private List<Card> Hand;
             private Form3.MonsterCard[] SlainMonsters;
@@ -98,7 +97,6 @@ namespace HereToSlayImplementation
                 Username = u;
                 playerID = p;
                 GameID = g;
-                party = new Card[6];
                 this.playerNumber = pn;
                 Hand = new List<Card>();
                 actionPoints = 3;
@@ -152,16 +150,6 @@ namespace HereToSlayImplementation
             public void SetPlayerNumber(int x)
             {
                 playerNumber = x;
-            }
-
-            public Button[] GetParty()
-            {
-                return party;
-            }
-
-            public void SetParty(Card[] x)
-            {
-                party = x;
             }
 
             public int GetActionPoints()
@@ -261,7 +249,7 @@ namespace HereToSlayImplementation
                             JoinButton.Show();
                             JoinTextBox.Show();
                             UsernameLabel.Hide();
-                            UsernameLabel.Hide();
+                            UsernameTextBox.Hide();
                             LoginButton.Hide();
                             PasswordLabel.Hide();
                             PasswordTextBox.Hide();
@@ -385,7 +373,7 @@ namespace HereToSlayImplementation
             }
         }
 
-        private void TestButton_Click(object sender, EventArgs e)
+        private void Testbutton_Click(object sender, EventArgs e)
         {
             new Form3().Show();
             this.Hide();

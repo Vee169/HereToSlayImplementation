@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace HereToSlayImplementation
 {
-    public partial class Form4 : Form
+    public partial class Form5 : Form
     {
-        public Form4()
+        public Form5()
         {
             InitializeComponent();
         }
