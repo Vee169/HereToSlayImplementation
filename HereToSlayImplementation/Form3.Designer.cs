@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             SlainMonster1Button = new Button();
             SlainMonster2Button = new Button();
             SlainMonster3Button = new Button();
@@ -39,6 +40,8 @@
             PlayerDiscardButton = new Button();
             OpponentDeckButton = new Button();
             PlayerDeckButton = new Button();
+            MoveRetrievalTimer = new System.Windows.Forms.Timer(components);
+            TurnTextBox = new TextBox();
             ((System.ComponentModel.ISupportInitialize)OpponentHealthPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OpponentInfoPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayerHealthPictureBox).BeginInit();
@@ -170,12 +173,31 @@
             PlayerDeckButton.UseVisualStyleBackColor = false;
             PlayerDeckButton.Click += PlayerDeckButton_Click;
             // 
+            // MoveRetrievalTimer
+            // 
+            MoveRetrievalTimer.Interval = 1000;
+            MoveRetrievalTimer.Tick += MoveRetrievalTimer_Tick;
+            // 
+            // TurnTextBox
+            // 
+            TurnTextBox.BackColor = Color.Gray;
+            TurnTextBox.BorderStyle = BorderStyle.None;
+            TurnTextBox.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            TurnTextBox.ForeColor = SystemColors.ButtonHighlight;
+            TurnTextBox.Location = new Point(1133, 20);
+            TurnTextBox.Multiline = true;
+            TurnTextBox.Name = "TurnTextBox";
+            TurnTextBox.Size = new Size(485, 123);
+            TurnTextBox.TabIndex = 26;
+            TurnTextBox.Text = "It is the turn of: ";
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1924, 1062);
+            Controls.Add(TurnTextBox);
             Controls.Add(HandLabel);
             Controls.Add(OpponentHealthPictureBox);
             Controls.Add(OpponentInfoPictureBox);
@@ -217,5 +239,7 @@
         private Button PlayerDiscardButton;
         private Button OpponentDeckButton;
         private Button PlayerDeckButton;
+        private System.Windows.Forms.Timer MoveRetrievalTimer;
+        private TextBox TurnTextBox;
     }
 }

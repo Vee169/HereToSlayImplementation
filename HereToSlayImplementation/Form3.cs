@@ -26,6 +26,7 @@ namespace HereToSlayImplementation
         int thisPlayer;
         Button selectedButton;
         public Button discard = new Button();
+        static public bool IsYourTurn;
 
         public Form3()
         {
@@ -38,6 +39,8 @@ namespace HereToSlayImplementation
             discard = Form3.instance3.PlayerDiscardButton;
             players[0] = Form1.instance1.thisPlayer;
             thisPlayer = 0;
+            MoveRetrievalTimer.Tick += MoveRetrievalTimer_Tick;
+            MoveRetrievalTimer.Start();
 
 
             for (int i = 0; i < 1; i++)
@@ -60,7 +63,19 @@ namespace HereToSlayImplementation
                 }
             }
             sqlConnection.Close();
-            game = new Game(players);
+
+            if(players[0].GetPlayerNumber() == 1)
+            {
+                IsYourTurn = true;
+                MoveRetrievalTimer.Enabled = false;
+                TurnTextBox.Text += players[0].GetUsername();
+            }
+            else
+            {
+                IsYourTurn = false;
+                TurnTextBox.Text += players[1].GetUsername();
+            }
+                game = new Game(players);
             game.DealHand(thisPlayer);
 
         }
@@ -70,19 +85,50 @@ namespace HereToSlayImplementation
             protected string cardName;
             protected Game game;
             private int CardID;
-            private int DamageSymbols;
-            private int HealthSymbols;
-            private int LightningSymbols;
-            private int DrawSymbols;
-            public Card(Form3.Game game = null, int ds = 0, int hs = 0, int ls = 0, int drs = 0)
+            private string[] EffectSymbols;
+            private int Damage;
+            private int Defense;
+            private int Healing;
+            private int Draw;
+            private int Lightning;
+            private int damageThisTurn = 0;
+            private int healthThisTurn = 0;
+            private int defenseThisTurn = 0;
+            public Card(Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
             {
                 this.cardName = cardName;
                 Size = new Size(281, 422);
+                BackColor = Color.DimGray;
                 this.game = game;
-                DamageSymbols = ds;
-                HealthSymbols = hs;
-                LightningSymbols = ls;
-                DrawSymbols = drs;
+                EffectSymbols = [ds, hs, ls, drs];
+                Damage = 0;
+                Defense = 0;
+                Healing = 0;
+                Draw = 0;
+                AnalyseSymbols();
+            }
+
+            private void AnalyseSymbols()
+            {
+                foreach (string symbol in EffectSymbols)
+                {
+                    switch (symbol)
+                    {
+                        case "damage":
+                            Damage += 1;
+                            break;
+                        case "defense":
+                            Defense += 1;
+                            break;
+                        case "healing":
+                            Healing += 1;
+                            break;
+                        case "draw":
+                            Draw += 1;
+                            break;
+
+                    }
+                }
             }
 
             public string GetCardName()
@@ -91,26 +137,43 @@ namespace HereToSlayImplementation
             }
             public int DealDamage()
             {
-                game.GetPlayer(1).SetHealth(HealthSymbols);
-                return DamageSymbols;
+                game.GetPlayer(1).SetHealth(Damage);
+                return Damage;
             }
 
             public int DrawCard()
             {
-                for (int i = 0; i < DrawSymbols; i++)
+                for (int i = 0; i < Draw; i++)
                 {
                     game.DrawACard(0);
                 }
-                return DrawSymbols;
+                return Draw;
             }
 
-
-
-
-            public virtual void playCard()
+            public int Heal()
             {
-
+                game.GetPlayer(0).SetHealth(-Healing);
+                return Healing;
             }
+            public void DoLightning()
+            {
+                game.GetPlayer(0).LoseActionsPoints(-Lightning);
+                
+                
+            }
+
+            public int Defend()
+            {
+                game.GetPlayer(0).SetDefence(Defense);
+                return Defense;
+            }
+
+
+
+
+
+
+            
 
             public void DestroyCard(Card c)
             {
@@ -127,7 +190,11 @@ namespace HereToSlayImplementation
             private List<Card> Deck1;
             private List<Card> Deck0;
             private List<List<Card>> ListOfDecks;
-
+            private int gameID;
+            private int damageThisTurn = 0;
+            private int healthThisTurn = 0;
+            private int defenseThisTurn = 0;
+            private Card SelectedCard;
             public Game(Form1.Player[] p)
             {
                 players = p;
@@ -138,11 +205,23 @@ namespace HereToSlayImplementation
                 ListOfDecks.Add(Deck0);
                 ListOfDecks.Add(Deck1);
                 buildDeck();
+                gameID = players[0].GetGameID();
+            }
+
+            public int GetgameID()
+            {
+                return gameID;
+            }
+
+            public void SelectCard(Card card)
+            {
+                SelectedCard = card;
+                
             }
 
             public void buildDeck()
             {
-                ListOfDecks[0].Add(new Card(this, 2));
+                ListOfDecks[0].Add(new Card(this, "Damage", "Damage"));
             }
 
             public Form1.Player GetPlayer(int x)
@@ -163,9 +242,9 @@ namespace HereToSlayImplementation
                 (ListOfDecks[x])[index].Location = new Point(537 + (players[x].GetHand().Count * 30), 620);
                 (ListOfDecks[x])[index].BringToFront();
                 instance3.Controls.Add((ListOfDecks[x])[index]);
-                
+
                 players[x].AddCardToHand((ListOfDecks[x])[index]);
-                
+
 
             }
 
@@ -177,12 +256,37 @@ namespace HereToSlayImplementation
                 }
             }
 
+            public virtual void playCard()
+            {
+                GetPlayer(0).LoseActionsPoints(1);
+                damageThisTurn += SelectedCard.DealDamage();
+                healthThisTurn += SelectedCard.Heal();
+                defenseThisTurn = SelectedCard.Defend();
+                SelectedCard.DoLightning();
+                if (GetPlayer(0).GetActionPoints() == 0)
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand($"INSERT INTO Moves VALUES ({GetgameID()}, {damageThisTurn}, {damageThisTurn}, {defenseThisTurn}, {GetPlayer(0).GetplayerID()})", sqlConnection);
+                    command.ExecuteNonQuery();
+                    sqlConnection.Close();
+                    IsYourTurn = false;
+                    Form3.instance3.MoveRetrievalTimer.Enabled = true;
+                    Form3.instance3.TurnTextBox.Text = "It is the turn of:";
+                    Form3.instance3.TurnTextBox.Text += players[1].GetUsername();
+                }
+                else
+                {
+                    playCard();
+                }
+            }
         }
 
         private void Form3_Load(object sender, EventArgs e)
         {
 
         }
+
+        
 
         private void PlayerDiscardButton_Click(object sender, EventArgs e)
         {
@@ -196,7 +300,36 @@ namespace HereToSlayImplementation
 
         private void PlayerDeckButton_Click(object sender, EventArgs e)
         {
-            game.DrawACard(thisPlayer);
+            if (IsYourTurn)
+            {
+                game.DrawACard(thisPlayer);
+            }
+        }
+
+        private void MoveRetrievalTimer_Tick(object sender, EventArgs e)
+        {
+            bool turnChange = false;
+            sqlConnection.Open();
+            SqlCommand cmd = new SqlCommand($"SELECT * FROM Moves WHERE GameIDfk = {game.GetgameID()}",sqlConnection);
+            using(SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    game.GetPlayer(0).SetDefence(-reader.GetInt32(2));
+                    game.GetPlayer(1).SetHealth(-reader.GetInt32(2));
+                    game.GetPlayer(1).SetDefence(reader.GetInt32(2));
+                    turnChange = true;
+                }
+            }
+            if (turnChange)
+            {
+                SqlCommand cmd2 = new SqlCommand($"DELETE FROM Moves WHERE GameIDfk = {game.GetgameID()}", sqlConnection);
+                MoveRetrievalTimer.Enabled = false;
+                TurnTextBox.Text += game.GetPlayer(0).GetUsername();
+                IsYourTurn = true;
+            }
+            sqlConnection.Close();
+            
         }
     }
 }

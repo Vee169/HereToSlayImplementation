@@ -22,7 +22,7 @@ namespace HereToSlayImplementation
         static public Form1 instance1;
         static public SqlConnection sqlConnection;
         //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhem.mdf\"; Integrated Security=True;Connect Timeout=30";
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhem.mdf\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungoenMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
         public Player thisPlayer;
         public string EncryptedPassword;
@@ -38,17 +38,14 @@ namespace HereToSlayImplementation
             private int playerNumber;
             private List<Button> Hand;
             private int Health;
+            private int Defense;
             private int _actionpoints;
             private int actionPoints
             {
                 get { return _actionpoints; }
                 set
                 {
-                    if (value > 3)
-                    {
-                        _actionpoints = 3;
-                    }
-                    else if (value < 0)
+                    if (value < 0)
                     {
                         _actionpoints = 0;
                     }
@@ -70,13 +67,30 @@ namespace HereToSlayImplementation
                 GameID = g;
                 this.playerNumber = pn;
                 Hand = new List<Button>();
-                actionPoints = 3;
+                actionPoints = 1;
                 Health = 10;
+                Defense = 0;
             }
 
             public List<Button> GetHand()
             {
                 return Hand;
+            }
+
+            public int GetDefense()
+            {
+                return Defense;
+            }
+
+            public void SetDefence(int x)
+            {
+                Defense += x;
+
+                if (Defense < 0)
+                {
+                    Health += Defense;
+                    Defense = 0;
+                }
             }
 
             public string GetUsername()
@@ -120,7 +134,7 @@ namespace HereToSlayImplementation
             }
             public void ResetActionsPoints()
             {
-                actionPoints = 3;
+                actionPoints = 1;
             }
             public void AddCardToHand(Button card)
             {
