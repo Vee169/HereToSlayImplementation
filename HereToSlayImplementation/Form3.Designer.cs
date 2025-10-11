@@ -187,6 +187,7 @@
             TurnTextBox.Location = new Point(1133, 20);
             TurnTextBox.Multiline = true;
             TurnTextBox.Name = "TurnTextBox";
+            TurnTextBox.ReadOnly = true;
             TurnTextBox.Size = new Size(485, 123);
             TurnTextBox.TabIndex = 26;
             TurnTextBox.Text = "It is the turn of: ";

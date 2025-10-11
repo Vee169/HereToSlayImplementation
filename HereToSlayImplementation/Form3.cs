@@ -43,7 +43,7 @@ namespace HereToSlayImplementation
             MoveRetrievalTimer.Start();
 
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 1; i < 2; i++)
             {
 
                 if (i != Form1.instance1.thisPlayer.GetPlayerNumber())
@@ -91,10 +91,7 @@ namespace HereToSlayImplementation
             private int Healing;
             private int Draw;
             private int Lightning;
-            private int damageThisTurn = 0;
-            private int healthThisTurn = 0;
-            private int defenseThisTurn = 0;
-            public Card(Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
+            public Card(int c, Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
             {
                 this.cardName = cardName;
                 Size = new Size(281, 422);
@@ -106,8 +103,13 @@ namespace HereToSlayImplementation
                 Healing = 0;
                 Draw = 0;
                 AnalyseSymbols();
+                CardID = c;
+                Click += Card_Click;
             }
-
+            private void Card_Click(object sender, EventArgs e)
+            {
+                this.Location = new Point(400, 400);
+            }
             private void AnalyseSymbols()
             {
                 foreach (string symbol in EffectSymbols)
@@ -186,10 +188,14 @@ namespace HereToSlayImplementation
         public class Game
         {
             private Form1.Player[] players;
-            private List<Card> Discard;
+            private List<Card> Discard1;
             private List<Card> Deck1;
+            private string Deck1Name;
+            private List<Card> Discard0;
             private List<Card> Deck0;
+            private string Deck0Name;
             private List<List<Card>> ListOfDecks;
+            private List<List<Card>> ListOfDiscard;
             private int gameID;
             private int damageThisTurn = 0;
             private int healthThisTurn = 0;
@@ -198,7 +204,11 @@ namespace HereToSlayImplementation
             public Game(Form1.Player[] p)
             {
                 players = p;
-                Discard = new List<Card>();
+                Discard0 = new List<Card>();
+                Discard1 = new List<Card>();
+                ListOfDiscard = new List<List<Card>>();
+                ListOfDiscard.Add(Discard0);
+                ListOfDiscard.Add(Discard1);
                 Deck1 = new List<Card>();
                 Deck0 = new List<Card>();
                 ListOfDecks = new List<List<Card>>();
@@ -221,7 +231,23 @@ namespace HereToSlayImplementation
 
             public void buildDeck()
             {
-                ListOfDecks[0].Add(new Card(this, "Damage", "Damage"));
+                sqlConnection.Open();
+                for (int i = 0; i < 1; i++)
+                {
+                    SqlCommand cmd = new SqlCommand($"SELECT * FROM Cards WHERE Deckfk = '{players[i].GetDeck()}'", sqlConnection);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            for (int j = 0; j < reader.GetInt32(6); j++)
+                            {
+                                ListOfDecks[i].Add(new Card(reader.GetInt32(0), this, reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4)));
+                            }
+                        }
+                    }
+                }
+                sqlConnection.Close();
+                ListOfDecks[0].Add(new Card(1, this, "Damage", "Damage"));
             }
 
             public Form1.Player GetPlayer(int x)
@@ -231,7 +257,7 @@ namespace HereToSlayImplementation
 
             public void discardAcard(Card card)
             {
-                Discard.Add(card);
+                Discard0.Add(card);
             }
 
             public void DrawACard(int x)
@@ -240,10 +266,11 @@ namespace HereToSlayImplementation
 
                 int index = rnd.Next(ListOfDecks[x].Count - 1);
                 (ListOfDecks[x])[index].Location = new Point(537 + (players[x].GetHand().Count * 30), 620);
+                ListOfDiscard[x].Add((ListOfDecks[x])[index]);
                 (ListOfDecks[x])[index].BringToFront();
                 instance3.Controls.Add((ListOfDecks[x])[index]);
-
                 players[x].AddCardToHand((ListOfDecks[x])[index]);
+                ListOfDecks[x].Remove((ListOfDecks[x])[index]);
 
 
             }
@@ -290,13 +317,9 @@ namespace HereToSlayImplementation
 
         private void PlayerDiscardButton_Click(object sender, EventArgs e)
         {
-
+            game.GetPlayer(0).GetHand()[0].PerformClick();
         }
 
-        private void DiscardButton_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void PlayerDeckButton_Click(object sender, EventArgs e)
         {
@@ -331,5 +354,7 @@ namespace HereToSlayImplementation
             sqlConnection.Close();
             
         }
+
+
     }
 }

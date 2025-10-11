@@ -39,6 +39,7 @@ namespace HereToSlayImplementation
             private List<Button> Hand;
             private int Health;
             private int Defense;
+            private string deck;
             private int _actionpoints;
             private int actionPoints
             {
@@ -70,6 +71,17 @@ namespace HereToSlayImplementation
                 actionPoints = 1;
                 Health = 10;
                 Defense = 0;
+                
+            }
+
+            public string GetDeck()
+            {
+                return deck;
+            }
+
+            public void SetDeck(string x)
+            {
+                deck = x;
             }
 
             public List<Button> GetHand()
@@ -355,6 +367,8 @@ namespace HereToSlayImplementation
 
         private void Testbutton_Click(object sender, EventArgs e)
         {
+            thisPlayer.SetPlayerNumber(1);
+            thisPlayer.SetDeck("minsc & boo");
             GameWindow = new Form3();
             GameWindow.Show();
             this.Hide();
