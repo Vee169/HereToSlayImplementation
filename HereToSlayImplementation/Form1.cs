@@ -21,43 +21,14 @@ namespace HereToSlayImplementation
     {
         static public Form1 instance1;
         static public SqlConnection sqlConnection;
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
-        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhem.mdf\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhem.mdf\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
         public Player thisPlayer;
         public string EncryptedPassword;
+        public Form3 GameWindow;
 
-        public class Card : Button
-        {
-            protected string cardName;
-            protected Form3.Game game;
-            private int CardID;
-            public Card(int c, string cardName = "", Form3.Game game = null)
-            {
-                this.cardName = cardName;
-                Size = new Size(281, 422);
-                this.game = game;
-                CardID = c;
 
-            }
-
-            public string GetCardName()
-            {
-                return cardName;
-            }
-
-            public virtual void playCard()
-            {
-
-            }
-
-            public void DestroyCard(Card c)
-            {
-                //c.Location = Form3.instance3.discard;
-                game.discardAcard(c);
-                c.Hide();
-            }
-        }
 
         public class Player
         {
@@ -65,7 +36,8 @@ namespace HereToSlayImplementation
             private int playerID;
             private int GameID;
             private int playerNumber;
-            private List<Card> Hand;
+            private List<Button> Hand;
+            private int Health;
             private int _actionpoints;
             private int actionPoints
             {
@@ -97,8 +69,14 @@ namespace HereToSlayImplementation
                 playerID = p;
                 GameID = g;
                 this.playerNumber = pn;
-                Hand = new List<Card>();
+                Hand = new List<Button>();
                 actionPoints = 3;
+                Health = 10;
+            }
+
+            public List<Button> GetHand()
+            {
+                return Hand;
             }
 
             public string GetUsername()
@@ -144,10 +122,19 @@ namespace HereToSlayImplementation
             {
                 actionPoints = 3;
             }
-            public void AddCardToHand(Card card)
+            public void AddCardToHand(Button card)
             {
                 Hand.Add(card);
-                card.Location = new Point(547, 816 + (Hand.Count * 30));
+            }
+
+            public int GetHealth()
+            {
+                return Health;
+            }
+
+            public void SetHealth(int x)
+            {
+                Health -= x;
             }
         }
         public Form1()
@@ -354,7 +341,8 @@ namespace HereToSlayImplementation
 
         private void Testbutton_Click(object sender, EventArgs e)
         {
-            new Form3().Show();
+            GameWindow = new Form3();
+            GameWindow.Show();
             this.Hide();
         }
     }

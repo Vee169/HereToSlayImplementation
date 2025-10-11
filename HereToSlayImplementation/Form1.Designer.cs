@@ -188,7 +188,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(1472, 650);
+            ClientSize = new Size(2103, 1083);
             Controls.Add(Testbutton);
             Controls.Add(JoinWarningTextBox);
             Controls.Add(JoinButton);

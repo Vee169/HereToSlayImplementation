@@ -49,9 +49,10 @@
             // 
             SlainMonster1Button.BackColor = Color.DarkGray;
             SlainMonster1Button.ForeColor = SystemColors.ButtonHighlight;
-            SlainMonster1Button.Location = new Point(12, 730);
+            SlainMonster1Button.Location = new Point(17, 1217);
+            SlainMonster1Button.Margin = new Padding(4, 5, 4, 5);
             SlainMonster1Button.Name = "SlainMonster1Button";
-            SlainMonster1Button.Size = new Size(265, 40);
+            SlainMonster1Button.Size = new Size(379, 67);
             SlainMonster1Button.TabIndex = 1;
             SlainMonster1Button.Text = "Slain Monster 1 ";
             SlainMonster1Button.UseVisualStyleBackColor = false;
@@ -60,9 +61,10 @@
             // 
             SlainMonster2Button.BackColor = Color.DarkGray;
             SlainMonster2Button.ForeColor = SystemColors.ButtonHighlight;
-            SlainMonster2Button.Location = new Point(12, 764);
+            SlainMonster2Button.Location = new Point(17, 1273);
+            SlainMonster2Button.Margin = new Padding(4, 5, 4, 5);
             SlainMonster2Button.Name = "SlainMonster2Button";
-            SlainMonster2Button.Size = new Size(265, 40);
+            SlainMonster2Button.Size = new Size(379, 67);
             SlainMonster2Button.TabIndex = 2;
             SlainMonster2Button.Text = "Slain Monster 2";
             SlainMonster2Button.UseVisualStyleBackColor = false;
@@ -71,9 +73,10 @@
             // 
             SlainMonster3Button.BackColor = Color.DarkGray;
             SlainMonster3Button.ForeColor = SystemColors.ButtonHighlight;
-            SlainMonster3Button.Location = new Point(12, 797);
+            SlainMonster3Button.Location = new Point(17, 1328);
+            SlainMonster3Button.Margin = new Padding(4, 5, 4, 5);
             SlainMonster3Button.Name = "SlainMonster3Button";
-            SlainMonster3Button.Size = new Size(265, 40);
+            SlainMonster3Button.Size = new Size(379, 67);
             SlainMonster3Button.TabIndex = 3;
             SlainMonster3Button.Text = "Slain Monster 3 ";
             SlainMonster3Button.UseVisualStyleBackColor = false;
@@ -82,45 +85,50 @@
             // 
             HandLabel.AutoSize = true;
             HandLabel.ForeColor = SystemColors.ButtonHighlight;
-            HandLabel.Location = new Point(418, 354);
+            HandLabel.Location = new Point(597, 590);
+            HandLabel.Margin = new Padding(4, 0, 4, 0);
             HandLabel.Name = "HandLabel";
-            HandLabel.Size = new Size(36, 15);
+            HandLabel.Size = new Size(55, 25);
             HandLabel.TabIndex = 25;
             HandLabel.Text = "Hand";
             // 
             // OpponentHealthPictureBox
             // 
             OpponentHealthPictureBox.BackColor = Color.DarkGray;
-            OpponentHealthPictureBox.Location = new Point(215, 12);
+            OpponentHealthPictureBox.Location = new Point(307, 20);
+            OpponentHealthPictureBox.Margin = new Padding(4, 5, 4, 5);
             OpponentHealthPictureBox.Name = "OpponentHealthPictureBox";
-            OpponentHealthPictureBox.Size = new Size(566, 74);
+            OpponentHealthPictureBox.Size = new Size(809, 123);
             OpponentHealthPictureBox.TabIndex = 21;
             OpponentHealthPictureBox.TabStop = false;
             // 
             // OpponentInfoPictureBox
             // 
             OpponentInfoPictureBox.BackColor = Color.DarkGray;
-            OpponentInfoPictureBox.Location = new Point(12, 12);
+            OpponentInfoPictureBox.Location = new Point(17, 20);
+            OpponentInfoPictureBox.Margin = new Padding(4, 5, 4, 5);
             OpponentInfoPictureBox.Name = "OpponentInfoPictureBox";
-            OpponentInfoPictureBox.Size = new Size(197, 253);
+            OpponentInfoPictureBox.Size = new Size(281, 422);
             OpponentInfoPictureBox.TabIndex = 22;
             OpponentInfoPictureBox.TabStop = false;
             // 
             // PlayerHealthPictureBox
             // 
             PlayerHealthPictureBox.BackColor = Color.DarkGray;
-            PlayerHealthPictureBox.Location = new Point(566, 551);
+            PlayerHealthPictureBox.Location = new Point(809, 918);
+            PlayerHealthPictureBox.Margin = new Padding(4, 5, 4, 5);
             PlayerHealthPictureBox.Name = "PlayerHealthPictureBox";
-            PlayerHealthPictureBox.Size = new Size(566, 74);
+            PlayerHealthPictureBox.Size = new Size(809, 123);
             PlayerHealthPictureBox.TabIndex = 23;
             PlayerHealthPictureBox.TabStop = false;
             // 
             // PlayerInfoPictureBox
             // 
             PlayerInfoPictureBox.BackColor = Color.DarkGray;
-            PlayerInfoPictureBox.Location = new Point(1138, 372);
+            PlayerInfoPictureBox.Location = new Point(1626, 620);
+            PlayerInfoPictureBox.Margin = new Padding(4, 5, 4, 5);
             PlayerInfoPictureBox.Name = "PlayerInfoPictureBox";
-            PlayerInfoPictureBox.Size = new Size(197, 253);
+            PlayerInfoPictureBox.Size = new Size(281, 422);
             PlayerInfoPictureBox.TabIndex = 24;
             PlayerInfoPictureBox.TabStop = false;
             // 
@@ -128,9 +136,10 @@
             // 
             PlayerDiscardButton.BackColor = Color.DimGray;
             PlayerDiscardButton.ForeColor = SystemColors.ButtonHighlight;
-            PlayerDiscardButton.Location = new Point(215, 372);
+            PlayerDiscardButton.Location = new Point(302, 619);
+            PlayerDiscardButton.Margin = new Padding(4, 5, 4, 5);
             PlayerDiscardButton.Name = "PlayerDiscardButton";
-            PlayerDiscardButton.Size = new Size(197, 253);
+            PlayerDiscardButton.Size = new Size(281, 422);
             PlayerDiscardButton.TabIndex = 20;
             PlayerDiscardButton.Text = "Player Discard";
             PlayerDiscardButton.UseVisualStyleBackColor = false;
@@ -140,9 +149,10 @@
             // 
             OpponentDeckButton.BackColor = Color.DimGray;
             OpponentDeckButton.ForeColor = SystemColors.ButtonHighlight;
-            OpponentDeckButton.Location = new Point(1138, 12);
+            OpponentDeckButton.Location = new Point(1626, 20);
+            OpponentDeckButton.Margin = new Padding(4, 5, 4, 5);
             OpponentDeckButton.Name = "OpponentDeckButton";
-            OpponentDeckButton.Size = new Size(197, 253);
+            OpponentDeckButton.Size = new Size(281, 422);
             OpponentDeckButton.TabIndex = 19;
             OpponentDeckButton.Text = "Opponent Deck";
             OpponentDeckButton.UseVisualStyleBackColor = false;
@@ -151,19 +161,21 @@
             // 
             PlayerDeckButton.BackColor = Color.DimGray;
             PlayerDeckButton.ForeColor = SystemColors.ButtonHighlight;
-            PlayerDeckButton.Location = new Point(12, 372);
+            PlayerDeckButton.Location = new Point(17, 620);
+            PlayerDeckButton.Margin = new Padding(0);
             PlayerDeckButton.Name = "PlayerDeckButton";
-            PlayerDeckButton.Size = new Size(197, 253);
+            PlayerDeckButton.Size = new Size(281, 422);
             PlayerDeckButton.TabIndex = 18;
             PlayerDeckButton.Text = "Player Deck";
             PlayerDeckButton.UseVisualStyleBackColor = false;
+            PlayerDeckButton.Click += PlayerDeckButton_Click;
             // 
             // Form3
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(1347, 637);
+            ClientSize = new Size(1924, 1062);
             Controls.Add(HandLabel);
             Controls.Add(OpponentHealthPictureBox);
             Controls.Add(OpponentInfoPictureBox);
@@ -175,6 +187,7 @@
             Controls.Add(SlainMonster1Button);
             Controls.Add(SlainMonster2Button);
             Controls.Add(SlainMonster3Button);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "Form3";
             Text = "Form3";
             Load += Form3_Load;
