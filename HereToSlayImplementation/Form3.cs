@@ -67,31 +67,6 @@ namespace HereToSlayImplementation
 
         }
 
-        public bool AttackMonster(MonsterCard mc)
-        {
-            Form1.Player player = game.GetPlayer(thisPlayer);
-            if (mc.GetClassRequirment() == HeroClass.no)
-            {
-                int count = 0;
-                foreach (Form1.Card c in player.GetParty())
-                {
-                    if (c != null)
-                    {
-                        count++;
-                    }
-                }
-                if (count >= mc.GetPartySizeRequirment())
-                {
-                    int roll = game.rollDice();
-                    if (roll > mc.GetKillRequirment())
-                    {
-                        player.KilledMonster(mc);
-                    }
-                }
-            }
-            return false;
-        }
-
         public enum HeroClass
         {
             wizard,
@@ -108,27 +83,17 @@ namespace HereToSlayImplementation
             private Form1.Player[] players;
             private List<Form1.Card> Discard;
             private List<Form1.Card> Deck;
-            private List<MonsterCard> MonsterDeck;
 
             public Game(Form1.Player[] p)
             {
                 players = p;
                 Discard = new List<Form1.Card>();
                 Deck = new List<Form1.Card>();
-                MonsterDeck = new List<MonsterCard>();
             }
 
             public Form1.Player GetPlayer(int x)
             {
                 return players[x];
-            }
-
-            public MonsterCard GetMonsterCard()
-            {
-                Random rnd = new Random();
-                MonsterCard mc = MonsterDeck[rnd.Next(0, MonsterDeck.Count)];
-                MonsterDeck.Remove(mc);
-                return mc;
             }
 
             public void discardAcard(Form1.Card card)

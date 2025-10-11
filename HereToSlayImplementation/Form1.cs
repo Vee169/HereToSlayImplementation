@@ -66,7 +66,6 @@ namespace HereToSlayImplementation
             private int GameID;
             private int playerNumber;
             private List<Card> Hand;
-            private Form3.MonsterCard[] SlainMonsters;
             private int _actionpoints;
             private int actionPoints
             {
@@ -100,26 +99,6 @@ namespace HereToSlayImplementation
                 this.playerNumber = pn;
                 Hand = new List<Card>();
                 actionPoints = 3;
-                SlainMonsters = new Form3.MonsterCard[3];
-            }
-
-            public Form3.MonsterCard GetMonster(int x)
-            {
-                return SlainMonsters[x];
-            }
-
-            public void KilledMonster(Form3.MonsterCard mc)
-            {
-                int count = 0;
-                foreach(Card c in SlainMonsters)
-                {
-                    if (c != null)
-                    {
-                        SlainMonsters[count] = mc;
-                        break;
-                    }
-                    count++;
-                }
             }
 
             public string GetUsername()
