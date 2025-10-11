@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-//using Microsoft.Data.SqlClient;
+//using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Microsoft.Identity.Client;
 using Azure.Core;
 using System.Security.Cryptography.Xml;
@@ -31,11 +31,14 @@ namespace HereToSlayImplementation
         {
             protected string cardName;
             protected Form3.Game game;
-            public Card(string cardName = "", Form3.Game game = null)
+            private int CardID;
+            public Card(int c, string cardName = "", Form3.Game game = null)
             {
                 this.cardName = cardName;
                 Size = new Size(281, 422);
                 this.game = game;
+                CardID = c;
+
             }
 
             public string GetCardName()
@@ -50,7 +53,7 @@ namespace HereToSlayImplementation
 
             public void DestroyCard(Card c)
             {
-                c.Location = Form3.instance3.discard.Location;
+                //c.Location = Form3.instance3.discard;
                 game.discardAcard(c);
                 c.Hide();
             }
@@ -63,6 +66,7 @@ namespace HereToSlayImplementation
             private int GameID;
             private int playerNumber;
             private List<Card> Hand;
+            private Form3.MonsterCard[] SlainMonsters;
             private int _actionpoints;
             private int actionPoints
             {
@@ -96,6 +100,26 @@ namespace HereToSlayImplementation
                 this.playerNumber = pn;
                 Hand = new List<Card>();
                 actionPoints = 3;
+                SlainMonsters = new Form3.MonsterCard[3];
+            }
+
+            public Form3.MonsterCard GetMonster(int x)
+            {
+                return SlainMonsters[x];
+            }
+
+            public void KilledMonster(Form3.MonsterCard mc)
+            {
+                int count = 0;
+                foreach(Card c in SlainMonsters)
+                {
+                    if (c != null)
+                    {
+                        SlainMonsters[count] = mc;
+                        break;
+                    }
+                    count++;
+                }
             }
 
             public string GetUsername()
