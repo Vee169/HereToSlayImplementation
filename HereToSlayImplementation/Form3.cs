@@ -43,11 +43,10 @@ namespace HereToSlayImplementation
             thisPlayer = 0;
             MoveRetrievalTimer.Tick += MoveRetrievalTimer_Tick;
             MoveRetrievalTimer.Start();
-            beenMade = true;
             CardSelected = false;
 
 
-            for (int i = 1; i < 2; i++)
+            for (int i = 1; i < 3; i++)
             {
 
                 if (i != Form1.instance1.thisPlayer.GetPlayerNumber())
@@ -105,7 +104,6 @@ namespace HereToSlayImplementation
             private int Lightning;
             public Card(int c, Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
             {
-                beenMade = true;
                 this.cardName = cardName;
                 Size = new Size(281, 422);
                 BackColor = Color.DimGray;
@@ -118,9 +116,6 @@ namespace HereToSlayImplementation
                 AnalyseSymbols();
                 CardID = c;
                 Click += Card_Click;
-                BringToFront();
-                this.PerformClick();
-                beenMade = false;
             }
             private void Card_Click(object sender, EventArgs e)
             {

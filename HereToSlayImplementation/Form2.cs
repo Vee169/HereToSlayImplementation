@@ -78,7 +78,7 @@ namespace HereToSlayImplementation
                     {
                         if (reader.Read())
                         {
-                            if (reader.GetInt32(0) == 1)
+                            if (reader.GetString(0) != null)
                             {
                                 SecondTimer.Enabled = true;
                                 SecondTimer.Start();

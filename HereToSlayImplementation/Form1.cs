@@ -1,19 +1,20 @@
+using Azure.Core;
+using Google.Protobuf.WellKnownTypes;
+//using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using System.Data.SqlClient;
-using Microsoft.Data.SqlClient;
-using Microsoft.Identity.Client;
-using Azure.Core;
-using System.Security.Cryptography.Xml;
-using Microsoft.EntityFrameworkCore;
-using System.CodeDom;
 namespace HereToSlayImplementation
 
 {
@@ -333,24 +334,21 @@ namespace HereToSlayImplementation
                         }
                     }
                 }
-
+                bool GameExists = false;
                 SqlCommand command3 = new SqlCommand($"SELECT * FROM Games WHERE GameID = {value}", sqlConnection);
                 using (SqlDataReader reader = command3.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        for (int i = 1; i < 6; i++)
-                        {
-                            if (reader.IsDBNull(i))
-                            {
-                                SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID{i} = {thisPlayer.GetplayerID()} WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
-                                command2.ExecuteNonQuery();
-                                NotInAGame = false;
-                                Form1.instance1.thisPlayer.SetPlayerNumber(i);
-                                break;
-                            }
-                        }
+                        GameExists = true;
+                        NotInAGame = false;
+                        Form1.instance1.thisPlayer.SetPlayerNumber(2);
                     }
+                }
+                if(GameExists)
+                {
+                    SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID2 = {thisPlayer.GetplayerID()} WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
+                    command2.ExecuteNonQuery();
                 }
                 if (NotInAGame)
                 {
@@ -368,9 +366,18 @@ namespace HereToSlayImplementation
         private void Testbutton_Click(object sender, EventArgs e)
         {
             thisPlayer.SetPlayerNumber(1);
+            
             thisPlayer.SetDeck("minsc & boo");
+            sqlConnection.Open();
+            thisPlayer.SetGameID(6);
+            SqlCommand command3 = new SqlCommand($"UPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = 2", sqlConnection);
+            command3.ExecuteNonQuery();
+            SqlCommand command5 = new SqlCommand($"UPDATE Games SET PlayerID2 = 2 WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = 2", sqlConnection);
+            command5.ExecuteNonQuery();
+            sqlConnection.Close();
             GameWindow = new Form3();
             GameWindow.Show();
+
             this.Hide();
         }
     }
