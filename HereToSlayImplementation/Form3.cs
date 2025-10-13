@@ -29,6 +29,7 @@ namespace HereToSlayImplementation
         static public bool IsYourTurn;
         static public bool beenMade;
         static public bool CardSelected;
+        static public bool CardPlayed;
 
         public Form3()
         {
@@ -46,6 +47,7 @@ namespace HereToSlayImplementation
             DiscardTimer.Tick += DiscardTimer_Tick;
             CardSelected = false;
             this.Disposed += Form3_Disposed;
+            CardPlayed = false;
 
 
             for (int i = 1; i < 3; i++)
@@ -136,7 +138,7 @@ namespace HereToSlayImplementation
                         if (game.GetSelectedCard() == sender)
                         {
                             ((Card)sender).Location = new Point(597, 163);
-                            game.playCard();
+                            CardPlayed = true;
                         }
                         else
                         {
@@ -207,13 +209,6 @@ namespace HereToSlayImplementation
                 return Defense;
             }
 
-
-
-
-
-
-
-
             public void DestroyCard(Card c)
             {
                 c.Location = new Point(307, 620);
@@ -258,6 +253,12 @@ namespace HereToSlayImplementation
             public int GetgameID()
             {
                 return gameID;
+            }
+
+            public void Turn()
+            {
+                DrawACard(0);
+                playCard();
             }
 
             public void SelectCard(Card card)
@@ -327,6 +328,7 @@ namespace HereToSlayImplementation
 
             public virtual void playCard()
             {
+                
                 GetPlayer(0).LoseActionsPoints(1);
                 damageThisTurn += SelectedCard.DealDamage();
                 healthThisTurn += SelectedCard.Heal();
