@@ -36,8 +36,10 @@ namespace HereToSlayImplementation
             Seconds = 5;
             StartButtonClicked = false;
             CountdownLabel.Hide();
+            this.Disposed += Form2_Disposed;
 
         }
+
         public void Updateplayers()
         {
             sqlConnection.Open();
@@ -78,7 +80,7 @@ namespace HereToSlayImplementation
                     {
                         if (reader.Read())
                         {
-                            if (reader.GetString(0) != null)
+                            if (reader.GetInt32(0) != 0)
                             {
                                 SecondTimer.Enabled = true;
                                 SecondTimer.Start();
@@ -134,7 +136,7 @@ namespace HereToSlayImplementation
         {
         }
 
-        private void Form2_Disposed(object? sender, EventArgs e)
+        private void Form2_Disposed(object sender, EventArgs e)
         {
             Form1.instance1.Dispose();
         }

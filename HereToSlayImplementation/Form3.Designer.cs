@@ -39,6 +39,7 @@
             PlayerDeckButton = new Button();
             MoveRetrievalTimer = new System.Windows.Forms.Timer(components);
             TurnTextBox = new TextBox();
+            DiscardTimer = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)OpponentHealthPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OpponentInfoPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayerHealthPictureBox).BeginInit();
@@ -153,6 +154,11 @@
             TurnTextBox.TabIndex = 26;
             TurnTextBox.Text = "It is the turn of: ";
             // 
+            // DiscardTimer
+            // 
+            DiscardTimer.Interval = 1000;
+            DiscardTimer.Tick += DiscardTimer_Tick;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -197,5 +203,6 @@
         private Button PlayerDeckButton;
         private System.Windows.Forms.Timer MoveRetrievalTimer;
         private TextBox TurnTextBox;
+        private System.Windows.Forms.Timer DiscardTimer;
     }
 }

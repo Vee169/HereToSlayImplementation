@@ -369,7 +369,7 @@ namespace HereToSlayImplementation
             
             thisPlayer.SetDeck("minsc & boo");
             sqlConnection.Open();
-            thisPlayer.SetGameID(6);
+            thisPlayer.SetGameID(10);
             SqlCommand command3 = new SqlCommand($"UPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = 2", sqlConnection);
             command3.ExecuteNonQuery();
             SqlCommand command5 = new SqlCommand($"UPDATE Games SET PlayerID2 = 2 WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = 2", sqlConnection);

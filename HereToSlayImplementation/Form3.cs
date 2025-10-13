@@ -43,7 +43,9 @@ namespace HereToSlayImplementation
             thisPlayer = 0;
             MoveRetrievalTimer.Tick += MoveRetrievalTimer_Tick;
             MoveRetrievalTimer.Start();
+            DiscardTimer.Tick += DiscardTimer_Tick;
             CardSelected = false;
+            this.Disposed += Form3_Disposed;
 
 
             for (int i = 1; i < 3; i++)
@@ -51,10 +53,10 @@ namespace HereToSlayImplementation
 
                 if (i != Form1.instance1.thisPlayer.GetPlayerNumber())
                 {
-                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.PlayerID{i} = Player.playerID", sqlConnection);
+                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.PlayerID{i} = Player.playerID AND Games.GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.GetString(1) != null)
+                        if (reader.Read())
                         {
                             players[1] = new Form1.Player(reader.GetString(1), reader.GetInt32(0));
                         }
@@ -67,7 +69,7 @@ namespace HereToSlayImplementation
             }
             sqlConnection.Close();
 
-            if(players[0].GetPlayerNumber() == 1)
+            if (players[0].GetPlayerNumber() == 1)
             {
                 IsYourTurn = true;
                 MoveRetrievalTimer.Enabled = false;
@@ -78,7 +80,7 @@ namespace HereToSlayImplementation
                 IsYourTurn = false;
                 TurnTextBox.Text += players[1].GetUsername();
             }
-                game = new Game(players);
+            game = new Game(players);
             game.DealHand(thisPlayer);
             FocusScreen();
         }
@@ -109,6 +111,8 @@ namespace HereToSlayImplementation
                 BackColor = Color.DimGray;
                 this.game = game;
                 EffectSymbols = [ds, hs, ls, drs];
+                Text += $"{ds}, {hs}, {ls}, {drs}";
+                TextAlign = ContentAlignment.TopCenter;
                 Damage = 0;
                 Defense = 0;
                 Healing = 0;
@@ -119,15 +123,28 @@ namespace HereToSlayImplementation
             }
             private void Card_Click(object sender, EventArgs e)
             {
-                if (!CardSelected)
+                if (IsYourTurn)
                 {
-                    this.Top -= 50;
-                    CardSelected = true;
-                    game.SelectCard(this);
-                }
-                else
-                {
-                    game.playCard();
+                    if (!CardSelected)
+                    {
+                        this.Top -= 50;
+                        CardSelected = true;
+                        game.SelectCard(this);
+                    }
+                    else
+                    {
+                        if (game.GetSelectedCard() == sender)
+                        {
+                            ((Card)sender).Location = new Point(597, 163);
+                            game.playCard();
+                        }
+                        else
+                        {
+                            CardSelected = false;
+                            game.GetSelectedCard().Top += 50;
+                            this.PerformClick();
+                        }
+                    }
                 }
             }
             private void AnalyseSymbols()
@@ -180,8 +197,8 @@ namespace HereToSlayImplementation
             public void DoLightning()
             {
                 game.GetPlayer(0).LoseActionsPoints(-Lightning);
-                
-                
+
+
             }
 
             public int Defend()
@@ -195,7 +212,7 @@ namespace HereToSlayImplementation
 
 
 
-            
+
 
             public void DestroyCard(Card c)
             {
@@ -246,7 +263,12 @@ namespace HereToSlayImplementation
             public void SelectCard(Card card)
             {
                 SelectedCard = card;
-                
+
+            }
+
+            public Card GetSelectedCard()
+            {
+                return SelectedCard;
             }
 
             public void buildDeck()
@@ -320,6 +342,8 @@ namespace HereToSlayImplementation
                     Form3.instance3.MoveRetrievalTimer.Enabled = true;
                     Form3.instance3.TurnTextBox.Text = "It is the turn of:";
                     Form3.instance3.TurnTextBox.Text += players[1].GetUsername();
+                    SelectedCard.Location = new Point(302, 619);
+                    Form3.instance3.DiscardTimer.Enabled = true;
                 }
                 else
                 {
@@ -333,7 +357,7 @@ namespace HereToSlayImplementation
 
         }
 
-        
+
 
         private void PlayerDiscardButton_Click(object sender, EventArgs e)
         {
@@ -350,30 +374,41 @@ namespace HereToSlayImplementation
 
         private void MoveRetrievalTimer_Tick(object sender, EventArgs e)
         {
-            bool turnChange = false;
-            sqlConnection.Open();
-            SqlCommand cmd = new SqlCommand($"SELECT * FROM Moves WHERE GameIDfk = {game.GetgameID()}",sqlConnection);
-            using(SqlDataReader reader = cmd.ExecuteReader())
+            if (!IsYourTurn)
             {
-                if (reader.Read())
+                bool turnChange = false;
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand($"SELECT * FROM Moves WHERE GameIDfk = {game.GetgameID()}", sqlConnection);
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    game.GetPlayer(0).SetDefence(-reader.GetInt32(2));
-                    game.GetPlayer(1).SetHealth(-reader.GetInt32(2));
-                    game.GetPlayer(1).SetDefence(reader.GetInt32(2));
-                    turnChange = true;
+                    if (reader.Read())
+                    {
+                        game.GetPlayer(0).SetDefence(-reader.GetInt32(2));
+                        game.GetPlayer(1).SetHealth(-reader.GetInt32(2));
+                        game.GetPlayer(1).SetDefence(reader.GetInt32(2));
+                        turnChange = true;
+                    }
                 }
+                if (turnChange)
+                {
+                    SqlCommand cmd2 = new SqlCommand($"DELETE FROM Moves WHERE GameIDfk = {game.GetgameID()}", sqlConnection);
+                    MoveRetrievalTimer.Enabled = false;
+                    TurnTextBox.Text += game.GetPlayer(0).GetUsername();
+                    IsYourTurn = true;
+                }
+                sqlConnection.Close();
             }
-            if (turnChange)
-            {
-                SqlCommand cmd2 = new SqlCommand($"DELETE FROM Moves WHERE GameIDfk = {game.GetgameID()}", sqlConnection);
-                MoveRetrievalTimer.Enabled = false;
-                TurnTextBox.Text += game.GetPlayer(0).GetUsername();
-                IsYourTurn = true;
-            }
-            sqlConnection.Close();
-            
+
         }
 
+        private void Form3_Disposed(object sender, EventArgs e)
+        {
+            Form1.instance1.Dispose();
+        }
 
+        private void DiscardTimer_Tick(object sender, EventArgs e)
+        {
+            game.GetSelectedCard().Dispose();
+        }
     }
 }
