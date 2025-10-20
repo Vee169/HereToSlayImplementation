@@ -40,6 +40,8 @@
             MoveRetrievalTimer = new System.Windows.Forms.Timer(components);
             TurnTextBox = new TextBox();
             DiscardTimer = new System.Windows.Forms.Timer(components);
+            OpponentHealthTextBox = new TextBox();
+            PlayerHealthTextBox = new TextBox();
             ((System.ComponentModel.ISupportInitialize)OpponentHealthPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OpponentInfoPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayerHealthPictureBox).BeginInit();
@@ -159,12 +161,38 @@
             DiscardTimer.Interval = 1000;
             DiscardTimer.Tick += DiscardTimer_Tick;
             // 
+            // OpponentHealthTextBox
+            // 
+            OpponentHealthTextBox.BackColor = Color.DarkGray;
+            OpponentHealthTextBox.BorderStyle = BorderStyle.None;
+            OpponentHealthTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            OpponentHealthTextBox.ForeColor = SystemColors.ButtonHighlight;
+            OpponentHealthTextBox.Location = new Point(307, 20);
+            OpponentHealthTextBox.Name = "OpponentHealthTextBox";
+            OpponentHealthTextBox.ReadOnly = true;
+            OpponentHealthTextBox.Size = new Size(632, 120);
+            OpponentHealthTextBox.TabIndex = 27;
+            // 
+            // PlayerHealthTextBox
+            // 
+            PlayerHealthTextBox.BackColor = Color.DarkGray;
+            PlayerHealthTextBox.BorderStyle = BorderStyle.None;
+            PlayerHealthTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            PlayerHealthTextBox.ForeColor = SystemColors.ButtonHighlight;
+            PlayerHealthTextBox.Location = new Point(809, 918);
+            PlayerHealthTextBox.Name = "PlayerHealthTextBox";
+            PlayerHealthTextBox.ReadOnly = true;
+            PlayerHealthTextBox.Size = new Size(632, 120);
+            PlayerHealthTextBox.TabIndex = 28;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1924, 1062);
+            Controls.Add(PlayerHealthTextBox);
+            Controls.Add(OpponentHealthTextBox);
             Controls.Add(TurnTextBox);
             Controls.Add(HandLabel);
             Controls.Add(OpponentHealthPictureBox);
@@ -204,5 +232,7 @@
         private System.Windows.Forms.Timer MoveRetrievalTimer;
         private TextBox TurnTextBox;
         private System.Windows.Forms.Timer DiscardTimer;
+        private TextBox OpponentHealthTextBox;
+        private TextBox PlayerHealthTextBox;
     }
 }

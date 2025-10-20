@@ -149,6 +149,7 @@ namespace HereToSlayImplementation
             {
                 actionPoints = 1;
             }
+
             public void AddCardToHand(Button card)
             {
                 Hand.Add(card);
