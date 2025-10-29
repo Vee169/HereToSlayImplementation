@@ -111,7 +111,7 @@ namespace HereToSlayImplementation
             public Card(int c, Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
             {
                 this.cardName = cardName;
-                Size = new Size(281, 422);
+                Size = new Size(197, 253);
                 BackColor = Color.DimGray;
                 this.game = game;
                 EffectSymbols = [ds, hs, ls, drs];
@@ -158,7 +158,7 @@ namespace HereToSlayImplementation
                 {
                     switch (symbol.ToLower())
                     {
-                        case "attack":
+                        case "damage":
                             Damage += 1;
                             break;
                         case "defense":
@@ -169,6 +169,9 @@ namespace HereToSlayImplementation
                             break;
                         case "draw":
                             Draw += 1;
+                            break;
+                        case "lightning":
+                            Lightning += 1;
                             break;
 
                     }
@@ -181,8 +184,14 @@ namespace HereToSlayImplementation
             }
             public int DealDamage()
             {
-                game.GetPlayer(1).SetHealth(Damage);
-                instance3.OpponentHealthTextBox.Text = $"10/{game.GetPlayer(1).GetHealth()}";
+                
+                game.GetPlayer(1).SetDefence(-Damage);
+                
+                instance3.OpponentHealthTextBox.Text = $"{game.GetPlayer(1).GetHealth()}/10";
+                if(game.GetPlayer(1).GetDefense() >= 0)
+                {
+                    instance3.OpponentDefenceTextBox.Text = $" + {game.GetPlayer(1).GetDefense()}";
+                }
                 return Damage;
             }
 
@@ -198,19 +207,27 @@ namespace HereToSlayImplementation
             public int Heal()
             {
                 game.GetPlayer(0).SetHealth(-Healing);
-                instance3.OpponentHealthTextBox.Text = $"10/{game.GetPlayer(0).GetHealth()}";
+                instance3.OpponentHealthTextBox.Text = $"{game.GetPlayer(0).GetHealth()}/10";
+                if (game.GetPlayer(1).GetDefense() >= 0)
+                {
+                    instance3.OpponentDefenceTextBox.Text = $" + {game.GetPlayer(1).GetDefense()}";
+                }
                 return Healing;
             }
             public void DoLightning()
             {
                 game.GetPlayer(0).LoseActionsPoints(-Lightning);
-
+                Lightning = 0;
 
             }
 
             public int Defend()
             {
                 game.GetPlayer(0).SetDefence(Defense);
+                if (game.GetPlayer(0).GetDefense() >= 0)
+                {
+                    instance3.PlayerDefenceTextBox.Text = $" + {game.GetPlayer(0).GetDefense()}";
+                }
                 return Defense;
             }
 
@@ -296,6 +313,7 @@ namespace HereToSlayImplementation
                 }
                 sqlConnection.Close();
                 ListOfDecks[0].Add(new Card(1, this, "Damage", "Damage"));
+                ListOfDecks[0].Add(new Card(1, this, "defense", "defense", "lightning"));
 
             }
 
@@ -320,7 +338,7 @@ namespace HereToSlayImplementation
                     ListOfDiscard[x] = new List<Card>();
                 }
                 int index = rnd.Next(ListOfDecks[x].Count - 1);
-                (ListOfDecks[x])[index].Location = new Point(537 + (players[x].GetHand().Count * 30), 620);
+                (ListOfDecks[x])[index].Location = new Point(418 + (players[x].GetHand().Count * 30), 371);
                 ListOfDiscard[x].Add((ListOfDecks[x])[index]);
                 (ListOfDecks[x])[index].BringToFront();
                 instance3.Controls.Add((ListOfDecks[x])[index]);
@@ -352,18 +370,19 @@ namespace HereToSlayImplementation
                     SqlCommand command = new SqlCommand($"INSERT INTO Moves VALUES ({GetgameID()}, {damageThisTurn}, {damageThisTurn}, {defenseThisTurn}, {GetPlayer(0).GetplayerID()})", sqlConnection);
                     command.ExecuteNonQuery();
                     sqlConnection.Close();
+                    Form3.instance3.OpponentHealthTextBox.Text = $"10/{players[1].GetHealth()}";
+                    if (players[1].GetDefense() >= 0)
+                    {
+                        instance3.OpponentDefenceTextBox.Text = $" + {players[1].GetDefense()}";
+                    }
                     IsYourTurn = false;
                     Form3.instance3.MoveRetrievalTimer.Enabled = true;
                     Form3.instance3.TurnTextBox.Text = "It is the turn of:";
                     Form3.instance3.TurnTextBox.Text += players[1].GetUsername();
-                    card.Location = new Point(302, 619);
-                    Form3.instance3.DiscardTimer.Enabled = true;
-                    Console.WriteLine("card drawn");
                 }
-                else
-                {
-                    playCard(card);
-                }
+                card.Location = new Point(211, 371);
+                Form3.instance3.DiscardTimer.Enabled = true;
+                Console.WriteLine("card played");
             }
         }
 
@@ -395,6 +414,11 @@ namespace HereToSlayImplementation
                     if (reader.Read())
                     {
                         game.GetPlayer(0).SetDefence(-reader.GetInt32(2));
+                        Form3.instance3.PlayerHealthTextBox.Text = $"10/{game.GetPlayer(0).GetHealth()}";
+                        if (game.GetPlayer(0).GetDefense() >= 0)
+                        {
+                            instance3.OpponentDefenceTextBox.Text = $" + {game.GetPlayer(0).GetDefense()}";
+                        }
                         game.GetPlayer(1).SetHealth(-reader.GetInt32(3));
                         game.GetPlayer(1).SetDefence(reader.GetInt32(4));
                         turnChange = true;

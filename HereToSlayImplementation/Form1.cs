@@ -22,8 +22,8 @@ namespace HereToSlayImplementation
     {
         static public Form1 instance1;
         static public SqlConnection sqlConnection;
-        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhem.mdf\"; Integrated Security=True;Connect Timeout=30";
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungoenMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungoenMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
         public Player thisPlayer;
         public string EncryptedPassword;
@@ -77,6 +77,7 @@ namespace HereToSlayImplementation
 
             public string GetDeck()
             {
+                Console.WriteLine(deck);
                 return deck;
             }
 
@@ -92,6 +93,7 @@ namespace HereToSlayImplementation
 
             public int GetDefense()
             {
+                Console.WriteLine(Defense);
                 return Defense;
             }
 
@@ -104,20 +106,22 @@ namespace HereToSlayImplementation
                     Health += Defense;
                     Defense = 0;
                 }
+
+                Console.WriteLine("D" + Health);
             }
 
             public string GetUsername()
-            {
+            {Console.WriteLine(Username);
                 return Username;
             }
 
             public int GetplayerID()
-            {
+            {Console.WriteLine(playerID);
                 return playerID;
             }
 
             public int GetGameID()
-            {
+            {Console.WriteLine(GameID);
                 return GameID;
             }
 
@@ -127,7 +131,7 @@ namespace HereToSlayImplementation
             }
 
             public int GetPlayerNumber()
-            {
+            {Console.WriteLine(playerNumber);
                 return playerNumber;
             }
 
@@ -137,7 +141,7 @@ namespace HereToSlayImplementation
             }
 
             public int GetActionPoints()
-            {
+            {Console.WriteLine(actionPoints);
                 return actionPoints;
             }
 
@@ -157,12 +161,17 @@ namespace HereToSlayImplementation
 
             public int GetHealth()
             {
+                Console.WriteLine(Health);
                 return Health;
             }
 
             public void SetHealth(int x)
             {
                 Health -= x;
+                if (Health > 10)
+                {
+                    Health = 10;
+                }
             }
         }
         public Form1()
@@ -370,9 +379,18 @@ namespace HereToSlayImplementation
             
             thisPlayer.SetDeck("minsc & boo");
             sqlConnection.Open();
-            thisPlayer.SetGameID(10);
-            SqlCommand command3 = new SqlCommand($"UPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = 2", sqlConnection);
-            command3.ExecuteNonQuery();
+            SqlCommand command = new SqlCommand($"INSERT INTO Games (PlayerID1) VALUES ({thisPlayer.GetplayerID()})", sqlConnection);
+            command.ExecuteNonQuery();
+
+            SqlCommand command2 = new SqlCommand($"SELECT GameID FROM Games WHERE PlayerID1 = {thisPlayer.GetplayerID()}", sqlConnection);
+            using (SqlDataReader reader = command2.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    thisPlayer.SetGameID(reader.GetInt32(0));
+                }
+            }
+
             SqlCommand command5 = new SqlCommand($"UPDATE Games SET PlayerID2 = 2 WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = 2", sqlConnection);
             command5.ExecuteNonQuery();
             sqlConnection.Close();
