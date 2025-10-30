@@ -100,6 +100,7 @@ namespace HereToSlayImplementation
         public class Card : Button
         {
             protected string cardName;
+            private string Deck;
             protected Game game;
             private int CardID;
             private string[] EffectSymbols;
@@ -108,7 +109,10 @@ namespace HereToSlayImplementation
             private int Healing;
             private int Draw;
             private int Lightning;
-            public Card(int c, Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
+            private int us1;
+            private int us2;
+            private int us3;
+            public Card(int c, string deck, Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
             {
                 this.cardName = cardName;
                 Size = new Size(197, 253);
@@ -121,9 +125,13 @@ namespace HereToSlayImplementation
                 Defense = 0;
                 Healing = 0;
                 Draw = 0;
+                us1 = 0;
+                us2 = 0;
+                us3 = 0;
                 AnalyseSymbols();
                 CardID = c;
                 Click += Card_Click;
+                Deck = deck;
             }
             private void Card_Click(object sender, EventArgs e)
             {
@@ -173,7 +181,15 @@ namespace HereToSlayImplementation
                         case "lightning":
                             Lightning += 1;
                             break;
-
+                        case "us1":
+                            us1 += 1;
+                            break;
+                        case "us2":
+                            us2 += 1;
+                            break;
+                        case "us3":
+                            us3 += 1;
+                            break;
                     }
                 }
             }
@@ -184,11 +200,11 @@ namespace HereToSlayImplementation
             }
             public int DealDamage()
             {
-                
+
                 game.GetPlayer(1).SetDefence(-Damage);
-                
+
                 instance3.OpponentHealthTextBox.Text = $"{game.GetPlayer(1).GetHealth()}/10";
-                if(game.GetPlayer(1).GetDefense() >= 0)
+                if (game.GetPlayer(1).GetDefense() >= 0)
                 {
                     instance3.OpponentDefenceTextBox.Text = $" + {game.GetPlayer(1).GetDefense()}";
                 }
@@ -231,6 +247,38 @@ namespace HereToSlayImplementation
                 return Defense;
             }
 
+            public void uniqueSymbbol1()
+            {
+                switch (Deck)
+                {
+                    case "minsc & boo":
+                        int healthStore = game.GetPlayer(1).GetHealth();
+                        game.GetPlayer(1).NewHealth(game.GetPlayer(0).GetHealth());
+                        game.GetPlayer(0).NewHealth(healthStore);
+                        break;
+                }
+            }
+
+            public void uniqueSymbol2()
+            {
+                switch (Deck)
+                {
+                    case "minsc & boo":
+                        game.DrawACard(1);
+                        break;
+                }
+            }
+
+            public void uniqueSymbols3()
+            {
+                switch (Deck)
+                {
+                    case "minsc & boo":
+                        game.SetBonusDamage(1);
+                        break;
+                }
+            }
+
             public void DestroyCard(Card c)
             {
                 c.Location = new Point(307, 620);
@@ -255,6 +303,7 @@ namespace HereToSlayImplementation
             private int healthThisTurn = 0;
             private int defenseThisTurn = 0;
             private Card SelectedCard;
+            private int BonusDamage;
             public Game(Form1.Player[] p)
             {
                 players = p;
@@ -270,6 +319,7 @@ namespace HereToSlayImplementation
                 ListOfDecks.Add(Deck1);
                 buildDeck();
                 gameID = players[0].GetGameID();
+                BonusDamage = 0;
             }
 
             public int GetgameID()
@@ -277,6 +327,10 @@ namespace HereToSlayImplementation
                 return gameID;
             }
 
+            public void SetBonusDamage(int x)
+            {
+                BonusDamage += x;
+            }
             public void Turn()
             {
                 DrawACard(0);
@@ -306,15 +360,12 @@ namespace HereToSlayImplementation
                         {
                             for (int j = 0; j < reader.GetInt32(6); j++)
                             {
-                                ListOfDecks[i].Add(new Card(reader.GetInt32(0), this, reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4)));
+                                ListOfDecks[i].Add(new Card(reader.GetInt32(0), reader.GetString(5), this, reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4)));
                             }
                         }
                     }
                 }
                 sqlConnection.Close();
-                ListOfDecks[0].Add(new Card(1, this, "Damage", "Damage"));
-                ListOfDecks[0].Add(new Card(1, this, "defense", "defense", "lightning"));
-
             }
 
             public Form1.Player GetPlayer(int x)
@@ -328,21 +379,21 @@ namespace HereToSlayImplementation
                 instance3.DiscardTimer.Enabled = true;
             }
 
-            public void DrawACard(int x)
+            public void DrawACard(int x, int y = 0)
             {
                 Random rnd = new Random();
 
-                if(ListOfDecks[x].Count == 0)
+                if (ListOfDecks[x].Count == 0)
                 {
                     ListOfDecks[x] = new List<Card>(ListOfDiscard[x]);
                     ListOfDiscard[x] = new List<Card>();
                 }
                 int index = rnd.Next(ListOfDecks[x].Count - 1);
-                (ListOfDecks[x])[index].Location = new Point(418 + (players[x].GetHand().Count * 30), 371);
+                (ListOfDecks[x])[index].Location = new Point(418 + (players[y].GetHand().Count * 30), 371);
                 ListOfDiscard[x].Add((ListOfDecks[x])[index]);
                 (ListOfDecks[x])[index].BringToFront();
                 instance3.Controls.Add((ListOfDecks[x])[index]);
-                players[x].AddCardToHand((ListOfDecks[x])[index]);
+                players[y].AddCardToHand((ListOfDecks[x])[index]);
                 ListOfDecks[x].Remove((ListOfDecks[x])[index]);
 
 
@@ -358,9 +409,9 @@ namespace HereToSlayImplementation
 
             public virtual void playCard(Card card)
             {
-                
+
                 GetPlayer(0).LoseActionsPoints(1);
-                damageThisTurn += card.DealDamage();
+                damageThisTurn += card.DealDamage() + BonusDamage;
                 healthThisTurn += card.Heal();
                 defenseThisTurn = card.Defend();
                 card.DoLightning();
@@ -379,6 +430,7 @@ namespace HereToSlayImplementation
                     Form3.instance3.MoveRetrievalTimer.Enabled = true;
                     Form3.instance3.TurnTextBox.Text = "It is the turn of:";
                     Form3.instance3.TurnTextBox.Text += players[1].GetUsername();
+                    BonusDamage = 0;
                 }
                 card.Location = new Point(211, 371);
                 Form3.instance3.DiscardTimer.Enabled = true;
@@ -448,5 +500,7 @@ namespace HereToSlayImplementation
             game.GetSelectedCard().Dispose();
             DiscardTimer.Enabled = false;
         }
+
+
     }
 }

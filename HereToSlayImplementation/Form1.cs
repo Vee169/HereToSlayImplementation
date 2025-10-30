@@ -164,10 +164,14 @@ namespace HereToSlayImplementation
                 Console.WriteLine(Health);
                 return Health;
             }
+            public void NewHealth(int x)
+            {
+                Health = x;
+            }
 
             public void SetHealth(int x)
             {
-                Health -= x;
+                Health += x;
                 if (Health > 10)
                 {
                     Health = 10;
