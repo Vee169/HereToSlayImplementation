@@ -37,7 +37,7 @@ namespace HereToSlayImplementation
             private int playerID;
             private int GameID;
             private int playerNumber;
-            private List<Button> Hand;
+            private List<Form3.Card> Hand;
             private int Health;
             private int Defense;
             private string deck;
@@ -68,7 +68,7 @@ namespace HereToSlayImplementation
                 playerID = p;
                 GameID = g;
                 this.playerNumber = pn;
-                Hand = new List<Button>();
+                Hand = new List<Form3.Card>();
                 actionPoints = 1;
                 Health = 10;
                 Defense = 0;
@@ -86,7 +86,7 @@ namespace HereToSlayImplementation
                 deck = x;
             }
 
-            public List<Button> GetHand()
+            public List<Form3.Card> GetHand()
             {
                 return Hand;
             }
@@ -154,7 +154,7 @@ namespace HereToSlayImplementation
                 actionPoints = 1;
             }
 
-            public void AddCardToHand(Button card)
+            public void AddCardToHand(Form3.Card card)
             {
                 Hand.Add(card);
             }
@@ -171,11 +171,16 @@ namespace HereToSlayImplementation
 
             public void SetHealth(int x)
             {
-                Health += x;
+                Health -= x;
                 if (Health > 10)
                 {
                     Health = 10;
                 }
+            }
+
+            public void SetHand(List<Form3.Card> cards)
+            {
+                Hand = cards;
             }
         }
         public Form1()

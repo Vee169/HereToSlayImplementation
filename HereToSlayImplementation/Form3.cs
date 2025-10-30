@@ -88,12 +88,14 @@ namespace HereToSlayImplementation
             game.DealHand(thisPlayer);
             FocusScreen();
         }
-
+        int count = 0;
         public void FocusScreen()
         {
             foreach (Card card in game.GetPlayer(0).GetHand())
             {
                 card.BringToFront();
+                card.Location = new Point(418 + (count * 30), 371);
+                count++;
             }
         }
 
@@ -135,30 +137,28 @@ namespace HereToSlayImplementation
             }
             private void Card_Click(object sender, EventArgs e)
             {
-                if (IsYourTurn)
+                if (!CardSelected)
                 {
-                    if (!CardSelected)
+                    this.Top -= 50;
+                    CardSelected = true;
+                    game.SelectCard(this);
+                }
+                else if(IsYourTurn)
+                {
+                    if (game.GetSelectedCard() == sender)
                     {
-                        this.Top -= 50;
-                        CardSelected = true;
-                        game.SelectCard(this);
+                        ((Card)sender).Location = new Point(597, 163);
+                        CardPlayed = true;
+                        game.playCard((Card)sender);
                     }
                     else
                     {
-                        if (game.GetSelectedCard() == sender)
-                        {
-                            ((Card)sender).Location = new Point(597, 163);
-                            CardPlayed = true;
-                            game.playCard((Card)sender);
-                        }
-                        else
-                        {
-                            CardSelected = false;
-                            game.GetSelectedCard().Top += 50;
-                            this.PerformClick();
-                        }
+                        CardSelected = false;
+                        game.GetSelectedCard().Top += 50;
+                        this.PerformClick();
                     }
                 }
+                
             }
             private void AnalyseSymbols()
             {
@@ -213,6 +213,7 @@ namespace HereToSlayImplementation
 
             public int DrawCard()
             {
+                Console.WriteLine("Draw");
                 for (int i = 0; i < Draw; i++)
                 {
                     game.DrawACard(0);
@@ -247,35 +248,44 @@ namespace HereToSlayImplementation
                 return Defense;
             }
 
-            public void uniqueSymbbol1()
+            public void uniqueSymbol1()
             {
-                switch (Deck)
+                for (int i = 0; i < us1; i++)
                 {
-                    case "minsc & boo":
-                        int healthStore = game.GetPlayer(1).GetHealth();
-                        game.GetPlayer(1).NewHealth(game.GetPlayer(0).GetHealth());
-                        game.GetPlayer(0).NewHealth(healthStore);
-                        break;
+                    switch (Deck)
+                    {
+                        case "minsc & boo":
+                            int healthStore = game.GetPlayer(1).GetHealth();
+                            game.GetPlayer(1).NewHealth(game.GetPlayer(0).GetHealth());
+                            game.GetPlayer(0).NewHealth(healthStore);
+                            break;
+                    }
                 }
             }
 
             public void uniqueSymbol2()
             {
-                switch (Deck)
+                for (int i = 0; i < us2; i++)
                 {
-                    case "minsc & boo":
-                        game.DrawACard(1);
-                        break;
+                    switch (Deck)
+                    {
+                        case "minsc & boo":
+                            game.DrawACard(1);
+                            break;
+                    }
                 }
             }
 
-            public void uniqueSymbols3()
+            public void uniqueSymbol3()
             {
-                switch (Deck)
+                for (int i = 0; i < us3; i++)
                 {
-                    case "minsc & boo":
-                        game.SetBonusDamage(1);
-                        break;
+                    switch (Deck)
+                    {
+                        case "minsc & boo":
+                            game.SetBonusDamage(1);
+                            break;
+                    }
                 }
             }
 
@@ -284,6 +294,11 @@ namespace HereToSlayImplementation
                 c.Location = new Point(307, 620);
                 game.discardAcard(c);
                 c.Hide();
+            }
+
+            public int GetCardID()
+            {
+                return CardID;
             }
         }
 
@@ -325,6 +340,11 @@ namespace HereToSlayImplementation
             public int GetgameID()
             {
                 return gameID;
+            }
+
+            public List<Card> GetDeck(int x) 
+            {
+                return ListOfDecks[x]; 
             }
 
             public void SetBonusDamage(int x)
@@ -394,8 +414,12 @@ namespace HereToSlayImplementation
                 (ListOfDecks[x])[index].BringToFront();
                 instance3.Controls.Add((ListOfDecks[x])[index]);
                 players[y].AddCardToHand((ListOfDecks[x])[index]);
+                sqlConnection.Open();
+                SqlCommand command = new SqlCommand($"INSERT INTO Hand VALUES ({players[y].GetplayerID()}, {ListOfDecks[x][index].GetCardID()})", sqlConnection);
+                command.ExecuteNonQuery();
+                sqlConnection.Close();
                 ListOfDecks[x].Remove((ListOfDecks[x])[index]);
-
+                
 
             }
 
@@ -411,9 +435,13 @@ namespace HereToSlayImplementation
             {
 
                 GetPlayer(0).LoseActionsPoints(1);
-                damageThisTurn += card.DealDamage() + BonusDamage;
+                damageThisTurn += (card.DealDamage() + BonusDamage);
                 healthThisTurn += card.Heal();
                 defenseThisTurn = card.Defend();
+                card.DrawCard();
+                card.uniqueSymbol1();
+                card.uniqueSymbol2();
+                card.uniqueSymbol3();
                 card.DoLightning();
                 if (GetPlayer(0).GetActionPoints() == 0)
                 {
@@ -432,9 +460,14 @@ namespace HereToSlayImplementation
                     Form3.instance3.TurnTextBox.Text += players[1].GetUsername();
                     BonusDamage = 0;
                 }
+                else if((GetPlayer(0).GetActionPoints() > 0) && (GetPlayer(0).GetHand().Count == 0))
+                {
+                    DealHand(0);
+                }
                 card.Location = new Point(211, 371);
                 Form3.instance3.DiscardTimer.Enabled = true;
                 Console.WriteLine("card played");
+                Form3.instance3.FocusScreen();
             }
         }
 
@@ -475,6 +508,48 @@ namespace HereToSlayImplementation
                         game.GetPlayer(1).SetDefence(reader.GetInt32(4));
                         turnChange = true;
                     }
+                }
+                List<Card> Hand;
+                List<Card> Deck1 = game.GetDeck(0);
+                List<Card> Deck2 = game.GetDeck(1);
+                bool cardAdded = false;
+                for (int i = 0; i < 2; i++)
+                {
+                    Hand = new List<Card>();
+                    SqlCommand cmd3 = new SqlCommand($"SELECT * FROM Hand WHERE PlayerIDfk = {game.GetPlayer(i).GetplayerID()}", sqlConnection);
+                    using (SqlDataReader reader = cmd3.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            foreach (Card card in Deck2)
+                            {
+                                if (reader.GetInt32(1) == card.GetCardID())
+                                {
+                                    Hand.Add(card);
+                                    cardAdded = true;
+                                    break;
+                                }
+                            }
+
+                            if (cardAdded)
+                            {
+                                cardAdded = false;
+                            }
+                            else
+                            {
+                                foreach (Card card in Deck1)
+                                {
+                                    if (reader.GetInt32(1) == card.GetCardID())
+                                    {
+                                        Hand.Add(card);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    game.GetPlayer(i).SetHand(Hand);
                 }
                 if (turnChange)
                 {
