@@ -62,7 +62,7 @@ namespace HereToSlayImplementation
 
 
 
-            public Player(string u, int p, int g = -1, int pn = 0)
+            public Player(string u, int p, string d = "", int g = -1, int pn = 0)
             {
                 Username = u;
                 playerID = p;
@@ -72,7 +72,7 @@ namespace HereToSlayImplementation
                 actionPoints = 1;
                 Health = 10;
                 Defense = 0;
-                
+                deck = d;
             }
 
             public string GetDeck()

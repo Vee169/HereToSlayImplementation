@@ -57,12 +57,12 @@ namespace HereToSlayImplementation
 
                 if (i != Form1.instance1.thisPlayer.GetPlayerNumber())
                 {
-                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.PlayerID{i} = Player.playerID AND Games.GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
+                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName, DeckID FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.PlayerID{i} = Player.playerID AND Games.GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            players[1] = new Form1.Player(reader.GetString(1), reader.GetInt32(0));
+                            players[1] = new Form1.Player(reader.GetString(1), reader.GetInt32(0), reader.GetString(2));
                         }
                         else
                         {
@@ -94,7 +94,7 @@ namespace HereToSlayImplementation
             foreach (Card card in game.GetPlayer(0).GetHand())
             {
                 card.BringToFront();
-                card.Location = new Point(418 + (count * 30), 371);
+                //card.Location = new Point(418 + (count * 30), 371);
                 count++;
             }
         }
@@ -371,7 +371,7 @@ namespace HereToSlayImplementation
             public void buildDeck()
             {
                 sqlConnection.Open();
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     SqlCommand cmd = new SqlCommand($"SELECT * FROM Cards WHERE Deckfk = '{players[i].GetDeck()}'", sqlConnection);
                     using (SqlDataReader reader = cmd.ExecuteReader())
