@@ -201,7 +201,7 @@ namespace HereToSlayImplementation
             public int DealDamage()
             {
 
-                game.GetPlayer(1).SetDefence(-Damage);
+                game.GetPlayer(1).SetDefence(-(Damage + game.GetBonusDamage()));
 
                 instance3.OpponentHealthTextBox.Text = $"{game.GetPlayer(1).GetHealth()}/10";
                 if (game.GetPlayer(1).GetDefense() >= 0)
@@ -313,6 +313,7 @@ namespace HereToSlayImplementation
             private string Deck0Name;
             private List<List<Card>> ListOfDecks;
             private List<List<Card>> ListOfDiscard;
+            private List<Card> PlayedCards;
             private int gameID;
             private int damageThisTurn = 0;
             private int healthThisTurn = 0;
@@ -335,8 +336,36 @@ namespace HereToSlayImplementation
                 buildDeck();
                 gameID = players[0].GetGameID();
                 BonusDamage = 0;
+                PlayedCards = new List<Card>();
             }
 
+            public void AddPlayedCard(Card card)
+            {
+                PlayedCards.Add(card);
+                if (PlayedCards.Count > 0)
+                {
+                    while (PlayedCards.Count > 4)
+                    {
+                        Card disCard = PlayedCards[0];
+                        PlayedCards.RemoveAt(0);
+                        disCard.Dispose();
+
+                    }
+                }
+                for (int i = 0; i < PlayedCards.Count; i++)
+                {
+                    PlayedCards[i].Location = new Point(215 + (197*(i)), 98);
+                }
+            }
+
+            public void DisposeOfTurn()
+            {
+                foreach(Card card in PlayedCards)
+                {
+                    card.Dispose();
+                }
+                PlayedCards = new List<Card>();
+            }
             public int GetgameID()
             {
                 return gameID;
@@ -350,6 +379,11 @@ namespace HereToSlayImplementation
             public void SetBonusDamage(int x)
             {
                 BonusDamage += x;
+            }
+
+            public int GetBonusDamage()
+            {
+                return BonusDamage;
             }
             public void Turn()
             {
@@ -433,7 +467,6 @@ namespace HereToSlayImplementation
 
             public virtual void playCard(Card card)
             {
-
                 GetPlayer(0).LoseActionsPoints(1);
                 damageThisTurn += (card.DealDamage() + BonusDamage);
                 healthThisTurn += card.Heal();
@@ -443,6 +476,8 @@ namespace HereToSlayImplementation
                 card.uniqueSymbol2();
                 card.uniqueSymbol3();
                 card.DoLightning();
+                GetPlayer(0).RemoveFromHand(card);
+                AddPlayedCard(card);
                 if (GetPlayer(0).GetActionPoints() == 0)
                 {
                     sqlConnection.Open();
@@ -454,22 +489,22 @@ namespace HereToSlayImplementation
                     {
                         instance3.OpponentDefenceTextBox.Text = $" + {players[1].GetDefense()}";
                     }
+                    instance3.PlayerHealthTextBox.Text = $"{players[1].GetHealth()}/10";
                     IsYourTurn = false;
                     Form3.instance3.MoveRetrievalTimer.Enabled = true;
                     Form3.instance3.TurnTextBox.Text = "It is the turn of:";
                     Form3.instance3.TurnTextBox.Text += players[1].GetUsername();
                     BonusDamage = 0;
+                    instance3.DiscardTimer.Enabled = true;
 
                 }
                 else if((GetPlayer(0).GetActionPoints() > 0) && (GetPlayer(0).GetHand().Count == 0))
                 {
                     DealHand(0);
                 }
-                card.Location = new Point(211, 371);
-                Form3.instance3.DiscardTimer.Enabled = true;
                 Console.WriteLine("card played");
                 Form3.instance3.FocusScreen();
-                GetPlayer(0).RemoveFromHand(card);
+                instance3.ActionPointTextBox.Text = GetPlayer(0).GetActionPoints().ToString();
             }
         }
 
@@ -559,6 +594,7 @@ namespace HereToSlayImplementation
                     cmd2.ExecuteNonQuery();
                     MoveRetrievalTimer.Enabled = false;
                     TurnTextBox.Text = $"It is the turn of: {game.GetPlayer(0).GetUsername()}";
+                    ActionPointTextBox.Text = "1";
                     IsYourTurn = true;
                     game.Turn();
                 }
@@ -574,8 +610,7 @@ namespace HereToSlayImplementation
 
         private void DiscardTimer_Tick(object sender, EventArgs e)
         {
-            game.GetSelectedCard().Dispose();
-            DiscardTimer.Enabled = false;
+            game.DisposeOfTurn();
         }
 
 

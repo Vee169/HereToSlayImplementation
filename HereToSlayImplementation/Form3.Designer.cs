@@ -37,11 +37,12 @@
             PlayerDeckButton = new Button();
             MoveRetrievalTimer = new System.Windows.Forms.Timer(components);
             TurnTextBox = new TextBox();
-            DiscardTimer = new System.Windows.Forms.Timer(components);
             OpponentHealthTextBox = new TextBox();
             OpponentDefenceTextBox = new TextBox();
             PlayerDefenceTextBox = new TextBox();
             PlayerHealthTextBox = new TextBox();
+            DiscardTimer = new System.Windows.Forms.Timer(components);
+            ActionPointTextBox = new TextBox();
             ((System.ComponentModel.ISupportInitialize)OpponentInfoPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayerInfoPictureBox).BeginInit();
             SuspendLayout();
@@ -130,11 +131,6 @@
             TurnTextBox.TabIndex = 26;
             TurnTextBox.Text = "It is the turn of: ";
             // 
-            // DiscardTimer
-            // 
-            DiscardTimer.Interval = 1000;
-            DiscardTimer.Tick += DiscardTimer_Tick;
-            // 
             // OpponentHealthTextBox
             // 
             OpponentHealthTextBox.BackColor = Color.DarkGray;
@@ -187,12 +183,29 @@
             PlayerHealthTextBox.Size = new Size(193, 80);
             PlayerHealthTextBox.TabIndex = 31;
             // 
+            // DiscardTimer
+            // 
+            DiscardTimer.Interval = 3000;
+            DiscardTimer.Tick += DiscardTimer_Tick;
+            // 
+            // ActionPointTextBox
+            // 
+            ActionPointTextBox.BackColor = Color.DarkGray;
+            ActionPointTextBox.BorderStyle = BorderStyle.None;
+            ActionPointTextBox.Font = new Font("Segoe UI", 51.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ActionPointTextBox.ForeColor = SystemColors.ButtonHighlight;
+            ActionPointTextBox.Location = new Point(12, 271);
+            ActionPointTextBox.Name = "ActionPointTextBox";
+            ActionPointTextBox.Size = new Size(92, 92);
+            ActionPointTextBox.TabIndex = 32;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1347, 637);
+            Controls.Add(ActionPointTextBox);
             Controls.Add(PlayerHealthTextBox);
             Controls.Add(PlayerDefenceTextBox);
             Controls.Add(OpponentDefenceTextBox);
@@ -228,10 +241,11 @@
         private Button PlayerDeckButton;
         private System.Windows.Forms.Timer MoveRetrievalTimer;
         private TextBox TurnTextBox;
-        private System.Windows.Forms.Timer DiscardTimer;
         private TextBox OpponentHealthTextBox;
         private TextBox OpponentDefenceTextBox;
         private TextBox PlayerDefenceTextBox;
         private TextBox PlayerHealthTextBox;
+        private System.Windows.Forms.Timer DiscardTimer;
+        private TextBox ActionPointTextBox;
     }
 }
