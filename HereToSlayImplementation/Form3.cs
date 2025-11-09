@@ -449,7 +449,7 @@ namespace HereToSlayImplementation
                     SqlCommand command = new SqlCommand($"INSERT INTO Moves VALUES ({GetgameID()}, {damageThisTurn}, {damageThisTurn}, {defenseThisTurn}, {GetPlayer(0).GetplayerID()})", sqlConnection);
                     command.ExecuteNonQuery();
                     sqlConnection.Close();
-                    Form3.instance3.OpponentHealthTextBox.Text = $"10/{players[1].GetHealth()}";
+                    Form3.instance3.OpponentHealthTextBox.Text = $"{players[1].GetHealth()}/10";
                     if (players[1].GetDefense() >= 0)
                     {
                         instance3.OpponentDefenceTextBox.Text = $" + {players[1].GetDefense()}";
@@ -459,6 +459,7 @@ namespace HereToSlayImplementation
                     Form3.instance3.TurnTextBox.Text = "It is the turn of:";
                     Form3.instance3.TurnTextBox.Text += players[1].GetUsername();
                     BonusDamage = 0;
+
                 }
                 else if((GetPlayer(0).GetActionPoints() > 0) && (GetPlayer(0).GetHand().Count == 0))
                 {
@@ -468,6 +469,7 @@ namespace HereToSlayImplementation
                 Form3.instance3.DiscardTimer.Enabled = true;
                 Console.WriteLine("card played");
                 Form3.instance3.FocusScreen();
+                GetPlayer(0).RemoveFromHand(card);
             }
         }
 

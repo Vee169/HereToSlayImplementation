@@ -91,6 +91,11 @@ namespace HereToSlayImplementation
                 return Hand;
             }
 
+            public void RemoveFromHand(Form3.Card x)
+            {
+                Hand.Remove(x);
+            }
+
             public int GetDefense()
             {
                 Console.WriteLine(Defense);

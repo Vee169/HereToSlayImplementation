@@ -167,7 +167,7 @@
             PlayerDefenceTextBox.BorderStyle = BorderStyle.None;
             PlayerDefenceTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlayerDefenceTextBox.ForeColor = SystemColors.ButtonHighlight;
-            PlayerDefenceTextBox.Location = new Point(763, 544);
+            PlayerDefenceTextBox.Location = new Point(940, 544);
             PlayerDefenceTextBox.Margin = new Padding(2);
             PlayerDefenceTextBox.Name = "PlayerDefenceTextBox";
             PlayerDefenceTextBox.ReadOnly = true;
@@ -180,7 +180,7 @@
             PlayerHealthTextBox.BorderStyle = BorderStyle.None;
             PlayerHealthTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlayerHealthTextBox.ForeColor = SystemColors.ButtonHighlight;
-            PlayerHealthTextBox.Location = new Point(566, 544);
+            PlayerHealthTextBox.Location = new Point(743, 544);
             PlayerHealthTextBox.Margin = new Padding(2);
             PlayerHealthTextBox.Name = "PlayerHealthTextBox";
             PlayerHealthTextBox.ReadOnly = true;
