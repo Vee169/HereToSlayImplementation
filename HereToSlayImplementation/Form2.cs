@@ -38,6 +38,26 @@ namespace HereToSlayImplementation
             CountdownLabel.Hide();
             this.Disposed += Form2_Disposed;
 
+            sqlConnection.Open();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Deck", sqlConnection);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    DeckListBox.Items.Add(reader.GetString(0));
+                }
+            }
+
+            SqlCommand cmd2 = new SqlCommand($"UPDATE Games SET GameStart = 0 WHERE GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
+            cmd2.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
+
+
+
+        public void UpdateDeck(string x)
+        {
+            Form1.instance1.thisPlayer.SetDeck(x);
         }
 
         public void Updateplayers()
@@ -66,11 +86,12 @@ namespace HereToSlayImplementation
         {
             if (PlayerListBox.Items.Count >= 2)
             {
-                ReadyTimer.Enabled = false;
-                ReadyTimer.Stop();
+
                 if (Form1.instance1.thisPlayer.GetPlayerNumber() == 1)
                 {
                     StartButton.Show();
+                    ReadyTimer.Enabled = false;
+                    ReadyTimer.Stop();
                 }
                 else
                 {
@@ -87,14 +108,23 @@ namespace HereToSlayImplementation
                                 CountdownTimer.Enabled = true;
                                 CountdownTimer.Start();
                                 CountdownLabel.Show();
+                                ReadyTimer.Enabled = false;
+                                ReadyTimer.Stop();
+
                             }
                         }
+                    }
+                    if(SecondTimer.Enabled)
+                    {
+                        SqlCommand cmd2 = new SqlCommand($"UPDATE Player SET DeckID = '{Form1.instance1.thisPlayer.GetDeck()}' where playerID = {Form1.instance1.thisPlayer.GetplayerID()}", sqlConnection);
+                        cmd2.ExecuteNonQuery();
+                        DeckListBox.Enabled = false;
                     }
                     sqlConnection.Close();
                 }
             }
             Updateplayers();
-            
+
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -102,6 +132,9 @@ namespace HereToSlayImplementation
             sqlConnection.Open();
             SqlCommand cmd = new SqlCommand($"UPDATE Games SET GameStart = 1 WHERE GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
             cmd.ExecuteNonQuery();
+            SqlCommand cmd2 = new SqlCommand($"UPDATE Player SET DeckID = '{Form1.instance1.thisPlayer.GetDeck()}' where playerID = {Form1.instance1.thisPlayer.GetplayerID()}", sqlConnection);
+            cmd2.ExecuteNonQuery();
+            DeckListBox.Enabled = false;
             sqlConnection.Close();
             StartButtonClicked = true;
             CountdownTimer.Enabled = true;
@@ -139,6 +172,11 @@ namespace HereToSlayImplementation
         private void Form2_Disposed(object sender, EventArgs e)
         {
             Form1.instance1.Dispose();
+        }
+
+        private void DeckListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateDeck(DeckListBox.Items[DeckListBox.SelectedIndex].ToString());
         }
     }
 }
