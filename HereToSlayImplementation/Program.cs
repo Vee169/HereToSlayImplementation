@@ -17,17 +17,16 @@ namespace HereToSlayImplementation
                 // see https://aka.ms/applicationconfiguration.
                 ApplicationConfiguration.Initialize();
                 GM.LoginForm = new Form1();
-                Application.Run(GM.LoginForm);
+                GM.LoginForm.Show();
+                Application.Run();
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Terminated with exception");
-                Console.ReadLine();
             }
 
             Console.WriteLine("Terminated successfully");
-            Console.ReadLine();
 
         }
     }

@@ -38,6 +38,7 @@ namespace HereToSlayImplementation
             InitializeComponent();
             sqlConnection = new SqlConnection(Form1.CONNECT);
             sqlConnection.Open();
+            Console.WriteLine("connection Open");
             Form1.Player[] players = new Form1.Player[2];
             discard = Form3.instance3.PlayerDiscardButton;
             players[0] = Form1.instance1.thisPlayer;
@@ -72,6 +73,7 @@ namespace HereToSlayImplementation
                 }
             }
             sqlConnection.Close();
+            Console.WriteLine("connection Close");
 
             if (players[0].GetPlayerNumber() == 1)
             {
@@ -117,8 +119,8 @@ namespace HereToSlayImplementation
             public Card(int c, string deck, Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
             {
                 this.cardName = cardName;
-                Size = new Size(197, 253); //personal pc
-                //Size = new Size(281, 422); //School pc
+                //Size = new Size(197, 253); //personal pc
+                Size = new Size(281, 422); //School pc
                 BackColor = Color.DimGray;
                 this.game = game;
                 EffectSymbols = [ds, hs, ls, drs];
@@ -144,7 +146,7 @@ namespace HereToSlayImplementation
                     CardSelected = true;
                     game.SelectCard(this);
                 }
-                else if(IsYourTurn)
+                else if (IsYourTurn)
                 {
                     if (game.GetSelectedCard() == sender)
                     {
@@ -159,7 +161,7 @@ namespace HereToSlayImplementation
                         this.PerformClick();
                     }
                 }
-                
+
             }
             private void AnalyseSymbols()
             {
@@ -362,7 +364,7 @@ namespace HereToSlayImplementation
 
             public void DisposeOfTurn()
             {
-                foreach(Card card in PlayedCards)
+                foreach (Card card in PlayedCards)
                 {
                     card.Dispose();
                 }
@@ -373,9 +375,9 @@ namespace HereToSlayImplementation
                 return gameID;
             }
 
-            public List<Card> GetDeck(int x) 
+            public List<Card> GetDeck(int x)
             {
-                return ListOfDecks[x]; 
+                return ListOfDecks[x];
             }
 
             public void SetBonusDamage(int x)
@@ -407,6 +409,7 @@ namespace HereToSlayImplementation
             public void buildDeck()
             {
                 sqlConnection.Open();
+                Console.WriteLine("connection Open");
                 for (int i = 0; i < 2; i++)
                 {
                     SqlCommand cmd = new SqlCommand($"SELECT * FROM Cards WHERE Deckfk = '{players[i].GetDeck()}'", sqlConnection);
@@ -422,6 +425,7 @@ namespace HereToSlayImplementation
                     }
                 }
                 sqlConnection.Close();
+                Console.WriteLine("connection Close");
             }
 
             public Form1.Player GetPlayer(int x)
@@ -445,18 +449,20 @@ namespace HereToSlayImplementation
                     ListOfDiscard[x] = new List<Card>();
                 }
                 int index = rnd.Next(ListOfDecks[x].Count - 1);
-                (ListOfDecks[x])[index].Location = new Point(418 + (players[y].GetHand().Count * 30), 371); //personal pc
-                //(ListOfDecks[x])[index].Location = new Point(418 + (players[y].GetHand().Count * 30), 371); //school pc
+                //(ListOfDecks[x])[index].Location = new Point(418 + (players[y].GetHand().Count * 30), 371); //personal pc
+                (ListOfDecks[x])[index].Location = new Point(597 + (players[y].GetHand().Count * 30), 618); //school pc
                 ListOfDiscard[x].Add((ListOfDecks[x])[index]);
                 (ListOfDecks[x])[index].BringToFront();
                 instance3.Controls.Add((ListOfDecks[x])[index]);
                 players[y].AddCardToHand((ListOfDecks[x])[index]);
                 sqlConnection.Open();
+                Console.WriteLine("connection Open");
                 SqlCommand command = new SqlCommand($"INSERT INTO Hand VALUES ({players[y].GetplayerID()}, {ListOfDecks[x][index].GetCardID()})", sqlConnection);
                 command.ExecuteNonQuery();
                 sqlConnection.Close();
+                Console.WriteLine("connection Close");
                 ListOfDecks[x].Remove((ListOfDecks[x])[index]);
-                
+
 
             }
 
@@ -484,9 +490,11 @@ namespace HereToSlayImplementation
                 if (GetPlayer(0).GetActionPoints() == 0)
                 {
                     sqlConnection.Open();
+                    Console.WriteLine("connection Open");
                     SqlCommand command = new SqlCommand($"INSERT INTO Moves VALUES ({GetgameID()}, {damageThisTurn}, {damageThisTurn}, {defenseThisTurn}, {GetPlayer(0).GetplayerID()})", sqlConnection);
                     command.ExecuteNonQuery();
                     sqlConnection.Close();
+                    Console.WriteLine("connection Close");
                     Form3.instance3.OpponentHealthTextBox.Text = $"{players[1].GetHealth()}/10";
                     if (players[1].GetDefense() >= 0)
                     {
@@ -501,7 +509,7 @@ namespace HereToSlayImplementation
                     instance3.DiscardTimer.Enabled = true;
 
                 }
-                else if((GetPlayer(0).GetActionPoints() > 0) && (GetPlayer(0).GetHand().Count == 0))
+                else if ((GetPlayer(0).GetActionPoints() > 0) && (GetPlayer(0).GetHand().Count == 0))
                 {
                     DealHand(0);
                 }
@@ -532,14 +540,17 @@ namespace HereToSlayImplementation
             if (!IsYourTurn)
             {
                 bool turnChange = false;
+                bool MoveRead = false;
                 sqlConnection.Open();
+                Console.WriteLine("connection Open");
+
                 SqlCommand cmd = new SqlCommand($"SELECT * FROM Moves WHERE GameIDfk = {game.GetgameID()} AND PlayerIDfk = {game.GetPlayer(1).GetplayerID()}", sqlConnection);
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    if (reader.Read())
+                    if (reader.Read() && !MoveRead)
                     {
                         game.GetPlayer(0).SetDefence(-reader.GetInt32(2));
-                        Form3.instance3.PlayerHealthTextBox.Text = $"10/{game.GetPlayer(0).GetHealth()}";
+                        Form3.instance3.PlayerHealthTextBox.Text = $"{game.GetPlayer(0).GetHealth()}/10";
                         if (game.GetPlayer(0).GetDefense() >= 0)
                         {
                             instance3.OpponentDefenceTextBox.Text = $" + {game.GetPlayer(0).GetDefense()}";
@@ -547,6 +558,7 @@ namespace HereToSlayImplementation
                         game.GetPlayer(1).SetHealth(-reader.GetInt32(3));
                         game.GetPlayer(1).SetDefence(reader.GetInt32(4));
                         turnChange = true;
+                        MoveRead = true;
                     }
                 }
                 List<Card> Hand;
@@ -590,18 +602,27 @@ namespace HereToSlayImplementation
                         }
                     }
                     game.GetPlayer(i).SetHand(Hand);
+                    sqlConnection.Close();
+                    Console.WriteLine("connection Close");
                 }
                 if (turnChange)
                 {
                     SqlCommand cmd2 = new SqlCommand($"DELETE FROM Moves WHERE GameIDfk = {game.GetgameID()}", sqlConnection);
                     cmd2.ExecuteNonQuery();
+                    if (sqlConnection.State == ConnectionState.Open)
+                    {
+                        sqlConnection.Close();
+                        Console.WriteLine("connection Close");
+                    }
+
                     MoveRetrievalTimer.Enabled = false;
                     TurnTextBox.Text = $"It is the turn of: {game.GetPlayer(0).GetUsername()}";
                     ActionPointTextBox.Text = "1";
                     IsYourTurn = true;
                     game.Turn();
+                    MoveRead = false;
                 }
-                sqlConnection.Close();
+
             }
 
         }
@@ -616,6 +637,9 @@ namespace HereToSlayImplementation
             game.DisposeOfTurn();
         }
 
-
+        private void QuitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

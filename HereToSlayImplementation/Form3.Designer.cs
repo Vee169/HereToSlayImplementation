@@ -43,6 +43,7 @@
             PlayerHealthTextBox = new TextBox();
             DiscardTimer = new System.Windows.Forms.Timer(components);
             ActionPointTextBox = new TextBox();
+            QuitButton = new Button();
             button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)OpponentInfoPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayerInfoPictureBox).BeginInit();
@@ -201,6 +202,18 @@
             ActionPointTextBox.Size = new Size(131, 138);
             ActionPointTextBox.TabIndex = 32;
             // 
+            // QuitButton
+            // 
+            QuitButton.BackColor = Color.Gray;
+            QuitButton.ForeColor = SystemColors.ButtonHighlight;
+            QuitButton.Location = new Point(871, 20);
+            QuitButton.Name = "QuitButton";
+            QuitButton.Size = new Size(112, 34);
+            QuitButton.TabIndex = 33;
+            QuitButton.Text = "Quit";
+            QuitButton.UseVisualStyleBackColor = false;
+            QuitButton.Click += QuitButton_Click;
+            // 
             // button2
             // 
             button2.BackColor = Color.DimGray;
@@ -209,7 +222,7 @@
             button2.Margin = new Padding(4, 5, 4, 5);
             button2.Name = "button2";
             button2.Size = new Size(281, 422);
-            button2.TabIndex = 33;
+            button2.TabIndex = 34;
             button2.Text = "Player Discard";
             button2.UseVisualStyleBackColor = false;
             // 
@@ -220,6 +233,7 @@
             BackColor = Color.Gray;
             ClientSize = new Size(1924, 1062);
             Controls.Add(button2);
+            Controls.Add(QuitButton);
             Controls.Add(ActionPointTextBox);
             Controls.Add(PlayerHealthTextBox);
             Controls.Add(PlayerDefenceTextBox);
@@ -263,6 +277,7 @@
         private TextBox PlayerHealthTextBox;
         private System.Windows.Forms.Timer DiscardTimer;
         private TextBox ActionPointTextBox;
+        private Button QuitButton;
         private Button button2;
     }
 }

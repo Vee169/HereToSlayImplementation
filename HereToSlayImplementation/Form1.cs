@@ -116,17 +116,20 @@ namespace HereToSlayImplementation
             }
 
             public string GetUsername()
-            {Console.WriteLine(Username);
+            {
+                Console.WriteLine(Username);
                 return Username;
             }
 
             public int GetplayerID()
-            {Console.WriteLine(playerID);
+            {
+                Console.WriteLine(playerID);
                 return playerID;
             }
 
             public int GetGameID()
-            {Console.WriteLine(GameID);
+            {
+                Console.WriteLine(GameID);
                 return GameID;
             }
 
@@ -136,7 +139,8 @@ namespace HereToSlayImplementation
             }
 
             public int GetPlayerNumber()
-            {Console.WriteLine(playerNumber);
+            {
+                Console.WriteLine(playerNumber);
                 return playerNumber;
             }
 
@@ -146,7 +150,8 @@ namespace HereToSlayImplementation
             }
 
             public int GetActionPoints()
-            {Console.WriteLine(actionPoints);
+            {
+                Console.WriteLine(actionPoints);
                 return actionPoints;
             }
 
@@ -370,7 +375,7 @@ namespace HereToSlayImplementation
                         Form1.instance1.thisPlayer.SetPlayerNumber(2);
                     }
                 }
-                if(GameExists)
+                if (GameExists)
                 {
                     SqlCommand command2 = new SqlCommand($"UPDATE Games SET PlayerID2 = {thisPlayer.GetplayerID()} WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = {thisPlayer.GetplayerID()}", sqlConnection);
                     command2.ExecuteNonQuery();
@@ -392,7 +397,7 @@ namespace HereToSlayImplementation
         private void Testbutton_Click(object sender, EventArgs e)
         {
             thisPlayer.SetPlayerNumber(1);
-            
+
             thisPlayer.SetDeck("minsc & boo");
             sqlConnection.Open();
             SqlCommand command = new SqlCommand($"INSERT INTO Games (PlayerID1) VALUES ({thisPlayer.GetplayerID()})", sqlConnection);
@@ -412,8 +417,12 @@ namespace HereToSlayImplementation
             sqlConnection.Close();
             GM.GameForm = new Form3();
             GM.GameForm.Show();
+            GM.LoginForm.Close();
+        }
 
-            this.Hide();
+        private void QuitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

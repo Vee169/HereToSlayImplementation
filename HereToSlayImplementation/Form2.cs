@@ -114,7 +114,7 @@ namespace HereToSlayImplementation
                             }
                         }
                     }
-                    if(SecondTimer.Enabled)
+                    if (SecondTimer.Enabled)
                     {
                         SqlCommand cmd2 = new SqlCommand($"UPDATE Player SET DeckID = '{Form1.instance1.thisPlayer.GetDeck()}' where playerID = {Form1.instance1.thisPlayer.GetplayerID()}", sqlConnection);
                         cmd2.ExecuteNonQuery();
@@ -162,7 +162,7 @@ namespace HereToSlayImplementation
             CountdownTimer.Stop();
             GM.GameForm = new Form3();
             GM.GameForm.ShowDialog();
-            this.Close();
+            GM.LobbyForm.Close();
 
         }
 
@@ -178,6 +178,11 @@ namespace HereToSlayImplementation
         private void DeckListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateDeck(DeckListBox.Items[DeckListBox.SelectedIndex].ToString());
+        }
+
+        private void QuitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
