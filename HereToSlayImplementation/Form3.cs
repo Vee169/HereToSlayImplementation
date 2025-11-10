@@ -37,8 +37,6 @@ namespace HereToSlayImplementation
 
             InitializeComponent();
             sqlConnection = new SqlConnection(Form1.CONNECT);
-            sqlConnection.Open();
-            Console.WriteLine("connection Open");
             Form1.Player[] players = new Form1.Player[2];
             discard = Form3.instance3.PlayerDiscardButton;
             players[0] = Form1.instance1.thisPlayer;
@@ -52,23 +50,31 @@ namespace HereToSlayImplementation
             OpponentHealthTextBox.Text = "10/10";
             PlayerHealthTextBox.Text = "10/10";
 
-
+            sqlConnection.Open();
+            Console.WriteLine("connection Open");
             for (int i = 1; i < 3; i++)
             {
 
                 if (i != Form1.instance1.thisPlayer.GetPlayerNumber())
                 {
                     SqlCommand command = new SqlCommand($"SELECT playerID, UserName, DeckID FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.PlayerID{i} = Player.playerID AND Games.GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    if (sqlConnection.State == ConnectionState.Open)
                     {
-                        if (reader.Read())
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            players[1] = new Form1.Player(reader.GetString(1), reader.GetInt32(0), reader.GetString(2));
+                            if (reader.Read())
+                            {
+                                players[1] = new Form1.Player(reader.GetString(1), reader.GetInt32(0), reader.GetString(2));
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
-                        else
-                        {
-                            break;
-                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("number 1 break");
                     }
                 }
             }
@@ -413,15 +419,22 @@ namespace HereToSlayImplementation
                 for (int i = 0; i < 2; i++)
                 {
                     SqlCommand cmd = new SqlCommand($"SELECT * FROM Cards WHERE Deckfk = '{players[i].GetDeck()}'", sqlConnection);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    if (sqlConnection.State == ConnectionState.Open)
                     {
-                        while (reader.Read())
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            for (int j = 0; j < reader.GetInt32(6); j++)
+                            while (reader.Read())
                             {
-                                ListOfDecks[i].Add(new Card(reader.GetInt32(0), reader.GetString(5), this, reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4)));
+                                for (int j = 0; j < reader.GetInt32(6); j++)
+                                {
+                                    ListOfDecks[i].Add(new Card(reader.GetInt32(0), reader.GetString(5), this, reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4)));
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("number 2 break");
                     }
                 }
                 sqlConnection.Close();
@@ -545,21 +558,28 @@ namespace HereToSlayImplementation
                 Console.WriteLine("connection Open");
 
                 SqlCommand cmd = new SqlCommand($"SELECT * FROM Moves WHERE GameIDfk = {game.GetgameID()} AND PlayerIDfk = {game.GetPlayer(1).GetplayerID()}", sqlConnection);
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                if (sqlConnection.State == ConnectionState.Open)
                 {
-                    if (reader.Read() && !MoveRead)
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        game.GetPlayer(0).SetDefence(-reader.GetInt32(2));
-                        Form3.instance3.PlayerHealthTextBox.Text = $"{game.GetPlayer(0).GetHealth()}/10";
-                        if (game.GetPlayer(0).GetDefense() >= 0)
+                        if (reader.Read() && !MoveRead)
                         {
-                            instance3.OpponentDefenceTextBox.Text = $" + {game.GetPlayer(0).GetDefense()}";
+                            game.GetPlayer(0).SetDefence(-reader.GetInt32(2));
+                            Form3.instance3.PlayerHealthTextBox.Text = $"{game.GetPlayer(0).GetHealth()}/10";
+                            if (game.GetPlayer(0).GetDefense() >= 0)
+                            {
+                                instance3.OpponentDefenceTextBox.Text = $" + {game.GetPlayer(0).GetDefense()}";
+                            }
+                            game.GetPlayer(1).SetHealth(-reader.GetInt32(3));
+                            game.GetPlayer(1).SetDefence(reader.GetInt32(4));
+                            turnChange = true;
+                            MoveRead = true;
                         }
-                        game.GetPlayer(1).SetHealth(-reader.GetInt32(3));
-                        game.GetPlayer(1).SetDefence(reader.GetInt32(4));
-                        turnChange = true;
-                        MoveRead = true;
                     }
+                }
+                else
+                {
+                    Console.WriteLine("number 3 break");
                 }
                 List<Card> Hand;
                 List<Card> Deck1 = game.GetDeck(0);
@@ -569,39 +589,46 @@ namespace HereToSlayImplementation
                 {
                     Hand = new List<Card>();
                     SqlCommand cmd3 = new SqlCommand($"SELECT * FROM Hand WHERE PlayerIDfk = {game.GetPlayer(i).GetplayerID()}", sqlConnection);
-                    using (SqlDataReader reader = cmd3.ExecuteReader())
+                    if (sqlConnection.State == ConnectionState.Open)
                     {
-                        while (reader.Read())
+                        using (SqlDataReader reader = cmd3.ExecuteReader())
                         {
-                            foreach (Card card in Deck2)
+                            while (reader.Read())
                             {
-                                if (reader.GetInt32(1) == card.GetCardID())
-                                {
-                                    Hand.Add(card);
-                                    cardAdded = true;
-                                    break;
-                                }
-                            }
-
-                            if (cardAdded)
-                            {
-                                cardAdded = false;
-                            }
-                            else
-                            {
-                                foreach (Card card in Deck1)
+                                foreach (Card card in Deck2)
                                 {
                                     if (reader.GetInt32(1) == card.GetCardID())
                                     {
                                         Hand.Add(card);
+                                        cardAdded = true;
                                         break;
                                     }
                                 }
-                            }
 
+                                if (cardAdded)
+                                {
+                                    cardAdded = false;
+                                }
+                                else
+                                {
+                                    foreach (Card card in Deck1)
+                                    {
+                                        if (reader.GetInt32(1) == card.GetCardID())
+                                        {
+                                            Hand.Add(card);
+                                            break;
+                                        }
+                                    }
+                                }
+
+                            }
                         }
                     }
-                    game.GetPlayer(i).SetHand(Hand);
+                    else
+                    {
+                        Console.WriteLine("Number 4 break");
+                    }
+                        game.GetPlayer(i).SetHand(Hand);
                     sqlConnection.Close();
                     Console.WriteLine("connection Close");
                 }
