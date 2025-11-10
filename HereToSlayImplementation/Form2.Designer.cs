@@ -36,6 +36,7 @@
             ReadyTimer = new System.Windows.Forms.Timer(components);
             CountdownTimer = new System.Windows.Forms.Timer(components);
             SecondTimer = new System.Windows.Forms.Timer(components);
+            DeckListBox = new ListBox();
             SuspendLayout();
             // 
             // PlayerListBox
@@ -107,12 +108,26 @@
             SecondTimer.Interval = 1000;
             SecondTimer.Tick += SecondTimer_Tick;
             // 
+            // DeckListBox
+            // 
+            DeckListBox.BackColor = Color.DarkGray;
+            DeckListBox.BorderStyle = BorderStyle.None;
+            DeckListBox.ForeColor = SystemColors.ButtonHighlight;
+            DeckListBox.FormattingEnabled = true;
+            DeckListBox.ItemHeight = 25;
+            DeckListBox.Location = new Point(1485, 100);
+            DeckListBox.Name = "DeckListBox";
+            DeckListBox.Size = new Size(472, 850);
+            DeckListBox.TabIndex = 4;
+            DeckListBox.SelectedIndexChanged += DeckListBox_SelectedIndexChanged;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(2103, 1083);
+            Controls.Add(DeckListBox);
             Controls.Add(GameIDLabel);
             Controls.Add(CountdownLabel);
             Controls.Add(StartButton);
@@ -134,5 +149,6 @@
         private System.Windows.Forms.Timer ReadyTimer;
         private System.Windows.Forms.Timer CountdownTimer;
         private System.Windows.Forms.Timer SecondTimer;
+        private ListBox DeckListBox;
     }
 }

@@ -37,7 +37,16 @@ namespace HereToSlayImplementation
             StartButtonClicked = false;
             CountdownLabel.Hide();
             this.Disposed += Form2_Disposed;
-
+            sqlConnection.Open();
+            SqlCommand cmd = new SqlCommand($"select * from Deck",sqlConnection);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    DeckListBox.Items.Add(reader.GetString(0));
+                }
+            }
+            sqlConnection.Close();
         }
 
         public void Updateplayers()
@@ -94,7 +103,7 @@ namespace HereToSlayImplementation
                 }
             }
             Updateplayers();
-            
+
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -127,18 +136,39 @@ namespace HereToSlayImplementation
         private void CountdownTimer_Tick(object sender, EventArgs e)
         {
             CountdownTimer.Stop();
-            this.Close();
-            new Form3().ShowDialog();
+            sqlConnection.Open();
+            SqlCommand cmd2 = new SqlCommand($"UPDATE Player SET DeckID = '{DeckListBox.Items[DeckListBox.SelectedIndex]}' WHERE PlayerID = {Form1.instance1.thisPlayer.GetplayerID()}", sqlConnection);
+            cmd2.ExecuteNonQuery();
+            SqlCommand cmd3 = new SqlCommand($"Select DeckID From Player where PlayerID = PlayerID = {Form1.instance1.thisPlayer.GetplayerID()}", sqlConnection);
+            using(SqlDataReader reader = cmd3.ExecuteReader())
+            {
+                if(reader.Read())
+                {
+                    Form1.instance1.thisPlayer.SetDeck(reader.GetString(0));
+                }
+            }
+            sqlConnection.Close();
+            new Form3().Show();
+            this.Hide();
 
         }
 
         private void PlayerListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            sqlConnection.Open();
+            SqlCommand cmd2 = new SqlCommand($"UPDATE Player SET DeckID = '{DeckListBox.Items[DeckListBox.SelectedIndex]}' WHERE PlayerID = {Form1.instance1.thisPlayer.GetplayerID()}", sqlConnection);
+            cmd2.ExecuteNonQuery();
+            sqlConnection.Close();
         }
 
         private void Form2_Disposed(object sender, EventArgs e)
         {
             Form1.instance1.Dispose();
+        }
+
+        private void DeckListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
