@@ -22,8 +22,8 @@ namespace HereToSlayImplementation
     {
         static public Form1 instance1;
         static public SqlConnection sqlConnection;
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
-        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungoenMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungoenMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
         public Player thisPlayer;
         public string EncryptedPassword;
@@ -324,8 +324,9 @@ namespace HereToSlayImplementation
             sqlConnection.Close();
             thisPlayer.SetPlayerNumber(1);
 
+            GM.LobbyForm = new Form2();
+            GM.LobbyForm.ShowDialog();
             this.Hide();
-            new Form2().ShowDialog();
         }
 
         private void JoinButton_Click(object sender, EventArgs e)
@@ -381,7 +382,8 @@ namespace HereToSlayImplementation
                 else
                 {
                     sqlConnection.Close();
-                    new Form2().Show();
+                    GM.LobbyForm = new Form2();
+                    GM.LobbyForm.ShowDialog();
                     this.Hide();
                 }
             }
@@ -408,8 +410,8 @@ namespace HereToSlayImplementation
             SqlCommand command5 = new SqlCommand($"UPDATE Games SET PlayerID2 = 2 WHERE GameID = {thisPlayer.GetGameID()} \nUPDATE Player SET GameIDfk = {thisPlayer.GetGameID()} WHERE playerID = 2", sqlConnection);
             command5.ExecuteNonQuery();
             sqlConnection.Close();
-            GameWindow = new Form3();
-            GameWindow.Show();
+            GM.GameForm = new Form3();
+            GM.GameForm.Show();
 
             this.Hide();
         }

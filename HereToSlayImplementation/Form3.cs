@@ -117,7 +117,8 @@ namespace HereToSlayImplementation
             public Card(int c, string deck, Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
             {
                 this.cardName = cardName;
-                Size = new Size(197, 253);
+                Size = new Size(197, 253); //personal pc
+                //Size = new Size(281, 422); //School pc
                 BackColor = Color.DimGray;
                 this.game = game;
                 EffectSymbols = [ds, hs, ls, drs];
@@ -354,7 +355,8 @@ namespace HereToSlayImplementation
                 }
                 for (int i = 0; i < PlayedCards.Count; i++)
                 {
-                    PlayedCards[i].Location = new Point(215 + (197*(i)), 98);
+                    //PlayedCards[i].Location = new Point(215 + (197*(i)), 98); //personal pc
+                    PlayedCards[i].Location = new Point(307 + (281 * (i)), 148); //school pc
                 }
             }
 
@@ -443,7 +445,8 @@ namespace HereToSlayImplementation
                     ListOfDiscard[x] = new List<Card>();
                 }
                 int index = rnd.Next(ListOfDecks[x].Count - 1);
-                (ListOfDecks[x])[index].Location = new Point(418 + (players[y].GetHand().Count * 30), 371);
+                (ListOfDecks[x])[index].Location = new Point(418 + (players[y].GetHand().Count * 30), 371); //personal pc
+                //(ListOfDecks[x])[index].Location = new Point(418 + (players[y].GetHand().Count * 30), 371); //school pc
                 ListOfDiscard[x].Add((ListOfDecks[x])[index]);
                 (ListOfDecks[x])[index].BringToFront();
                 instance3.Controls.Add((ListOfDecks[x])[index]);

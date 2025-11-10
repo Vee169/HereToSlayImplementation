@@ -1,3 +1,6 @@
+using Microsoft.Identity.Client;
+using System.Runtime.InteropServices;
+
 namespace HereToSlayImplementation
 {
     internal static class Program
@@ -8,13 +11,31 @@ namespace HereToSlayImplementation
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Form1 start = new Form1();
-            Application.Run(start);
+            try
+            {
+                // To customize application configuration such as set high DPI settings or default font,
+                // see https://aka.ms/applicationconfiguration.
+                ApplicationConfiguration.Initialize();
+                GM.LoginForm = new Form1();
+                Application.Run(GM.LoginForm);
 
-            
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Terminated with exception");
+                Console.ReadLine();
+            }
+
+            Console.WriteLine("Terminated successfully");
+            Console.ReadLine();
+
         }
+    }
+
+    static class GM
+    {
+        public static Form LoginForm { get; set; }
+        public static Form LobbyForm;
+        public static Form GameForm;
     }
 }

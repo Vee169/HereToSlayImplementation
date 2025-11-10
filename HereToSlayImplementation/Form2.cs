@@ -160,8 +160,9 @@ namespace HereToSlayImplementation
         private void CountdownTimer_Tick(object sender, EventArgs e)
         {
             CountdownTimer.Stop();
+            GM.GameForm = new Form3();
+            GM.GameForm.ShowDialog();
             this.Close();
-            new Form3().ShowDialog();
 
         }
 

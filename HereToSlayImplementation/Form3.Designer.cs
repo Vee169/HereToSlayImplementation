@@ -43,6 +43,7 @@
             PlayerHealthTextBox = new TextBox();
             DiscardTimer = new System.Windows.Forms.Timer(components);
             ActionPointTextBox = new TextBox();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)OpponentInfoPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayerInfoPictureBox).BeginInit();
             SuspendLayout();
@@ -51,27 +52,30 @@
             // 
             HandLabel.AutoSize = true;
             HandLabel.ForeColor = SystemColors.ButtonHighlight;
-            HandLabel.Location = new Point(418, 354);
+            HandLabel.Location = new Point(597, 590);
+            HandLabel.Margin = new Padding(4, 0, 4, 0);
             HandLabel.Name = "HandLabel";
-            HandLabel.Size = new Size(36, 15);
+            HandLabel.Size = new Size(55, 25);
             HandLabel.TabIndex = 25;
             HandLabel.Text = "Hand";
             // 
             // OpponentInfoPictureBox
             // 
             OpponentInfoPictureBox.BackColor = Color.DarkGray;
-            OpponentInfoPictureBox.Location = new Point(12, 12);
+            OpponentInfoPictureBox.Location = new Point(17, 20);
+            OpponentInfoPictureBox.Margin = new Padding(4, 5, 4, 5);
             OpponentInfoPictureBox.Name = "OpponentInfoPictureBox";
-            OpponentInfoPictureBox.Size = new Size(197, 253);
+            OpponentInfoPictureBox.Size = new Size(281, 422);
             OpponentInfoPictureBox.TabIndex = 22;
             OpponentInfoPictureBox.TabStop = false;
             // 
             // PlayerInfoPictureBox
             // 
             PlayerInfoPictureBox.BackColor = Color.DarkGray;
-            PlayerInfoPictureBox.Location = new Point(1138, 372);
+            PlayerInfoPictureBox.Location = new Point(1626, 620);
+            PlayerInfoPictureBox.Margin = new Padding(4, 5, 4, 5);
             PlayerInfoPictureBox.Name = "PlayerInfoPictureBox";
-            PlayerInfoPictureBox.Size = new Size(197, 253);
+            PlayerInfoPictureBox.Size = new Size(281, 422);
             PlayerInfoPictureBox.TabIndex = 24;
             PlayerInfoPictureBox.TabStop = false;
             // 
@@ -79,9 +83,10 @@
             // 
             PlayerDiscardButton.BackColor = Color.DimGray;
             PlayerDiscardButton.ForeColor = SystemColors.ButtonHighlight;
-            PlayerDiscardButton.Location = new Point(211, 371);
+            PlayerDiscardButton.Location = new Point(301, 618);
+            PlayerDiscardButton.Margin = new Padding(4, 5, 4, 5);
             PlayerDiscardButton.Name = "PlayerDiscardButton";
-            PlayerDiscardButton.Size = new Size(197, 253);
+            PlayerDiscardButton.Size = new Size(281, 422);
             PlayerDiscardButton.TabIndex = 20;
             PlayerDiscardButton.Text = "Player Discard";
             PlayerDiscardButton.UseVisualStyleBackColor = false;
@@ -91,9 +96,10 @@
             // 
             OpponentDeckButton.BackColor = Color.DimGray;
             OpponentDeckButton.ForeColor = SystemColors.ButtonHighlight;
-            OpponentDeckButton.Location = new Point(1138, 12);
+            OpponentDeckButton.Location = new Point(1626, 20);
+            OpponentDeckButton.Margin = new Padding(4, 5, 4, 5);
             OpponentDeckButton.Name = "OpponentDeckButton";
-            OpponentDeckButton.Size = new Size(197, 253);
+            OpponentDeckButton.Size = new Size(281, 422);
             OpponentDeckButton.TabIndex = 19;
             OpponentDeckButton.Text = "Opponent Deck";
             OpponentDeckButton.UseVisualStyleBackColor = false;
@@ -102,10 +108,10 @@
             // 
             PlayerDeckButton.BackColor = Color.DimGray;
             PlayerDeckButton.ForeColor = SystemColors.ButtonHighlight;
-            PlayerDeckButton.Location = new Point(12, 372);
+            PlayerDeckButton.Location = new Point(17, 620);
             PlayerDeckButton.Margin = new Padding(0);
             PlayerDeckButton.Name = "PlayerDeckButton";
-            PlayerDeckButton.Size = new Size(197, 253);
+            PlayerDeckButton.Size = new Size(281, 422);
             PlayerDeckButton.TabIndex = 18;
             PlayerDeckButton.Text = "Player Deck";
             PlayerDeckButton.UseVisualStyleBackColor = false;
@@ -122,12 +128,11 @@
             TurnTextBox.BorderStyle = BorderStyle.None;
             TurnTextBox.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TurnTextBox.ForeColor = SystemColors.ButtonHighlight;
-            TurnTextBox.Location = new Point(793, 12);
-            TurnTextBox.Margin = new Padding(2);
+            TurnTextBox.Location = new Point(1133, 20);
             TurnTextBox.Multiline = true;
             TurnTextBox.Name = "TurnTextBox";
             TurnTextBox.ReadOnly = true;
-            TurnTextBox.Size = new Size(340, 74);
+            TurnTextBox.Size = new Size(486, 123);
             TurnTextBox.TabIndex = 26;
             TurnTextBox.Text = "It is the turn of: ";
             // 
@@ -137,11 +142,10 @@
             OpponentHealthTextBox.BorderStyle = BorderStyle.None;
             OpponentHealthTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OpponentHealthTextBox.ForeColor = SystemColors.ButtonHighlight;
-            OpponentHealthTextBox.Location = new Point(215, 12);
-            OpponentHealthTextBox.Margin = new Padding(2);
+            OpponentHealthTextBox.Location = new Point(307, 20);
             OpponentHealthTextBox.Name = "OpponentHealthTextBox";
             OpponentHealthTextBox.ReadOnly = true;
-            OpponentHealthTextBox.Size = new Size(193, 80);
+            OpponentHealthTextBox.Size = new Size(276, 120);
             OpponentHealthTextBox.TabIndex = 27;
             // 
             // OpponentDefenceTextBox
@@ -150,11 +154,10 @@
             OpponentDefenceTextBox.BorderStyle = BorderStyle.None;
             OpponentDefenceTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OpponentDefenceTextBox.ForeColor = SystemColors.ButtonHighlight;
-            OpponentDefenceTextBox.Location = new Point(412, 12);
-            OpponentDefenceTextBox.Margin = new Padding(2);
+            OpponentDefenceTextBox.Location = new Point(589, 20);
             OpponentDefenceTextBox.Name = "OpponentDefenceTextBox";
             OpponentDefenceTextBox.ReadOnly = true;
-            OpponentDefenceTextBox.Size = new Size(193, 80);
+            OpponentDefenceTextBox.Size = new Size(276, 120);
             OpponentDefenceTextBox.TabIndex = 29;
             // 
             // PlayerDefenceTextBox
@@ -163,11 +166,10 @@
             PlayerDefenceTextBox.BorderStyle = BorderStyle.None;
             PlayerDefenceTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlayerDefenceTextBox.ForeColor = SystemColors.ButtonHighlight;
-            PlayerDefenceTextBox.Location = new Point(940, 544);
-            PlayerDefenceTextBox.Margin = new Padding(2);
+            PlayerDefenceTextBox.Location = new Point(1343, 907);
             PlayerDefenceTextBox.Name = "PlayerDefenceTextBox";
             PlayerDefenceTextBox.ReadOnly = true;
-            PlayerDefenceTextBox.Size = new Size(193, 80);
+            PlayerDefenceTextBox.Size = new Size(276, 120);
             PlayerDefenceTextBox.TabIndex = 30;
             // 
             // PlayerHealthTextBox
@@ -176,11 +178,10 @@
             PlayerHealthTextBox.BorderStyle = BorderStyle.None;
             PlayerHealthTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlayerHealthTextBox.ForeColor = SystemColors.ButtonHighlight;
-            PlayerHealthTextBox.Location = new Point(743, 544);
-            PlayerHealthTextBox.Margin = new Padding(2);
+            PlayerHealthTextBox.Location = new Point(1061, 907);
             PlayerHealthTextBox.Name = "PlayerHealthTextBox";
             PlayerHealthTextBox.ReadOnly = true;
-            PlayerHealthTextBox.Size = new Size(193, 80);
+            PlayerHealthTextBox.Size = new Size(276, 120);
             PlayerHealthTextBox.TabIndex = 31;
             // 
             // DiscardTimer
@@ -194,17 +195,31 @@
             ActionPointTextBox.BorderStyle = BorderStyle.None;
             ActionPointTextBox.Font = new Font("Segoe UI", 51.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ActionPointTextBox.ForeColor = SystemColors.ButtonHighlight;
-            ActionPointTextBox.Location = new Point(12, 271);
+            ActionPointTextBox.Location = new Point(17, 452);
+            ActionPointTextBox.Margin = new Padding(4, 5, 4, 5);
             ActionPointTextBox.Name = "ActionPointTextBox";
-            ActionPointTextBox.Size = new Size(92, 92);
+            ActionPointTextBox.Size = new Size(131, 138);
             ActionPointTextBox.TabIndex = 32;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.DimGray;
+            button2.ForeColor = SystemColors.ButtonHighlight;
+            button2.Location = new Point(597, 618);
+            button2.Margin = new Padding(4, 5, 4, 5);
+            button2.Name = "button2";
+            button2.Size = new Size(281, 422);
+            button2.TabIndex = 33;
+            button2.Text = "Player Discard";
+            button2.UseVisualStyleBackColor = false;
             // 
             // Form3
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(1347, 637);
+            ClientSize = new Size(1924, 1062);
+            Controls.Add(button2);
             Controls.Add(ActionPointTextBox);
             Controls.Add(PlayerHealthTextBox);
             Controls.Add(PlayerDefenceTextBox);
@@ -217,6 +232,7 @@
             Controls.Add(PlayerDiscardButton);
             Controls.Add(OpponentDeckButton);
             Controls.Add(PlayerDeckButton);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "Form3";
             Text = "Form3";
             Load += Form3_Load;
@@ -247,5 +263,6 @@
         private TextBox PlayerHealthTextBox;
         private System.Windows.Forms.Timer DiscardTimer;
         private TextBox ActionPointTextBox;
+        private Button button2;
     }
 }
