@@ -126,7 +126,7 @@ namespace HereToSlayImplementation
             {
                 this.cardName = cardName;
                 //Size = new Size(197, 253); //personal pc
-                Size = new Size(281, 422); //School pc
+                Size = new Size(281, 422);
                 BackColor = Color.DimGray;
                 this.game = game;
                 EffectSymbols = [ds, hs, ls, drs];
@@ -364,7 +364,7 @@ namespace HereToSlayImplementation
                 for (int i = 0; i < PlayedCards.Count; i++)
                 {
                     //PlayedCards[i].Location = new Point(215 + (197*(i)), 98); //personal pc
-                    PlayedCards[i].Location = new Point(307 + (281 * (i)), 148); //school pc
+                    PlayedCards[i].Location = new Point(307 + (281 * (i)), 148);
                 }
             }
 
@@ -463,7 +463,7 @@ namespace HereToSlayImplementation
                 }
                 int index = rnd.Next(ListOfDecks[x].Count - 1);
                 //(ListOfDecks[x])[index].Location = new Point(418 + (players[y].GetHand().Count * 30), 371); //personal pc
-                (ListOfDecks[x])[index].Location = new Point(597 + (players[y].GetHand().Count * 30), 618); //school pc
+                (ListOfDecks[x])[index].Location = new Point(597 + (players[y].GetHand().Count * 30), 618);
                 ListOfDiscard[x].Add((ListOfDecks[x])[index]);
                 (ListOfDecks[x])[index].BringToFront();
                 instance3.Controls.Add((ListOfDecks[x])[index]);
@@ -628,12 +628,14 @@ namespace HereToSlayImplementation
                     {
                         Console.WriteLine("Number 4 break");
                     }
-                        game.GetPlayer(i).SetHand(Hand);
-                    sqlConnection.Close();
-                    Console.WriteLine("connection Close");
+                    game.GetPlayer(i).SetHand(Hand);
+
                 }
+                sqlConnection.Close();
+                Console.WriteLine("connection Close");
                 if (turnChange)
                 {
+                    sqlConnection.Open();
                     SqlCommand cmd2 = new SqlCommand($"DELETE FROM Moves WHERE GameIDfk = {game.GetgameID()}", sqlConnection);
                     cmd2.ExecuteNonQuery();
                     if (sqlConnection.State == ConnectionState.Open)

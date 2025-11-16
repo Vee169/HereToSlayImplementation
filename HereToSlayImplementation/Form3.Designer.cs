@@ -228,8 +228,8 @@
             // 
             // Form3
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            //AutoScaleDimensions = new SizeF(10F, 25F);
+            //AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1924, 1062);
             Controls.Add(button2);

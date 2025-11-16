@@ -47,11 +47,11 @@
             PlayerListBox.Font = new Font("Segoe UI", 39.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlayerListBox.ForeColor = SystemColors.ButtonHighlight;
             PlayerListBox.FormattingEnabled = true;
-            PlayerListBox.ItemHeight = 106;
+            PlayerListBox.ItemHeight = 71;
             PlayerListBox.Location = new Point(17, 100);
             PlayerListBox.Margin = new Padding(4, 5, 4, 5);
             PlayerListBox.Name = "PlayerListBox";
-            PlayerListBox.Size = new Size(907, 530);
+            PlayerListBox.Size = new Size(907, 497);
             PlayerListBox.TabIndex = 0;
             PlayerListBox.SelectedIndexChanged += PlayerListBox_SelectedIndexChanged;
             // 
@@ -77,7 +77,7 @@
             CountdownLabel.Location = new Point(336, 843);
             CountdownLabel.Margin = new Padding(4, 0, 4, 0);
             CountdownLabel.Name = "CountdownLabel";
-            CountdownLabel.Size = new Size(67, 81);
+            CountdownLabel.Size = new Size(45, 54);
             CountdownLabel.TabIndex = 2;
             CountdownLabel.Text = "5";
             // 
@@ -89,7 +89,7 @@
             GameIDLabel.Location = new Point(936, 72);
             GameIDLabel.Margin = new Padding(4, 0, 4, 0);
             GameIDLabel.Name = "GameIDLabel";
-            GameIDLabel.Size = new Size(269, 54);
+            GameIDLabel.Size = new Size(183, 37);
             GameIDLabel.TabIndex = 3;
             GameIDLabel.Text = "Game code is:";
             // 
@@ -115,11 +115,11 @@
             DeckListBox.BorderStyle = BorderStyle.None;
             DeckListBox.ForeColor = SystemColors.ButtonHighlight;
             DeckListBox.FormattingEnabled = true;
-            DeckListBox.ItemHeight = 25;
+            DeckListBox.ItemHeight = 15;
             DeckListBox.Location = new Point(1489, 72);
             DeckListBox.Margin = new Padding(4, 5, 4, 5);
             DeckListBox.Name = "DeckListBox";
-            DeckListBox.Size = new Size(419, 725);
+            DeckListBox.Size = new Size(419, 720);
             DeckListBox.TabIndex = 4;
             DeckListBox.SelectedIndexChanged += DeckListBox_SelectedIndexChanged;
             // 
@@ -137,10 +137,8 @@
             // 
             // Form2
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(1924, 1062);
+            ClientSize = new Size(1924, 1061);
             Controls.Add(QuitButton);
             Controls.Add(DeckListBox);
             Controls.Add(GameIDLabel);
