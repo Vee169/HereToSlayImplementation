@@ -22,8 +22,8 @@ namespace HereToSlayImplementation
     {
         static public Form1 instance1;
         static public SqlConnection sqlConnection;
-        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungoenMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungoenMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
         public Player thisPlayer;
         public string EncryptedPassword;
@@ -73,6 +73,9 @@ namespace HereToSlayImplementation
                 Health = 10;
                 Defense = 0;
                 deck = d;
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand($"INSERT INTO Hand",sqlConnection);
+                sqlConnection.Close();
             }
 
             public string GetDeck()
@@ -84,6 +87,12 @@ namespace HereToSlayImplementation
             public void SetDeck(string x)
             {
                 deck = x;
+            }
+
+            public void NewHand(List<Form3.Card> cards)
+            {
+                Hand.Clear();
+                Hand = new List<Form3.Card>(cards);
             }
 
             public List<Form3.Card> GetHand()
@@ -186,6 +195,10 @@ namespace HereToSlayImplementation
                 {
                     Health = 10;
                 }
+                if (Health < 0)
+                {
+                    GM.GameForm.GameOver(this);
+                }
             }
 
             public void SetHand(List<Form3.Card> cards)
@@ -197,7 +210,7 @@ namespace HereToSlayImplementation
         {
             InitializeComponent();
             sqlConnection = new SqlConnection(CONNECT);
-            instance1 = this;
+            GM.LoginForm = this;
             HostButton.Hide();
             JoinButton.Hide();
             JoinTextBox.Hide();
@@ -372,7 +385,7 @@ namespace HereToSlayImplementation
                     {
                         GameExists = true;
                         NotInAGame = false;
-                        Form1.instance1.thisPlayer.SetPlayerNumber(2);
+                        thisPlayer.SetPlayerNumber(2);
                     }
                 }
                 if (GameExists)

@@ -30,6 +30,8 @@ namespace HereToSlayImplementation
         static public bool beenMade;
         static public bool CardSelected;
         static public bool CardPlayed;
+        public static Form1.Player Winner;
+        public static Form1.Player Loser;
 
         public Form3()
         {
@@ -39,7 +41,7 @@ namespace HereToSlayImplementation
             sqlConnection = new SqlConnection(Form1.CONNECT);
             Form1.Player[] players = new Form1.Player[2];
             discard = Form3.instance3.PlayerDiscardButton;
-            players[0] = Form1.instance1.thisPlayer;
+            players[0] = GM.LoginForm.thisPlayer;
             thisPlayer = 0;
             MoveRetrievalTimer.Tick += MoveRetrievalTimer_Tick;
             MoveRetrievalTimer.Start();
@@ -55,9 +57,9 @@ namespace HereToSlayImplementation
             for (int i = 1; i < 3; i++)
             {
 
-                if (i != Form1.instance1.thisPlayer.GetPlayerNumber())
+                if (i != GM.LoginForm.thisPlayer.GetPlayerNumber())
                 {
-                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName, DeckID FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.PlayerID{i} = Player.playerID AND Games.GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
+                    SqlCommand command = new SqlCommand($"SELECT playerID, UserName, DeckID FROM Player, Games WHERE Games.GameID = Player.GameIDfk AND Games.PlayerID{i} = Player.playerID AND Games.GameID = {GM.LoginForm.thisPlayer.GetGameID()}", sqlConnection);
                     if (sqlConnection.State == ConnectionState.Open)
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -107,6 +109,21 @@ namespace HereToSlayImplementation
             }
         }
 
+        public void GameOver(Form1.Player player)
+        {
+            if(game.GetPlayer(0) == player)
+            {
+                Loser = player;
+                Winner = game.GetPlayer(1);
+            }
+            else
+            {
+                Winner = player;
+                Loser = game.GetPlayer(1);
+            }
+            GM.WinForm.Show();
+            GM.GameForm.Close();
+        }
         public class Card : Button
         {
             protected string cardName;
@@ -125,8 +142,7 @@ namespace HereToSlayImplementation
             public Card(int c, string deck, Form3.Game game = null, string ds = "", string hs = "", string ls = "", string drs = "")
             {
                 this.cardName = cardName;
-                //Size = new Size(197, 253); //personal pc
-                Size = new Size(281, 422); //School pc
+                Size = new Size(197, 253);
                 BackColor = Color.DimGray;
                 this.game = game;
                 EffectSymbols = [ds, hs, ls, drs];
@@ -268,6 +284,22 @@ namespace HereToSlayImplementation
                             game.GetPlayer(1).NewHealth(game.GetPlayer(0).GetHealth());
                             game.GetPlayer(0).NewHealth(healthStore);
                             break;
+                        case "DrT":
+                            List<Card> HandStore = new List<Card>(game.GetPlayer(1).GetHand());
+                            game.GetPlayer(1).NewHand(game.GetPlayer(0).GetHand());
+                            game.GetPlayer(0).NewHand(HandStore);
+                            sqlConnection.Open();
+                            for (int j = 0; j < 2; j++)
+                            {
+                                SqlCommand cmd = new SqlCommand($"DELETE FROM Hand WHERE PlayerIDfk = {game.GetPlayer(j).GetplayerID()}", sqlConnection);
+                                cmd.ExecuteNonQuery();
+                                foreach (Card card in game.GetPlayer(j).GetHand())
+                                {
+                                    SqlCommand cmd2 = new SqlCommand($"UPDATE Hand SET CardIDfk = {card.GetCardID()} WHERE {game.GetPlayer(j).GetplayerID()}", sqlConnection);
+                                }
+                            }
+                            sqlConnection.Close();
+                            break;
                     }
                 }
             }
@@ -281,6 +313,9 @@ namespace HereToSlayImplementation
                         case "minsc & boo":
                             game.DrawACard(1);
                             break;
+                        case "DrT":
+                            
+                            break;
                     }
                 }
             }
@@ -293,6 +328,15 @@ namespace HereToSlayImplementation
                     {
                         case "minsc & boo":
                             game.SetBonusDamage(1);
+                            break;
+                        case "DrT":
+                            Damage = game.GetPlayer(1).GetHand().Count;
+                            if(Damage > 5)
+                            {
+                                Damage = 5;
+                            }
+                            DealDamage();
+                            Damage = 0;
                             break;
                     }
                 }
@@ -363,8 +407,7 @@ namespace HereToSlayImplementation
                 }
                 for (int i = 0; i < PlayedCards.Count; i++)
                 {
-                    //PlayedCards[i].Location = new Point(215 + (197*(i)), 98); //personal pc
-                    PlayedCards[i].Location = new Point(307 + (281 * (i)), 148); //school pc
+                    PlayedCards[i].Location = new Point(215 + (197*(i)), 98);
                 }
             }
 
@@ -462,8 +505,7 @@ namespace HereToSlayImplementation
                     ListOfDiscard[x] = new List<Card>();
                 }
                 int index = rnd.Next(ListOfDecks[x].Count - 1);
-                //(ListOfDecks[x])[index].Location = new Point(418 + (players[y].GetHand().Count * 30), 371); //personal pc
-                (ListOfDecks[x])[index].Location = new Point(597 + (players[y].GetHand().Count * 30), 618); //school pc
+                (ListOfDecks[x])[index].Location = new Point(418 + (players[y].GetHand().Count * 30), 371);
                 ListOfDiscard[x].Add((ListOfDecks[x])[index]);
                 (ListOfDecks[x])[index].BringToFront();
                 instance3.Controls.Add((ListOfDecks[x])[index]);
@@ -628,12 +670,14 @@ namespace HereToSlayImplementation
                     {
                         Console.WriteLine("Number 4 break");
                     }
-                        game.GetPlayer(i).SetHand(Hand);
-                    sqlConnection.Close();
-                    Console.WriteLine("connection Close");
+                    game.GetPlayer(i).SetHand(Hand);
+                    
                 }
+                sqlConnection.Close();
+                Console.WriteLine("connection Close");
                 if (turnChange)
                 {
+                    sqlConnection.Open();
                     SqlCommand cmd2 = new SqlCommand($"DELETE FROM Moves WHERE GameIDfk = {game.GetgameID()}", sqlConnection);
                     cmd2.ExecuteNonQuery();
                     if (sqlConnection.State == ConnectionState.Open)
@@ -656,7 +700,7 @@ namespace HereToSlayImplementation
 
         private void Form3_Disposed(object sender, EventArgs e)
         {
-            Form1.instance1.Dispose();
+            GM.LoginForm.Dispose();
         }
 
         private void DiscardTimer_Tick(object sender, EventArgs e)

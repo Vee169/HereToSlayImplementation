@@ -33,8 +33,9 @@ namespace HereToSlayImplementation
 
     static class GM
     {
-        public static Form LoginForm { get; set; }
-        public static Form LobbyForm;
-        public static Form GameForm;
+        public static Form1 LoginForm { get; set; }
+        public static Form2 LobbyForm;
+        public static Form3 GameForm;
+        public static Form4 WinForm;
     }
 }

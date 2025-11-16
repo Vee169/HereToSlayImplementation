@@ -24,14 +24,14 @@ namespace HereToSlayImplementation
         public Form2()
         {
             InitializeComponent();
-            instance2 = this;
+            GM.LobbyForm = this;
 
             GameIDLabel.Text = "Game code is:";
             ReadyTimer.Start();
             ReadyTimer.Tick += ReadyTimer_Tick;
             sqlConnection = new SqlConnection(Form1.CONNECT);
             Updateplayers();
-            GameIDLabel.Text += Form1.instance1.thisPlayer.GetGameID();
+            GameIDLabel.Text += GM.LoginForm.thisPlayer.GetGameID();
             StartButton.Hide();
             Seconds = 5;
             StartButtonClicked = false;
@@ -48,7 +48,7 @@ namespace HereToSlayImplementation
                 }
             }
 
-            SqlCommand cmd2 = new SqlCommand($"UPDATE Games SET GameStart = 0 WHERE GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
+            SqlCommand cmd2 = new SqlCommand($"UPDATE Games SET GameStart = 0 WHERE GameID = {GM.LoginForm.thisPlayer.GetGameID()}", sqlConnection);
             cmd2.ExecuteNonQuery();
             sqlConnection.Close();
         }
@@ -57,13 +57,13 @@ namespace HereToSlayImplementation
 
         public void UpdateDeck(string x)
         {
-            Form1.instance1.thisPlayer.SetDeck(x);
+            GM.LoginForm.thisPlayer.SetDeck(x);
         }
 
         public void Updateplayers()
         {
             sqlConnection.Open();
-            SqlCommand command = new SqlCommand($"SELECT Username FROM Games, Player WHERE Games.GameID = {Form1.instance1.thisPlayer.GetGameID()} AND Games.GameID = Player.GameIDfk", sqlConnection);
+            SqlCommand command = new SqlCommand($"SELECT Username FROM Games, Player WHERE Games.GameID = {GM.LoginForm.thisPlayer.GetGameID()} AND Games.GameID = Player.GameIDfk", sqlConnection);
             using (SqlDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
@@ -87,7 +87,7 @@ namespace HereToSlayImplementation
             if (PlayerListBox.Items.Count >= 2)
             {
 
-                if (Form1.instance1.thisPlayer.GetPlayerNumber() == 1)
+                if (GM.LoginForm.thisPlayer.GetPlayerNumber() == 1)
                 {
                     StartButton.Show();
                     ReadyTimer.Enabled = false;
@@ -96,7 +96,7 @@ namespace HereToSlayImplementation
                 else
                 {
                     sqlConnection.Open();
-                    SqlCommand cmd = new SqlCommand($"SELECT GameStart FROM Games WHERE GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
+                    SqlCommand cmd = new SqlCommand($"SELECT GameStart FROM Games WHERE GameID = {GM.LoginForm.thisPlayer.GetGameID()}", sqlConnection);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
@@ -116,7 +116,7 @@ namespace HereToSlayImplementation
                     }
                     if (SecondTimer.Enabled)
                     {
-                        SqlCommand cmd2 = new SqlCommand($"UPDATE Player SET DeckID = '{Form1.instance1.thisPlayer.GetDeck()}' where playerID = {Form1.instance1.thisPlayer.GetplayerID()}", sqlConnection);
+                        SqlCommand cmd2 = new SqlCommand($"UPDATE Player SET DeckID = '{GM.LoginForm.thisPlayer.GetDeck()}' where playerID = {GM.LoginForm.thisPlayer.GetplayerID()}", sqlConnection);
                         cmd2.ExecuteNonQuery();
                         DeckListBox.Enabled = false;
                     }
@@ -130,9 +130,9 @@ namespace HereToSlayImplementation
         private void StartButton_Click(object sender, EventArgs e)
         {
             sqlConnection.Open();
-            SqlCommand cmd = new SqlCommand($"UPDATE Games SET GameStart = 1 WHERE GameID = {Form1.instance1.thisPlayer.GetGameID()}", sqlConnection);
+            SqlCommand cmd = new SqlCommand($"UPDATE Games SET GameStart = 1 WHERE GameID = {GM.LoginForm.thisPlayer.GetGameID()}", sqlConnection);
             cmd.ExecuteNonQuery();
-            SqlCommand cmd2 = new SqlCommand($"UPDATE Player SET DeckID = '{Form1.instance1.thisPlayer.GetDeck()}' where playerID = {Form1.instance1.thisPlayer.GetplayerID()}", sqlConnection);
+            SqlCommand cmd2 = new SqlCommand($"UPDATE Player SET DeckID = '{GM.LoginForm.thisPlayer.GetDeck()}' where playerID = {GM.LoginForm.thisPlayer.GetplayerID()}", sqlConnection);
             cmd2.ExecuteNonQuery();
             DeckListBox.Enabled = false;
             sqlConnection.Close();
@@ -172,7 +172,7 @@ namespace HereToSlayImplementation
 
         private void Form2_Disposed(object sender, EventArgs e)
         {
-            Form1.instance1.Dispose();
+            GM.LoginForm.Dispose();
         }
 
         private void DeckListBox_SelectedIndexChanged(object sender, EventArgs e)

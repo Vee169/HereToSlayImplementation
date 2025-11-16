@@ -47,11 +47,10 @@
             PlayerListBox.Font = new Font("Segoe UI", 39.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlayerListBox.ForeColor = SystemColors.ButtonHighlight;
             PlayerListBox.FormattingEnabled = true;
-            PlayerListBox.ItemHeight = 106;
-            PlayerListBox.Location = new Point(17, 100);
-            PlayerListBox.Margin = new Padding(4, 5, 4, 5);
+            PlayerListBox.ItemHeight = 71;
+            PlayerListBox.Location = new Point(12, 60);
             PlayerListBox.Name = "PlayerListBox";
-            PlayerListBox.Size = new Size(907, 530);
+            PlayerListBox.Size = new Size(635, 284);
             PlayerListBox.TabIndex = 0;
             PlayerListBox.SelectedIndexChanged += PlayerListBox_SelectedIndexChanged;
             // 
@@ -60,10 +59,9 @@
             StartButton.BackColor = Color.DimGray;
             StartButton.Font = new Font("Segoe UI", 30F);
             StartButton.ForeColor = SystemColors.ButtonHighlight;
-            StartButton.Location = new Point(17, 827);
-            StartButton.Margin = new Padding(4, 5, 4, 5);
+            StartButton.Location = new Point(12, 496);
             StartButton.Name = "StartButton";
-            StartButton.Size = new Size(310, 123);
+            StartButton.Size = new Size(217, 74);
             StartButton.TabIndex = 1;
             StartButton.Text = "Start";
             StartButton.UseVisualStyleBackColor = false;
@@ -74,10 +72,9 @@
             CountdownLabel.AutoSize = true;
             CountdownLabel.Font = new Font("Segoe UI", 30F);
             CountdownLabel.ForeColor = SystemColors.ButtonHighlight;
-            CountdownLabel.Location = new Point(336, 843);
-            CountdownLabel.Margin = new Padding(4, 0, 4, 0);
+            CountdownLabel.Location = new Point(235, 506);
             CountdownLabel.Name = "CountdownLabel";
-            CountdownLabel.Size = new Size(67, 81);
+            CountdownLabel.Size = new Size(45, 54);
             CountdownLabel.TabIndex = 2;
             CountdownLabel.Text = "5";
             // 
@@ -86,10 +83,9 @@
             GameIDLabel.AutoSize = true;
             GameIDLabel.Font = new Font("Segoe UI", 20F);
             GameIDLabel.ForeColor = SystemColors.ButtonHighlight;
-            GameIDLabel.Location = new Point(936, 72);
-            GameIDLabel.Margin = new Padding(4, 0, 4, 0);
+            GameIDLabel.Location = new Point(655, 43);
             GameIDLabel.Name = "GameIDLabel";
-            GameIDLabel.Size = new Size(269, 54);
+            GameIDLabel.Size = new Size(183, 37);
             GameIDLabel.TabIndex = 3;
             GameIDLabel.Text = "Game code is:";
             // 
@@ -115,11 +111,10 @@
             DeckListBox.BorderStyle = BorderStyle.None;
             DeckListBox.ForeColor = SystemColors.ButtonHighlight;
             DeckListBox.FormattingEnabled = true;
-            DeckListBox.ItemHeight = 25;
-            DeckListBox.Location = new Point(1489, 72);
-            DeckListBox.Margin = new Padding(4, 5, 4, 5);
+            DeckListBox.ItemHeight = 15;
+            DeckListBox.Location = new Point(1042, 43);
             DeckListBox.Name = "DeckListBox";
-            DeckListBox.Size = new Size(419, 725);
+            DeckListBox.Size = new Size(293, 435);
             DeckListBox.TabIndex = 4;
             DeckListBox.SelectedIndexChanged += DeckListBox_SelectedIndexChanged;
             // 
@@ -127,9 +122,10 @@
             // 
             QuitButton.BackColor = Color.Gray;
             QuitButton.ForeColor = SystemColors.ButtonHighlight;
-            QuitButton.Location = new Point(1800, 12);
+            QuitButton.Location = new Point(1260, 7);
+            QuitButton.Margin = new Padding(2, 2, 2, 2);
             QuitButton.Name = "QuitButton";
-            QuitButton.Size = new Size(112, 34);
+            QuitButton.Size = new Size(78, 20);
             QuitButton.TabIndex = 13;
             QuitButton.Text = "Quit";
             QuitButton.UseVisualStyleBackColor = false;
@@ -137,17 +133,16 @@
             // 
             // Form2
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            //AutoScaleDimensions = new SizeF(7F, 15F);
+            //AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(1924, 1062);
+            ClientSize = new Size(1347, 637);
             Controls.Add(QuitButton);
             Controls.Add(DeckListBox);
             Controls.Add(GameIDLabel);
             Controls.Add(CountdownLabel);
             Controls.Add(StartButton);
             Controls.Add(PlayerListBox);
-            Margin = new Padding(4, 5, 4, 5);
             Name = "Form2";
             Text = "Form2";
             Load += Form2_Load;
