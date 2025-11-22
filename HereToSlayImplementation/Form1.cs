@@ -73,9 +73,6 @@ namespace HereToSlayImplementation
                 Health = 10;
                 Defense = 0;
                 deck = d;
-                sqlConnection.Open();
-                SqlCommand cmd = new SqlCommand($"INSERT INTO Hand",sqlConnection);
-                sqlConnection.Close();
             }
 
             public string GetDeck()
@@ -342,9 +339,10 @@ namespace HereToSlayImplementation
             sqlConnection.Close();
             thisPlayer.SetPlayerNumber(1);
 
+            GM.LoginForm.Close();
             GM.LobbyForm = new Form2();
-            GM.LobbyForm.ShowDialog();
-            this.Hide();
+            GM.LobbyForm.Show();
+
         }
 
         private void JoinButton_Click(object sender, EventArgs e)
@@ -400,9 +398,9 @@ namespace HereToSlayImplementation
                 else
                 {
                     sqlConnection.Close();
+                    GM.LoginForm.Close();
                     GM.LobbyForm = new Form2();
                     GM.LobbyForm.ShowDialog();
-                    this.Hide();
                 }
             }
         }

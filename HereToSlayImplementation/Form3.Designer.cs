@@ -44,7 +44,6 @@
             DiscardTimer = new System.Windows.Forms.Timer(components);
             ActionPointTextBox = new TextBox();
             QuitButton = new Button();
-            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)OpponentInfoPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayerInfoPictureBox).BeginInit();
             SuspendLayout();
@@ -125,7 +124,7 @@
             TurnTextBox.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TurnTextBox.ForeColor = SystemColors.ButtonHighlight;
             TurnTextBox.Location = new Point(793, 12);
-            TurnTextBox.Margin = new Padding(2, 2, 2, 2);
+            TurnTextBox.Margin = new Padding(2);
             TurnTextBox.Multiline = true;
             TurnTextBox.Name = "TurnTextBox";
             TurnTextBox.ReadOnly = true;
@@ -140,7 +139,7 @@
             OpponentHealthTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OpponentHealthTextBox.ForeColor = SystemColors.ButtonHighlight;
             OpponentHealthTextBox.Location = new Point(215, 12);
-            OpponentHealthTextBox.Margin = new Padding(2, 2, 2, 2);
+            OpponentHealthTextBox.Margin = new Padding(2);
             OpponentHealthTextBox.Name = "OpponentHealthTextBox";
             OpponentHealthTextBox.ReadOnly = true;
             OpponentHealthTextBox.Size = new Size(193, 80);
@@ -153,7 +152,7 @@
             OpponentDefenceTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OpponentDefenceTextBox.ForeColor = SystemColors.ButtonHighlight;
             OpponentDefenceTextBox.Location = new Point(412, 12);
-            OpponentDefenceTextBox.Margin = new Padding(2, 2, 2, 2);
+            OpponentDefenceTextBox.Margin = new Padding(2);
             OpponentDefenceTextBox.Name = "OpponentDefenceTextBox";
             OpponentDefenceTextBox.ReadOnly = true;
             OpponentDefenceTextBox.Size = new Size(193, 80);
@@ -166,7 +165,7 @@
             PlayerDefenceTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlayerDefenceTextBox.ForeColor = SystemColors.ButtonHighlight;
             PlayerDefenceTextBox.Location = new Point(940, 544);
-            PlayerDefenceTextBox.Margin = new Padding(2, 2, 2, 2);
+            PlayerDefenceTextBox.Margin = new Padding(2);
             PlayerDefenceTextBox.Name = "PlayerDefenceTextBox";
             PlayerDefenceTextBox.ReadOnly = true;
             PlayerDefenceTextBox.Size = new Size(193, 80);
@@ -179,7 +178,7 @@
             PlayerHealthTextBox.Font = new Font("Segoe UI", 45F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlayerHealthTextBox.ForeColor = SystemColors.ButtonHighlight;
             PlayerHealthTextBox.Location = new Point(743, 544);
-            PlayerHealthTextBox.Margin = new Padding(2, 2, 2, 2);
+            PlayerHealthTextBox.Margin = new Padding(2);
             PlayerHealthTextBox.Name = "PlayerHealthTextBox";
             PlayerHealthTextBox.ReadOnly = true;
             PlayerHealthTextBox.Size = new Size(193, 80);
@@ -206,7 +205,7 @@
             QuitButton.BackColor = Color.Gray;
             QuitButton.ForeColor = SystemColors.ButtonHighlight;
             QuitButton.Location = new Point(610, 12);
-            QuitButton.Margin = new Padding(2, 2, 2, 2);
+            QuitButton.Margin = new Padding(2);
             QuitButton.Name = "QuitButton";
             QuitButton.Size = new Size(78, 20);
             QuitButton.TabIndex = 33;
@@ -214,24 +213,10 @@
             QuitButton.UseVisualStyleBackColor = false;
             QuitButton.Click += QuitButton_Click;
             // 
-            // button2
-            // 
-            button2.BackColor = Color.DimGray;
-            button2.ForeColor = SystemColors.ButtonHighlight;
-            button2.Location = new Point(418, 371);
-            button2.Name = "button2";
-            button2.Size = new Size(197, 253);
-            button2.TabIndex = 34;
-            button2.Text = "Player Discard";
-            button2.UseVisualStyleBackColor = false;
-            // 
             // Form3
             // 
-            //AutoScaleDimensions = new SizeF(7F, 15F);
-            //AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1347, 637);
-            Controls.Add(button2);
             Controls.Add(QuitButton);
             Controls.Add(ActionPointTextBox);
             Controls.Add(PlayerHealthTextBox);
@@ -276,6 +261,5 @@
         private System.Windows.Forms.Timer DiscardTimer;
         private TextBox ActionPointTextBox;
         private Button QuitButton;
-        private Button button2;
     }
 }
