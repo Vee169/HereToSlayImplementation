@@ -339,9 +339,10 @@ namespace HereToSlayImplementation
             sqlConnection.Close();
             thisPlayer.SetPlayerNumber(1);
 
+            GM.LoginForm.Close();
             GM.LobbyForm = new Form2();
-            GM.LobbyForm.ShowDialog();
-            this.Hide();
+            GM.LobbyForm.Show();
+
         }
 
         private void JoinButton_Click(object sender, EventArgs e)
@@ -397,9 +398,9 @@ namespace HereToSlayImplementation
                 else
                 {
                     sqlConnection.Close();
+                    GM.LoginForm.Close();
                     GM.LobbyForm = new Form2();
                     GM.LobbyForm.ShowDialog();
-                    this.Hide();
                 }
             }
         }
