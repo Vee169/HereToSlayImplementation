@@ -47,10 +47,10 @@
             PlayerListBox.Font = new Font("Segoe UI", 39.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlayerListBox.ForeColor = SystemColors.ButtonHighlight;
             PlayerListBox.FormattingEnabled = true;
-            PlayerListBox.ItemHeight = 71;
+            PlayerListBox.ItemHeight = 106;
             PlayerListBox.Location = new Point(12, 60);
             PlayerListBox.Name = "PlayerListBox";
-            PlayerListBox.Size = new Size(635, 284);
+            PlayerListBox.Size = new Size(635, 212);
             PlayerListBox.TabIndex = 0;
             PlayerListBox.SelectedIndexChanged += PlayerListBox_SelectedIndexChanged;
             // 
@@ -61,7 +61,7 @@
             StartButton.ForeColor = SystemColors.ButtonHighlight;
             StartButton.Location = new Point(12, 496);
             StartButton.Name = "StartButton";
-            StartButton.Size = new Size(217, 74);
+            StartButton.Size = new Size(217, 91);
             StartButton.TabIndex = 1;
             StartButton.Text = "Start";
             StartButton.UseVisualStyleBackColor = false;
@@ -74,7 +74,7 @@
             CountdownLabel.ForeColor = SystemColors.ButtonHighlight;
             CountdownLabel.Location = new Point(235, 506);
             CountdownLabel.Name = "CountdownLabel";
-            CountdownLabel.Size = new Size(45, 54);
+            CountdownLabel.Size = new Size(67, 81);
             CountdownLabel.TabIndex = 2;
             CountdownLabel.Text = "5";
             // 
@@ -85,7 +85,7 @@
             GameIDLabel.ForeColor = SystemColors.ButtonHighlight;
             GameIDLabel.Location = new Point(655, 43);
             GameIDLabel.Name = "GameIDLabel";
-            GameIDLabel.Size = new Size(183, 37);
+            GameIDLabel.Size = new Size(269, 54);
             GameIDLabel.TabIndex = 3;
             GameIDLabel.Text = "Game code is:";
             // 
@@ -111,10 +111,10 @@
             DeckListBox.BorderStyle = BorderStyle.None;
             DeckListBox.ForeColor = SystemColors.ButtonHighlight;
             DeckListBox.FormattingEnabled = true;
-            DeckListBox.ItemHeight = 15;
+            DeckListBox.ItemHeight = 25;
             DeckListBox.Location = new Point(1042, 43);
             DeckListBox.Name = "DeckListBox";
-            DeckListBox.Size = new Size(293, 435);
+            DeckListBox.Size = new Size(293, 425);
             DeckListBox.TabIndex = 4;
             DeckListBox.SelectedIndexChanged += DeckListBox_SelectedIndexChanged;
             // 
@@ -123,7 +123,7 @@
             QuitButton.BackColor = Color.Gray;
             QuitButton.ForeColor = SystemColors.ButtonHighlight;
             QuitButton.Location = new Point(1260, 7);
-            QuitButton.Margin = new Padding(2, 2, 2, 2);
+            QuitButton.Margin = new Padding(2);
             QuitButton.Name = "QuitButton";
             QuitButton.Size = new Size(78, 20);
             QuitButton.TabIndex = 13;
@@ -133,8 +133,6 @@
             // 
             // Form2
             // 
-            //AutoScaleDimensions = new SizeF(7F, 15F);
-            //AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1347, 637);
             Controls.Add(QuitButton);

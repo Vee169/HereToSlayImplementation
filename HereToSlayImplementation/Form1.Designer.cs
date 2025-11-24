@@ -47,9 +47,9 @@
             // 
             LoginButton.BackColor = Color.DimGray;
             LoginButton.ForeColor = SystemColors.ButtonHighlight;
-            LoginButton.Location = new Point(1114, 91);
+            LoginButton.Location = new Point(1084, 101);
             LoginButton.Name = "LoginButton";
-            LoginButton.Size = new Size(100, 23);
+            LoginButton.Size = new Size(115, 34);
             LoginButton.TabIndex = 0;
             LoginButton.Text = "Login";
             LoginButton.UseVisualStyleBackColor = false;
@@ -60,9 +60,9 @@
             UsernameTextBox.BackColor = Color.DarkGray;
             UsernameTextBox.BorderStyle = BorderStyle.None;
             UsernameTextBox.ForeColor = SystemColors.ButtonHighlight;
-            UsernameTextBox.Location = new Point(1114, 69);
+            UsernameTextBox.Location = new Point(1084, 69);
             UsernameTextBox.Name = "UsernameTextBox";
-            UsernameTextBox.Size = new Size(100, 16);
+            UsernameTextBox.Size = new Size(115, 24);
             UsernameTextBox.TabIndex = 1;
             // 
             // PasswordTextBox
@@ -70,18 +70,18 @@
             PasswordTextBox.BackColor = Color.DarkGray;
             PasswordTextBox.BorderStyle = BorderStyle.None;
             PasswordTextBox.ForeColor = SystemColors.ButtonHighlight;
-            PasswordTextBox.Location = new Point(1220, 69);
+            PasswordTextBox.Location = new Point(1205, 69);
             PasswordTextBox.Name = "PasswordTextBox";
-            PasswordTextBox.Size = new Size(100, 16);
+            PasswordTextBox.Size = new Size(115, 24);
             PasswordTextBox.TabIndex = 2;
             // 
             // SignUpButton
             // 
             SignUpButton.BackColor = Color.DimGray;
             SignUpButton.ForeColor = SystemColors.ButtonHighlight;
-            SignUpButton.Location = new Point(1220, 91);
+            SignUpButton.Location = new Point(1205, 101);
             SignUpButton.Name = "SignUpButton";
-            SignUpButton.Size = new Size(100, 23);
+            SignUpButton.Size = new Size(115, 34);
             SignUpButton.TabIndex = 3;
             SignUpButton.Text = "Sign Up";
             SignUpButton.UseVisualStyleBackColor = false;
@@ -91,9 +91,9 @@
             // 
             UsernameLabel.AutoSize = true;
             UsernameLabel.ForeColor = SystemColors.ButtonHighlight;
-            UsernameLabel.Location = new Point(1114, 51);
+            UsernameLabel.Location = new Point(1084, 41);
             UsernameLabel.Name = "UsernameLabel";
-            UsernameLabel.Size = new Size(60, 15);
+            UsernameLabel.Size = new Size(91, 25);
             UsernameLabel.TabIndex = 4;
             UsernameLabel.Text = "Username";
             // 
@@ -101,9 +101,9 @@
             // 
             PasswordLabel.AutoSize = true;
             PasswordLabel.ForeColor = SystemColors.ButtonHighlight;
-            PasswordLabel.Location = new Point(1220, 51);
+            PasswordLabel.Location = new Point(1205, 41);
             PasswordLabel.Name = "PasswordLabel";
-            PasswordLabel.Size = new Size(57, 15);
+            PasswordLabel.Size = new Size(87, 25);
             PasswordLabel.TabIndex = 5;
             PasswordLabel.Text = "Password";
             // 
@@ -112,10 +112,10 @@
             AccountMessageTextBox.BackColor = Color.Gray;
             AccountMessageTextBox.BorderStyle = BorderStyle.None;
             AccountMessageTextBox.ForeColor = SystemColors.ButtonHighlight;
-            AccountMessageTextBox.Location = new Point(1114, 120);
+            AccountMessageTextBox.Location = new Point(1084, 141);
             AccountMessageTextBox.Multiline = true;
             AccountMessageTextBox.Name = "AccountMessageTextBox";
-            AccountMessageTextBox.Size = new Size(206, 41);
+            AccountMessageTextBox.Size = new Size(236, 52);
             AccountMessageTextBox.TabIndex = 6;
             // 
             // HostButton
@@ -123,7 +123,7 @@
             HostButton.BackColor = Color.DimGray;
             HostButton.Font = new Font("Segoe UI", 20F);
             HostButton.ForeColor = SystemColors.ButtonHighlight;
-            HostButton.Location = new Point(643, 199);
+            HostButton.Location = new Point(557, 223);
             HostButton.Name = "HostButton";
             HostButton.Size = new Size(186, 72);
             HostButton.TabIndex = 7;
@@ -135,9 +135,9 @@
             // 
             JoinTextBox.BackColor = Color.DarkGray;
             JoinTextBox.BorderStyle = BorderStyle.None;
-            JoinTextBox.Location = new Point(643, 277);
+            JoinTextBox.Location = new Point(557, 301);
             JoinTextBox.Name = "JoinTextBox";
-            JoinTextBox.Size = new Size(186, 16);
+            JoinTextBox.Size = new Size(186, 24);
             JoinTextBox.TabIndex = 8;
             // 
             // JoinButton
@@ -145,7 +145,7 @@
             JoinButton.BackColor = Color.DimGray;
             JoinButton.Font = new Font("Segoe UI", 20F);
             JoinButton.ForeColor = SystemColors.ButtonHighlight;
-            JoinButton.Location = new Point(643, 299);
+            JoinButton.Location = new Point(557, 331);
             JoinButton.Name = "JoinButton";
             JoinButton.Size = new Size(186, 72);
             JoinButton.TabIndex = 9;
@@ -157,16 +157,16 @@
             // 
             JoinWarningTextBox.BackColor = Color.Gray;
             JoinWarningTextBox.BorderStyle = BorderStyle.None;
-            JoinWarningTextBox.Location = new Point(643, 377);
+            JoinWarningTextBox.Location = new Point(557, 401);
             JoinWarningTextBox.Name = "JoinWarningTextBox";
             JoinWarningTextBox.ReadOnly = true;
-            JoinWarningTextBox.Size = new Size(186, 16);
+            JoinWarningTextBox.Size = new Size(186, 24);
             JoinWarningTextBox.TabIndex = 10;
             // 
             // Testbutton
             // 
-            Testbutton.Location = new Point(814, 97);
-            Testbutton.Margin = new Padding(2, 2, 2, 2);
+            Testbutton.Location = new Point(728, 121);
+            Testbutton.Margin = new Padding(2);
             Testbutton.Name = "Testbutton";
             Testbutton.Size = new Size(52, 14);
             Testbutton.TabIndex = 11;
@@ -178,10 +178,10 @@
             // 
             QuitButton.BackColor = Color.Gray;
             QuitButton.ForeColor = SystemColors.ButtonHighlight;
-            QuitButton.Location = new Point(1269, 0);
-            QuitButton.Margin = new Padding(2, 2, 2, 2);
+            QuitButton.Location = new Point(1254, 0);
+            QuitButton.Margin = new Padding(2);
             QuitButton.Name = "QuitButton";
-            QuitButton.Size = new Size(78, 20);
+            QuitButton.Size = new Size(93, 31);
             QuitButton.TabIndex = 12;
             QuitButton.Text = "Quit";
             QuitButton.UseVisualStyleBackColor = false;
@@ -189,10 +189,9 @@
             // 
             // Form1
             // 
-            //AutoScaleDimensions = new SizeF(7F, 15F);
-            //AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1347, 637);
+            Controls.Add(UsernameTextBox);
             Controls.Add(QuitButton);
             Controls.Add(Testbutton);
             Controls.Add(JoinWarningTextBox);
@@ -204,7 +203,6 @@
             Controls.Add(UsernameLabel);
             Controls.Add(SignUpButton);
             Controls.Add(PasswordTextBox);
-            Controls.Add(UsernameTextBox);
             Controls.Add(LoginButton);
             Name = "Form1";
             Text = "Login";

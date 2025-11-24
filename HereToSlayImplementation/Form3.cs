@@ -96,11 +96,12 @@ namespace HereToSlayImplementation
             }
             game = new Game(players);
             game.DealHand(thisPlayer);
-            FocusScreen();
+            FocusScreen(game);
         }
-        int count = 0;
-        public void FocusScreen()
+
+        static public void FocusScreen(Game game)
         {
+            int count = 0;
             foreach (Card card in game.GetPlayer(0).GetHand())
             {
                 card.BringToFront();
@@ -392,6 +393,20 @@ namespace HereToSlayImplementation
                 PlayedCards = new List<Card>();
             }
 
+            public void updatePlayersHealth()
+            {
+                Form3.instance3.PlayerHealthTextBox.Text = $"{GetPlayer(0).GetHealth()}/10";
+                if (GetPlayer(0).GetDefense() >= 0)
+                {
+                    instance3.PlayerDefenceTextBox.Text = $" + {GetPlayer(0).GetDefense()}";
+                }
+
+                Form3.instance3.OpponentHealthTextBox.Text = $"{GetPlayer(1).GetHealth()}/10";
+                if (GetPlayer(1).GetDefense() >= 0)
+                {
+                    instance3.OpponentDefenceTextBox.Text = $" + {GetPlayer(1).GetDefense()}";
+                }
+            }
             public void AddPlayedCard(Card card)
             {
                 PlayedCards.Add(card);
@@ -415,7 +430,9 @@ namespace HereToSlayImplementation
             {
                 foreach (Card card in PlayedCards)
                 {
-                    card.Dispose();
+                    ListOfDiscard[0].Add(card);
+                    card.Enabled = false;
+                    card.Location = GM.GameForm.PlayerDiscardButton.Location;
                 }
                 PlayedCards = new List<Card>();
             }
@@ -517,7 +534,7 @@ namespace HereToSlayImplementation
                 sqlConnection.Close();
                 Console.WriteLine("connection Close");
                 ListOfDecks[x].Remove((ListOfDecks[x])[index]);
-
+                FocusScreen(this);
 
             }
 
@@ -544,32 +561,26 @@ namespace HereToSlayImplementation
                 AddPlayedCard(card);
                 if (GetPlayer(0).GetActionPoints() == 0)
                 {
-                    sqlConnection.Open();
-                    Console.WriteLine("connection Open");
-                    SqlCommand command = new SqlCommand($"INSERT INTO Moves VALUES ({GetgameID()}, {damageThisTurn}, {damageThisTurn}, {defenseThisTurn}, {GetPlayer(0).GetplayerID()})", sqlConnection);
-                    command.ExecuteNonQuery();
-                    sqlConnection.Close();
-                    Console.WriteLine("connection Close");
-                    Form3.instance3.OpponentHealthTextBox.Text = $"{players[1].GetHealth()}/10";
-                    if (players[1].GetDefense() >= 0)
-                    {
-                        instance3.OpponentDefenceTextBox.Text = $" + {players[1].GetDefense()}";
-                    }
-                    instance3.PlayerHealthTextBox.Text = $"{players[1].GetHealth()}/10";
+                    updatePlayersHealth();
                     IsYourTurn = false;
                     Form3.instance3.MoveRetrievalTimer.Enabled = true;
                     Form3.instance3.TurnTextBox.Text = "It is the turn of:";
                     Form3.instance3.TurnTextBox.Text += players[1].GetUsername();
                     BonusDamage = 0;
                     instance3.DiscardTimer.Enabled = true;
-
+                    sqlConnection.Open();
+                    Console.WriteLine("connection Open");
+                    SqlCommand command = new SqlCommand($"INSERT INTO Moves VALUES ({GetgameID()}, {damageThisTurn}, {healthThisTurn}, {defenseThisTurn}, {GetPlayer(0).GetplayerID()})", sqlConnection);
+                    command.ExecuteNonQuery();
+                    sqlConnection.Close();
+                    Console.WriteLine("connection Close");
                 }
                 else if ((GetPlayer(0).GetActionPoints() > 0) && (GetPlayer(0).GetHand().Count == 0))
                 {
                     DealHand(0);
                 }
                 Console.WriteLine("card played");
-                Form3.instance3.FocusScreen();
+                FocusScreen(this);
                 instance3.ActionPointTextBox.Text = GetPlayer(0).GetActionPoints().ToString();
             }
         }
@@ -597,7 +608,6 @@ namespace HereToSlayImplementation
                 bool turnChange = false;
                 bool MoveRead = false;
                 sqlConnection.Open();
-                Console.WriteLine("connection Open");
 
                 SqlCommand cmd = new SqlCommand($"SELECT * FROM Moves WHERE GameIDfk = {game.GetgameID()} AND PlayerIDfk = {game.GetPlayer(1).GetplayerID()}", sqlConnection);
                 if (sqlConnection.State == ConnectionState.Open)
@@ -607,13 +617,14 @@ namespace HereToSlayImplementation
                         if (reader.Read() && !MoveRead)
                         {
                             game.GetPlayer(0).SetDefence(-reader.GetInt32(2));
-                            Form3.instance3.PlayerHealthTextBox.Text = $"{game.GetPlayer(0).GetHealth()}/10";
-                            if (game.GetPlayer(0).GetDefense() >= 0)
-                            {
-                                instance3.OpponentDefenceTextBox.Text = $" + {game.GetPlayer(0).GetDefense()}";
-                            }
+                            Console.WriteLine($"Defense for me: {game.GetPlayer(0).GetDefense()}");
+                            Console.WriteLine($"Health for me: {game.GetPlayer(0).GetHealth()}");
                             game.GetPlayer(1).SetHealth(-reader.GetInt32(3));
+                            Console.WriteLine($"Health for them: {game.GetPlayer(1).GetHealth()}");
                             game.GetPlayer(1).SetDefence(reader.GetInt32(4));
+                            Console.WriteLine($"Defense for them: {game.GetPlayer(1).GetDefense()}");
+                            Console.WriteLine($"");
+                            game.updatePlayersHealth();
                             turnChange = true;
                             MoveRead = true;
                         }
@@ -674,7 +685,6 @@ namespace HereToSlayImplementation
                     
                 }
                 sqlConnection.Close();
-                Console.WriteLine("connection Close");
                 if (turnChange)
                 {
                     sqlConnection.Open();
@@ -683,7 +693,6 @@ namespace HereToSlayImplementation
                     if (sqlConnection.State == ConnectionState.Open)
                     {
                         sqlConnection.Close();
-                        Console.WriteLine("connection Close");
                     }
 
                     MoveRetrievalTimer.Enabled = false;
