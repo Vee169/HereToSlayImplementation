@@ -353,6 +353,11 @@ namespace HereToSlayImplementation
             {
                 return CardID;
             }
+
+            public void UpdateImage(System.Drawing.Bitmap x)
+            {
+                Image = x;
+            }
         }
 
         public class Game
@@ -475,6 +480,16 @@ namespace HereToSlayImplementation
                 Console.WriteLine("connection Open");
                 for (int i = 0; i < 2; i++)
                 {
+                    List<System.Drawing.Bitmap> cardImages = new List<System.Drawing.Bitmap>();
+                    int IDCorrect = 0;
+                    switch (players[i].GetDeck())
+                    {
+                        case "Dr T":
+                            //cardImages = Properties.Resources.DrT.MakeTheList();
+                            IDCorrect = 15;
+                            break;
+                        
+                    }
                     SqlCommand cmd = new SqlCommand($"SELECT * FROM Cards WHERE Deckfk = '{players[i].GetDeck()}'", sqlConnection);
                     if (sqlConnection.State == ConnectionState.Open)
                     {
@@ -484,7 +499,9 @@ namespace HereToSlayImplementation
                             {
                                 for (int j = 0; j < reader.GetInt32(6); j++)
                                 {
-                                    ListOfDecks[i].Add(new Card(reader.GetInt32(0), reader.GetString(5), this, reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4)));
+                                    Card card = new Card(reader.GetInt32(0), reader.GetString(5), this, reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4));
+                                    card.UpdateImage(cardImages[(card.GetCardID()) - IDCorrect]);
+                                    ListOfDecks[i].Add(card);
                                 }
                             }
                         }
@@ -577,12 +594,6 @@ namespace HereToSlayImplementation
                     Form3.instance3.TurnTextBox.Text += players[1].GetUsername();
                     BonusDamage = 0;
                     instance3.DiscardTimer.Enabled = true;
-                    sqlConnection.Open();
-                    Console.WriteLine("connection Open");
-                    SqlCommand command = new SqlCommand($"INSERT INTO Moves VALUES ({GetgameID()}, {damageThisTurn}, {healthThisTurn}, {defenseThisTurn}, {GetPlayer(0).GetplayerID()})", sqlConnection);
-                    command.ExecuteNonQuery();
-                    sqlConnection.Close();
-                    Console.WriteLine("connection Close");
                     damageThisTurn = 0;
                     healthThisTurn = 0;
                     defenseThisTurn = 0;
