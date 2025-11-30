@@ -267,6 +267,7 @@ namespace HereToSlayImplementation.Properties {
                 CardImages.Add(Receptionist);
                 CardImages.Add(Relax_After_Work);
                 CardImages.Add(Ego_Whip);
+                CardImages.Add(Just_A_Nibble);
                 CardImages.Add(Mind_Blast);
                 CardImages.Add(Mind_Games);
                 CardImages.Add(Tell_Me_About_Your_Mother);
