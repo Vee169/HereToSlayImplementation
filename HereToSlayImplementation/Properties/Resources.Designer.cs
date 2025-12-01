@@ -283,7 +283,8 @@ namespace HereToSlayImplementation.Properties {
             {
                 get
                 {
-                    object obj = ResourceManager.GetObject("back1", resourceCulture);
+                    object obj = ResourceManager.GetObject("back", resourceCulture);
+                    Console.WriteLine($"{ResourceManager.ToString()}");
                     return ((System.Drawing.Bitmap)(obj));
                 }
             }
@@ -292,7 +293,7 @@ namespace HereToSlayImplementation.Properties {
             {
                 get
                 {
-                    object obj = ResourceManager.GetObject("info1", resourceCulture);
+                    object obj = ResourceManager.GetObject("info", resourceCulture);
                     return ((System.Drawing.Bitmap)(obj));
                 }
             }
@@ -382,7 +383,7 @@ namespace HereToSlayImplementation.Properties {
             {
                 get
                 {
-                    object obj = ResourceManager.GetObject("Squeeky Wheel Gets The Kick", resourceCulture);
+                    object obj = ResourceManager.GetObject("Squeaky Wheel Gets The Kick", resourceCulture);
                     return ((System.Drawing.Bitmap)(obj));
                 }
             }

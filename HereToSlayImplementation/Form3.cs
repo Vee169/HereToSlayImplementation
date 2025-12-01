@@ -21,8 +21,6 @@ namespace HereToSlayImplementation
         static public Form3 instance3;
         public System.Windows.Forms.Timer timer;
         static public SqlConnection sqlConnection;
-        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\OneDrive - Esher Sixth Form College\\MyCode\\WinFormsApp1\\WinFormsApp1\\HereToSlayDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
-        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\HereToSlayDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         Game game;
         int thisPlayer;
         Button selectedButton;
@@ -106,7 +104,7 @@ namespace HereToSlayImplementation
             foreach (Card card in game.GetPlayer(0).GetHand())
             {
                 card.BringToFront();
-                //card.Location = new Point(418 + (count * 30), 371);
+                card.Location = new Point(413 + (count * 30), 372);
                 count++;
             }
         }
@@ -227,18 +225,16 @@ namespace HereToSlayImplementation
             }
             public int DealDamage()
             {
-
-                game.GetPlayer(1).SetDefence(-(Damage + game.GetBonusDamage()));
-
-                instance3.OpponentHealthTextBox.Text = $"{game.GetPlayer(1).GetHealth()}/10";
                 if (game.GetPlayer(1).GetDefense() >= 0)
                 {
                     instance3.OpponentDefenceTextBox.Text = $" + {game.GetPlayer(1).GetDefense()}";
                 }
                 if(Damage > 0)
                 {
+                    game.GetPlayer(1).SetDefence(-(Damage + game.GetBonusDamage()));
                     Damage += game.GetBonusDamage();
                 }
+                instance3.OpponentHealthTextBox.Text = $"{game.GetPlayer(1).GetHealth()}/10";
                 return Damage;
             }
 
