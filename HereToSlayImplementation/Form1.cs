@@ -192,7 +192,7 @@ namespace HereToSlayImplementation
                 {
                     Health = 10;
                 }
-                if (Health < 0)
+                if (Health <= 0)
                 {
                     GM.GameForm.GameOver(this);
                 }

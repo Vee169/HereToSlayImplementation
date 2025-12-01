@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -315,7 +316,24 @@ namespace HereToSlayImplementation
                             game.DrawACard(1);
                             break;
                         case "DrT":
-                            
+                            List<Card> OPDiscard = game.GetDiscard(1);
+                            if (OPDiscard.Count > 0)
+                            {
+
+                                OPDiscard[OPDiscard.Count - 1].Enabled = true;
+                                OPDiscard[OPDiscard.Count - 1].Location = new Point(414 + (game.GetPlayer(0).GetHand().Count * 30), 372);
+                                OPDiscard[OPDiscard.Count - 1].BringToFront();
+                                instance3.Controls.Add(OPDiscard[OPDiscard.Count - 1]);
+                                game.GetPlayer(0).AddCardToHand(OPDiscard[OPDiscard.Count - 1]);
+                                sqlConnection.Open();
+                                Console.WriteLine("connection Open");
+                                SqlCommand command = new SqlCommand($"INSERT INTO Hand VALUES ({game.GetPlayer(0).GetplayerID()}, {OPDiscard[OPDiscard.Count - 1].GetCardID()})", sqlConnection);
+                                command.ExecuteNonQuery();
+                                sqlConnection.Close();
+                                Console.WriteLine("connection Close");
+                                OPDiscard.RemoveAt(OPDiscard.Count - 1);
+                                FocusScreen(game);
+                            }
                             break;
                     }
                 }
@@ -423,6 +441,10 @@ namespace HereToSlayImplementation
                 {
                     PlayedCards[i].Location = new Point(215 + (197*(i)), 98);
                 }
+            }
+            public List<Card> GetDiscard(int x)
+            {
+                return ListOfDecks[x];
             }
 
             public void DisposeOfTurn()
@@ -577,12 +599,6 @@ namespace HereToSlayImplementation
                     Form3.instance3.TurnTextBox.Text += players[1].GetUsername();
                     BonusDamage = 0;
                     instance3.DiscardTimer.Enabled = true;
-                    sqlConnection.Open();
-                    Console.WriteLine("connection Open");
-                    SqlCommand command = new SqlCommand($"INSERT INTO Moves VALUES ({GetgameID()}, {damageThisTurn}, {healthThisTurn}, {defenseThisTurn}, {GetPlayer(0).GetplayerID()})", sqlConnection);
-                    command.ExecuteNonQuery();
-                    sqlConnection.Close();
-                    Console.WriteLine("connection Close");
                     damageThisTurn = 0;
                     healthThisTurn = 0;
                     defenseThisTurn = 0;
