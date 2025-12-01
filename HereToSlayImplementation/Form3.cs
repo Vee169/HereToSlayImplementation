@@ -371,6 +371,11 @@ namespace HereToSlayImplementation
             {
                 return CardID;
             }
+
+            public void UpdateImage(System.Drawing.Bitmap x)
+            {
+                Image = x;
+            }
         }
 
         public class Game
@@ -495,8 +500,41 @@ namespace HereToSlayImplementation
             {
                 sqlConnection.Open();
                 Console.WriteLine("connection Open");
+                switch (players[0].GetDeck())
+                {
+                    case "minsc & boo":
+                        instance3.PlayerDeckButton.Image = Properties.Resources.minscBoo.back1;
+                        instance3.PlayerDiscardButton.Image = Properties.Resources.minscBoo.back1;
+                        instance3.PlayerInfoPictureBox.Image = Properties.Resources.minscBoo.info1;
+                        instance3.OpponentDeckButton.Image = Properties.Resources.DrT.Back;
+                        instance3.OpponentInfoPictureBox.Image = Properties.Resources.DrT.Info;
+                        break;
+                    case "Dr T":
+                        instance3.PlayerDeckButton.Image = Properties.Resources.DrT.Back;
+                        instance3.PlayerDiscardButton.Image = Properties.Resources.DrT.Back;
+                        instance3.PlayerInfoPictureBox.Image = Properties.Resources.DrT.Info;
+                        instance3.OpponentDeckButton.Image = Properties.Resources.minscBoo.back1;
+                        instance3.OpponentInfoPictureBox.Image = Properties.Resources.minscBoo.info1;
+                        break;
+
+                        
+                }
                 for (int i = 0; i < 2; i++)
                 {
+                    List<System.Drawing.Bitmap> cardImages = new List<System.Drawing.Bitmap>();
+                    int IDCorrect = 0;
+                    switch (players[i].GetDeck())
+                    {
+                        case "Dr T":
+                            cardImages = Properties.Resources.DrT.MakeTheList();
+                            IDCorrect = 15;
+                            break;
+                        case "minsc & boo":
+                            cardImages = Properties.Resources.minscBoo.MakeTheList();
+                            IDCorrect = 1;
+                            break;
+                        
+                    }
                     SqlCommand cmd = new SqlCommand($"SELECT * FROM Cards WHERE Deckfk = '{players[i].GetDeck()}'", sqlConnection);
                     if (sqlConnection.State == ConnectionState.Open)
                     {
@@ -506,7 +544,10 @@ namespace HereToSlayImplementation
                             {
                                 for (int j = 0; j < reader.GetInt32(6); j++)
                                 {
-                                    ListOfDecks[i].Add(new Card(reader.GetInt32(0), reader.GetString(5), this, reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4)));
+                                    Card card = new Card(reader.GetInt32(0), reader.GetString(5), this, reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4));
+                                    Console.WriteLine(card.GetCardID() - IDCorrect);
+                                    card.UpdateImage(cardImages[(card.GetCardID()) - IDCorrect]);
+                                    ListOfDecks[i].Add(card);
                                 }
                             }
                         }
