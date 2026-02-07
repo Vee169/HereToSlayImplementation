@@ -438,8 +438,8 @@ namespace HereToSlayImplementation.Properties {
                 CardImages.Add(Boo_What_Do_We_Do);
                 CardImages.Add(Twice_The_Smiting);
                 CardImages.Add(Favoured_Frienemies);
-                CardImages.Add(Swapportunity);
                 CardImages.Add(Scouting_Outing);
+                CardImages.Add(Swapportunity);
                 return CardImages;
             }
         }

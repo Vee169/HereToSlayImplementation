@@ -39,7 +39,6 @@
             JoinTextBox = new TextBox();
             JoinButton = new Button();
             JoinWarningTextBox = new TextBox();
-            Testbutton = new Button();
             QuitButton = new Button();
             SuspendLayout();
             // 
@@ -62,7 +61,7 @@
             UsernameTextBox.ForeColor = SystemColors.ButtonHighlight;
             UsernameTextBox.Location = new Point(1084, 69);
             UsernameTextBox.Name = "UsernameTextBox";
-            UsernameTextBox.Size = new Size(115, 24);
+            UsernameTextBox.Size = new Size(115, 16);
             UsernameTextBox.TabIndex = 1;
             // 
             // PasswordTextBox
@@ -72,7 +71,7 @@
             PasswordTextBox.ForeColor = SystemColors.ButtonHighlight;
             PasswordTextBox.Location = new Point(1205, 69);
             PasswordTextBox.Name = "PasswordTextBox";
-            PasswordTextBox.Size = new Size(115, 24);
+            PasswordTextBox.Size = new Size(115, 16);
             PasswordTextBox.TabIndex = 2;
             // 
             // SignUpButton
@@ -93,7 +92,7 @@
             UsernameLabel.ForeColor = SystemColors.ButtonHighlight;
             UsernameLabel.Location = new Point(1084, 41);
             UsernameLabel.Name = "UsernameLabel";
-            UsernameLabel.Size = new Size(91, 25);
+            UsernameLabel.Size = new Size(60, 15);
             UsernameLabel.TabIndex = 4;
             UsernameLabel.Text = "Username";
             // 
@@ -103,7 +102,7 @@
             PasswordLabel.ForeColor = SystemColors.ButtonHighlight;
             PasswordLabel.Location = new Point(1205, 41);
             PasswordLabel.Name = "PasswordLabel";
-            PasswordLabel.Size = new Size(87, 25);
+            PasswordLabel.Size = new Size(57, 15);
             PasswordLabel.TabIndex = 5;
             PasswordLabel.Text = "Password";
             // 
@@ -137,7 +136,7 @@
             JoinTextBox.BorderStyle = BorderStyle.None;
             JoinTextBox.Location = new Point(557, 301);
             JoinTextBox.Name = "JoinTextBox";
-            JoinTextBox.Size = new Size(186, 24);
+            JoinTextBox.Size = new Size(186, 16);
             JoinTextBox.TabIndex = 8;
             // 
             // JoinButton
@@ -160,19 +159,8 @@
             JoinWarningTextBox.Location = new Point(557, 401);
             JoinWarningTextBox.Name = "JoinWarningTextBox";
             JoinWarningTextBox.ReadOnly = true;
-            JoinWarningTextBox.Size = new Size(186, 24);
+            JoinWarningTextBox.Size = new Size(186, 16);
             JoinWarningTextBox.TabIndex = 10;
-            // 
-            // Testbutton
-            // 
-            Testbutton.Location = new Point(728, 121);
-            Testbutton.Margin = new Padding(2);
-            Testbutton.Name = "Testbutton";
-            Testbutton.Size = new Size(52, 14);
-            Testbutton.TabIndex = 11;
-            Testbutton.Text = "Test";
-            Testbutton.UseVisualStyleBackColor = true;
-            Testbutton.Click += Testbutton_Click;
             // 
             // QuitButton
             // 
@@ -193,7 +181,6 @@
             ClientSize = new Size(1347, 637);
             Controls.Add(UsernameTextBox);
             Controls.Add(QuitButton);
-            Controls.Add(Testbutton);
             Controls.Add(JoinWarningTextBox);
             Controls.Add(JoinButton);
             Controls.Add(JoinTextBox);
@@ -223,7 +210,6 @@
         private TextBox JoinTextBox;
         private Button JoinButton;
         private TextBox JoinWarningTextBox;
-        private Button Testbutton;
         private Button QuitButton;
     }
 }

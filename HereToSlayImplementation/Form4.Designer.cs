@@ -28,20 +28,51 @@
         /// </summary>
         private void InitializeComponent()
         {
+            WinTextBox = new TextBox();
+            ReturnButton = new Button();
             SuspendLayout();
+            // 
+            // WinTextBox
+            // 
+            WinTextBox.BackColor = Color.DarkGray;
+            WinTextBox.BorderStyle = BorderStyle.None;
+            WinTextBox.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            WinTextBox.ForeColor = SystemColors.ButtonHighlight;
+            WinTextBox.Location = new Point(368, 20);
+            WinTextBox.Multiline = true;
+            WinTextBox.Name = "WinTextBox";
+            WinTextBox.Size = new Size(609, 373);
+            WinTextBox.TabIndex = 0;
+            // 
+            // ReturnButton
+            // 
+            ReturnButton.BackColor = Color.Gray;
+            ReturnButton.ForeColor = SystemColors.ButtonHighlight;
+            ReturnButton.Location = new Point(586, 438);
+            ReturnButton.Name = "ReturnButton";
+            ReturnButton.Size = new Size(178, 55);
+            ReturnButton.TabIndex = 1;
+            ReturnButton.Text = "Return To The Login";
+            ReturnButton.UseVisualStyleBackColor = false;
+            ReturnButton.Click += ReturnButton_Click;
             // 
             // Form4
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(1924, 1062);
-            Margin = new Padding(4, 5, 4, 5);
+            ClientSize = new Size(1347, 637);
+            Controls.Add(ReturnButton);
+            Controls.Add(WinTextBox);
             Name = "Form4";
             Text = "Form4";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private TextBox WinTextBox;
+        private Button ReturnButton;
     }
 }

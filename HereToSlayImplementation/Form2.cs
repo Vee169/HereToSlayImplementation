@@ -175,7 +175,10 @@ namespace HereToSlayImplementation
 
         private void DeckListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            UpdateDeck(DeckListBox.Items[DeckListBox.SelectedIndex].ToString());
+            if (DeckListBox.SelectedIndex != -1)
+            { 
+                UpdateDeck(DeckListBox.Items[DeckListBox.SelectedIndex].ToString());
+            }
         }
 
         private void QuitButton_Click(object sender, EventArgs e)

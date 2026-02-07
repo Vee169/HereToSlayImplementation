@@ -21,7 +21,7 @@ namespace HereToSlayImplementation
         static public Form3 instance3;
         public System.Windows.Forms.Timer timer;
         static public SqlConnection sqlConnection;
-        Game game;
+        public Game game;
         int thisPlayer;
         Button selectedButton;
         public Button discard = new Button();
@@ -94,6 +94,8 @@ namespace HereToSlayImplementation
                 TurnTextBox.Text = $"It is the turn of: {players[1].GetUsername()}";
             }
             game = new Game(players);
+            game.GetPlayer(0).SetHand(new List<Card>());
+            game.GetPlayer(1).SetHand(new List<Card>());
             game.DealHand(thisPlayer);
             FocusScreen(game);
         }
@@ -115,12 +117,17 @@ namespace HereToSlayImplementation
             {
                 Loser = player;
                 Winner = game.GetPlayer(1);
+                game.GetPlayer(1).SetWinner(true);
+                game.GetPlayer(0).SetWinner(false);
             }
             else
             {
                 Winner = player;
                 Loser = game.GetPlayer(1);
+                game.GetPlayer(0).SetWinner(true);
+                game.GetPlayer(1).SetWinner(false);
             }
+            GM.WinForm = new Form4();
             GM.WinForm.Show();
             GM.GameForm.Close();
         }
@@ -250,7 +257,7 @@ namespace HereToSlayImplementation
 
             public int Heal()
             {
-                game.GetPlayer(0).SetHealth(-Healing);
+                game.GetPlayer(0).SetHealth(Healing);
                 instance3.PlayerHealthTextBox.Text = $"{game.GetPlayer(0).GetHealth()}/10";
                 return Healing;
             }
@@ -271,7 +278,7 @@ namespace HereToSlayImplementation
                 return Defense;
             }
 
-            public void uniqueSymbol1()
+            public int uniqueSymbol1()
             {
                 for (int i = 0; i < us1; i++)
                 {
@@ -279,8 +286,11 @@ namespace HereToSlayImplementation
                     {
                         case "minsc & boo":
                             int healthStore = game.GetPlayer(1).GetHealth();
+                            int damageStore = game.GetPlayer(1).GetHealth() - game.GetPlayer(0).GetHealth();
+                            int healingStore = -damageStore;
                             game.GetPlayer(1).NewHealth(game.GetPlayer(0).GetHealth());
                             game.GetPlayer(0).NewHealth(healthStore);
+                            return damageStore;
                             break;
                         case "DrT":
                             List<Card> HandStore = new List<Card>(game.GetPlayer(1).GetHand());
@@ -300,6 +310,7 @@ namespace HereToSlayImplementation
                             break;
                     }
                 }
+                return 0;
             }
 
             public void uniqueSymbol2()
@@ -609,7 +620,9 @@ namespace HereToSlayImplementation
                 healthThisTurn += card.Heal();
                 defenseThisTurn += card.Defend();
                 card.DrawCard();
-                card.uniqueSymbol1();
+                int numStore = card.uniqueSymbol1();
+                damageThisTurn += numStore;
+                healthThisTurn -= numStore;
                 card.uniqueSymbol2();
                 card.uniqueSymbol3();
                 card.DoLightning();
@@ -687,7 +700,7 @@ namespace HereToSlayImplementation
                             {
                                 instance3.PlayerDefenceTextBox.Text = $" + {game.GetPlayer(0).GetDefense()}";
                             }
-                            game.GetPlayer(1).SetHealth(-reader.GetInt32(3));
+                            game.GetPlayer(1).SetHealth(reader.GetInt32(3));
                             game.GetPlayer(1).SetDefence(reader.GetInt32(4));
                             instance3.OpponentHealthTextBox.Text = $"{game.GetPlayer(1).GetHealth()}/10";
                             if (game.GetPlayer(1).GetDefense() >= 0)
@@ -706,9 +719,9 @@ namespace HereToSlayImplementation
                 {
                     Console.WriteLine("number 3 break");
                 }
-                List<Card> Hand;
-                List<Card> Deck1 = game.GetDeck(0);
-                List<Card> Deck2 = game.GetDeck(1);
+                /*List<Card> Hand;
+                List<Card> Deck1 = new List<Card>(game.GetDeck(0));
+                List<Card> Deck2 = new List<Card>(game.GetDeck(1));
                 bool cardAdded = false;
                 for (int i = 0; i < 2; i++)
                 {
@@ -755,7 +768,7 @@ namespace HereToSlayImplementation
                     }
                     game.GetPlayer(i).SetHand(Hand);
                     
-                }
+                }*/
                 sqlConnection.Close();
                 if (turnChange)
                 {

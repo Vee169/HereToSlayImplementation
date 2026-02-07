@@ -22,8 +22,8 @@ namespace HereToSlayImplementation
     {
         static public Form1 instance1;
         static public SqlConnection sqlConnection;
-        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
-        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\naner\\source\\repos\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
+        //public static string CONNECT = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"M:\\Visual Studio 2022\\MyCode\\NeaWork\\HereToSlayImplementation\\HereToSlayImplementation\\obj\\DungeonMayhemDatabase.mdf\"; Integrated Security=True;Connect Timeout=30";
         public bool loggedin = false;
         public Player thisPlayer;
         public string EncryptedPassword;
@@ -41,6 +41,7 @@ namespace HereToSlayImplementation
             private int Health;
             private int Defense;
             private string deck;
+            private bool Winner;
             private int _actionpoints;
             private int actionPoints
             {
@@ -114,7 +115,7 @@ namespace HereToSlayImplementation
 
                 if (Defense < 0)
                 {
-                    Health += Defense;
+                    SetHealth(Defense);
                     Defense = 0;
                 }
 
@@ -187,15 +188,26 @@ namespace HereToSlayImplementation
 
             public void SetHealth(int x)
             {
-                Health -= x;
+                Health += x;
                 if (Health > 10)
                 {
                     Health = 10;
                 }
                 if (Health <= 0)
                 {
+                    Winner = false;
                     GM.GameForm.GameOver(this);
                 }
+            }
+
+            public void SetWinner(bool winner)
+            {
+                Winner = winner;
+            }
+
+            public bool GetWinner()
+            {
+                return Winner;
             }
 
             public void SetHand(List<Form3.Card> cards)

@@ -54,7 +54,7 @@
             HandLabel.ForeColor = SystemColors.ButtonHighlight;
             HandLabel.Location = new Point(413, 344);
             HandLabel.Name = "HandLabel";
-            HandLabel.Size = new Size(55, 25);
+            HandLabel.Size = new Size(36, 15);
             HandLabel.TabIndex = 25;
             HandLabel.Text = "Hand";
             // 
@@ -184,7 +184,7 @@
             PlayerHealthTextBox.Margin = new Padding(2);
             PlayerHealthTextBox.Name = "PlayerHealthTextBox";
             PlayerHealthTextBox.ReadOnly = true;
-            PlayerHealthTextBox.Size = new Size(193, 80);
+            PlayerHealthTextBox.Size = new Size(193, 54);
             PlayerHealthTextBox.TabIndex = 31;
             // 
             // DiscardTimer
